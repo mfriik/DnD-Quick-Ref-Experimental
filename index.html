@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name=viewport content="width=device-width, initial-scale=1">
+    <title>D&D 5e quick reference</title>
+    <!-- CSS -->
+    <link rel="stylesheet" type="text/css" href="css/quickref.css">
+    <link rel="stylesheet" type="text/css" href="css/icons.css">
+    <!-- Fonts -->
+    <link href='https://fonts.googleapis.com/css?family=Noto+Sans:400,700,400italic,700italic' rel='stylesheet'
+        type='text/css'>
+    <link href='https://fonts.googleapis.com/css?family=Lora:700' rel='stylesheet' type='text/css'>
+    <!-- Javascript -->
+    <script>
+        // Force a hard refresh if the cached version of the app is outdated.
+        // This logic is inlined in the HTML to ensure it runs even if the main JS file is cached.
+        (function() {
+            // Increment this version number when you deploy breaking changes or significant updates.
+            const CURRENT_APP_VERSION = '2.2.0';
+            window.dndQuickRefAppVersion = CURRENT_APP_VERSION; // Expose version for other scripts
+            const VERSION_KEY = 'appVersion';
+            const storedVersion = localStorage.getItem(VERSION_KEY);
+
+            if (storedVersion !== CURRENT_APP_VERSION) {
+                localStorage.setItem(VERSION_KEY, CURRENT_APP_VERSION);
+                // The 'true' argument forces a hard refresh, clearing the cache for the page.
+                location.reload(true);
+            }
+        })();
+        const savedTheme = localStorage.getItem('darkmode');
+        const useDarkTheme = savedTheme === null
+            ? window.matchMedia('(prefers-color-scheme: dark)').matches
+            : savedTheme === 'true';
+        document.documentElement.classList.toggle('dark-mode-active', useDarkTheme);
+    </script>
+</head>
+
+<body class="page-background">
+    <a class="skip-link" href="#main-content">Skip to rules</a>
+    <!-- Domain Change Notification Modal -->
+    <dialog id="domain-change-modal" class="domain-modal-overlay" aria-labelledby="domain-modal-title">
+        <div class="domain-modal-content">
+            <div class="domain-modal-header">
+                <h2 id="domain-modal-title">📍 Our Quick Reference Sheet has moved!</h2>
+                <button type="button" class="domain-modal-close" aria-label="Close domain notification" onclick="closeDomainModal()">&times;</button>
+            </div>
+            <div class="domain-modal-body">
+                <p>The D&D 5e Quick Reference has moved to a new domain!</p>
+                <p class="domain-highlight">
+                    🔗 <strong>Old address:</strong> dnd.milobedzki.pl<br>
+                    🔗 <strong>New address:</strong> <span class="new-domain">dnd.misiek.win</span>
+                </p>
+                <p>You'll be automatically redirected, but using the new link directly is recommended.</p>
+                <p class="domain-deadline"><strong>The old address will stop working after <span>20th of November</span>, including the redirect.</strong></p>
+                <p>Make sure to update your bookmarks accordingly.</p>
+            </div>
+            <div class="domain-modal-footer">
+                <button type="button" class="domain-btn-primary" onclick="closeDomainModal()" autofocus>Got it, thanks!</button>
+            </div>
+        </div>
+    </dialog>
+
+    <div class="dark-mode">
+        <header class="site-header">
+            <div class="brand-mark" aria-hidden="true"><img src="favicon.ico" alt="" width="40" height="40"></div>
+            <div class="site-heading">
+                <p class="eyebrow">Your adventuring companion</p>
+                <h1 id="page-title" tabindex="-1">D&D <span>Quick Reference</span></h1>
+            </div>
+            <div class="header-meta">
+                <span class="ruleset-badge" id="header-ruleset-label">D&D 2014</span>
+                <div class="settings-dropdown">
+                    <button type="button" class="settings-trigger" id="settings-trigger" aria-label="Settings" aria-expanded="false" aria-controls="settings-panel" title="Settings">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                            <path d="m9 3-.6 2.4-2 .9-2.2-.7-2 3.4 1.7 1.7v2.6L2.2 15l2 3.4 2.2-.7 2 .9L9 21h4l.6-2.4 2-.9 2.2.7 2-3.4-1.7-1.7v-2.6L19.8 9l-2-3.4-2.2.7-2-.9L13 3Z"/>
+                            <circle cx="11" cy="12" r="3"/>
+                        </svg>
+                        <span>Settings</span>
+                    </button>
+                </div>
+            </div>
+        </header>
+        <nav class="category-nav" aria-label="Rule categories">
+            <a href="#section-movement">Movement</a>
+            <a href="#section-action">Action</a>
+            <a href="#section-bonus-action">Bonus action</a>
+            <a href="#section-reaction">Reaction</a>
+            <a href="#section-condition">Conditions</a>
+            <a href="#section-environment">Environment</a>
+        </nav>
+        <main id="main-content" class="page fontsize" data-size="fullscreen" tabindex="-1">
+
+            <!-- Movement section -->
+            <div id="section-movement" class="section-container">
+                <div class="section-title">
+                    <div class="section-title-content">
+                        <div class="section-title-text">
+                            Movement
+                            <span class="chevron"></span>
+                            <button class="collapse-all-btn">Collapse all items</button>
+                        </div>
+                        <span class="float-right">limited by movement speed</span>
+                    </div>
+                </div>
+                <div class="section-content">
+                    <div class="section-row section-subtitle text fontsize">
+                        You can move at any time during your turn (before, after, or during actions).
+                    </div>
+                    <div class="section-row" id="basic-movement">
+                    </div>
+                </div>
+            </div>
+
+            <!-- Action section -->
+            <div id="section-action" class="section-container">
+                <div class="section-title">
+                    <div class="section-title-content">
+                        <div class="section-title-text">
+                            Action
+                            <span class="chevron"></span>
+                            <button class="collapse-all-btn">Collapse all items</button>
+                        </div>
+                        <span class="float-right">1/turn</span>
+                    </div>
+                </div>
+                <div class="section-content">
+                    <div class="section-row section-subtitle text fontsize">
+                        You can also interact with one object or feature of the
+                        environment for free.
+                    </div>
+                    <div class="section-row" id="basic-actions"></div>
+                </div>
+            </div>
+
+            <!-- Bonus action section -->
+            <div id="section-bonus-action" class="section-container">
+                <div class="section-title">
+                    <div class="section-title-content">
+                        <div class="section-title-text">
+                            Bonus action
+                            <span class="chevron"></span>
+                            <button class="collapse-all-btn">Collapse all items</button>
+                        </div>
+                        <span class="float-right">max. 1/turn</span>
+                    </div>
+                </div>
+                <div class="section-content">
+                    <div class="section-row section-subtitle text fontsize">
+                        You can take a bonus action only when a special ability, spell, or feature
+                        states that you can do something as a bonus action.
+                    </div>
+                    <div class="section-row" id="basic-bonus-actions"></div>
+                </div>
+            </div>
+
+            <!-- Reaction section -->
+            <div id="section-reaction" class="section-container">
+                <div class="section-title">
+                    <div class="section-title-content">
+                        <div class="section-title-text">
+                            Reaction
+                            <span class="chevron"></span>
+                            <button class="collapse-all-btn">Collapse all items</button>
+                        </div>
+                        <span class="float-right">max. 1/round</span>
+                    </div>
+                </div>
+                <div class="section-content">
+                    <div class="section-row section-subtitle text fontsize">
+                        A reaction is an instant response to a trigger of some kind, which
+                        can occur on your turn or on someone else's.
+                    </div>
+                    <div class="section-row" id="basic-reactions"></div>
+                </div>
+            </div>
+
+            <!-- Condition section -->
+            <div id="section-condition" class="section-container">
+                <div class="section-title">
+                    <div class="section-title-content">
+                        <div class="section-title-text">
+                            Condition
+                            <span class="chevron"></span>
+                            <button class="collapse-all-btn">Collapse all items</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="section-content">
+                    <div class="section-row section-subtitle text fontsize">
+                        Conditions alter your capabilities in a variety of ways, and can arise as a result of a spell, a
+                        class feature, a monster's attack, or other effect.
+                    </div>
+                    <div class="section-row" id="basic-conditions"></div>
+                </div>
+            </div>
+
+            <!-- Environmental section -->
+            <div id="section-environment" class="section-container">
+                <div class="section-title">
+                    <div class="section-title-content">
+                        <div class="section-title-text">
+                            Environmental Effects
+                            <span class="chevron"></span>
+                            <button class="collapse-all-btn">Collapse all items</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="section-content">
+                    <div class="section-row section-subtitle text fontsize">
+                        Effects that obscure vision can prove a significant hindrance to most adventuring tasks.
+                    </div>
+                    <div class="section-row" id="environment-obscurance"></div>
+                    <div class="section-row section-subtitle text fontsize">
+                        The presence or absence of light in an environment creates three categories of illumination.
+                    </div>
+                    <div class="section-row" id="environment-light"></div>
+                    <div class="section-row section-subtitle text fontsize">
+                        Some creatures have extraordinary senses that allow them to perceive their environment.
+                    </div>
+                    <div class="section-row" id="environment-vision"></div>
+                    <div class="section-row section-subtitle text fontsize">
+                        Obstacles can provide cover during combat, making a target more difficult to harm.
+                    </div>
+                    <div class="section-row" id="environment-cover"></div>
+                </div>
+            </div>
+            <div id="settings-panel" class="settings-panel" aria-labelledby="settings-heading" hidden>
+                <div class="settings-panel-heading">
+                    <h2 id="settings-heading">Settings</h2>
+                    <span class="app-version" id="app-version-display"></span>
+                </div>
+                <p class="section-subtitle" id="active-ruleset-label"></p>
+                <div>
+                    <div class="section-row" id="settings-items-container">
+                        <div class="item itemsize settings-item" title="Include Optional Rules">
+                            <div class="item-text-container text" id="optional-toggle-item">
+                                <div class="item-title">Include Optional Rules (*)</div>
+                                <div class="item-desc">Show/hide optional official rules.</div>
+                            </div>
+                            <div class="item-toggle"><label class="switch">
+                                    <input type="checkbox" id="optional-switch">
+                                    <span class="slider round"></span>
+                                </label></div>
+                        </div>
+                        <div class="item itemsize settings-item" title="Include Homebre Rules">
+                            <div class="item-text-container text" id="homebrew-toggle-item">
+                                <div class="item-title">Include Homebrew Rules (**)</div>
+                                <div class="item-desc">Show/hide most common homebrew rules.</div>
+                            </div>
+                            <div class="item-toggle"><label class="switch">
+                                    <input type="checkbox" id="homebrew-switch">
+                                    <span class="slider round"></span>
+                                </label></div>
+                        </div>
+                        <div class="item itemsize settings-item" title="Darkmode">
+                            <div class="item-text-container text" id="darkmode-toggle-item">
+                                <div class="item-title">Dark theme</div>
+                                <div class="item-desc">A softer light for late-night adventures.</div>
+                            </div>
+                            <div class="item-toggle"><label class="switch">
+                                    <input type="checkbox" id="darkmode-switch">
+                                    <span class="slider round"></span>
+                                </label></div>
+                        </div>
+                        <div class="item itemsize settings-item" title="Include 2024 Rules">
+                            <div class="item-text-container text" id="2024rules-toggle-item">
+                                <div class="item-title">Switch to 2024 Rules</div>
+                                <div class="item-desc">Enable D&D 2024 Rules.</div>
+                            </div>
+                            <div class="item-toggle"><label class="switch">
+                                    <input type="checkbox" id="rules2024-switch">
+                                    <span class="slider round"></span>
+                                </label></div>
+                        </div>
+                        <a href="https://github.com/mfriik/dnd5e-quickref/issues" target="_blank" rel="noopener noreferrer" class="item itemsize settings-item" title="Leave Feedback" id="feedback-link-item">
+                            <div class="item-text-container text">
+                                <div class="item-title">Leave Feedback</div>
+                                <div class="item-desc">Found an issue or have a suggestion? Let me know! <span class="sr-only">(opens in a new tab)</span></div>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </main>
+        <footer class="site-footer">
+            <span>Made for the moments between dice rolls.</span>
+            <a href="https://github.com/mfriik/dnd5e-quickref" target="_blank" rel="noopener noreferrer">View on GitHub <span class="sr-only">(opens in a new tab)</span><span aria-hidden="true">&#8599;</span></a>
+        </footer>
+    </div>
+    <button type="button" class="back-to-top" id="back-to-top" aria-label="Back to top" title="Back to top">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M12 19V5M5 12l7-7 7 7"/>
+        </svg>
+    </button>
+    <!-- Cookie notice: informs users about cookie usage and provides an accept button -->
+    <div id="cookie-notice" class="cookie-notice" role="region" aria-label="Cookie notice" hidden>
+        <p>This website uses cookies to ensure you get the best experience on our website.</p>
+        <button type="button" id="accept-cookies">Accept</button>
+    </div>
+    <!-- Main quickref JavaScript logic: handles dynamic content, toggles, and filtering -->
+    <script type="text/javascript" src="js/quickref.js" charset="utf-8"></script>
+
+</body>
+
+</html>
