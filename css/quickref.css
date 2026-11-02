@@ -122,7 +122,7 @@ h1 {
 }
 h1 span { color: var(--gold); }
 .header-meta { margin-left: auto; display: flex; align-items: center; gap: 16px; }
-.ruleset-badge, .rule-type {
+.rule-type {
     display: inline-block;
     border: 1px solid var(--line);
     border-radius: 6px;
@@ -131,25 +131,6 @@ h1 span { color: var(--gold); }
     color: var(--accent);
     font-size: .75rem;
     font-weight: bold;
-}
-.ruleset-badge {
-    position: fixed;
-    top: 20px;
-    right: 20px;
-    z-index: 9;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 48px;
-    min-height: 44px;
-    padding: 2px;
-    font-size: max(10pt, .833334rem);
-    text-align: center;
-    line-height: 1.4;
-    color: var(--gold);
-    background: var(--surface);
-    border-color: var(--gold);
-    box-shadow: var(--shadow);
 }
 .brand-mark img { display: block; width: 40px; height: 40px; object-fit: contain; }
 .settings-dropdown { position: relative; }
@@ -228,7 +209,7 @@ h1 span { color: var(--gold); }
 }
 .back-to-top:hover { background: var(--accent-soft); }
 .section-container, .category-nav a {
-    --category: #944447;
+    --category: #c12025;
 }
 .section-container {
     margin-bottom: 20px;

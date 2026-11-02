@@ -31,12 +31,10 @@ Category navigation is generated from rule sections and fills the available widt
 New sections following the existing `.section-container` structure are included
 automatically; Settings lives in its separate header dropdown. The fixed arrow button
 returns to the page heading and respects reduced-motion preferences.
-The current ruleset stays visible in a fixed rectangular badge in the top-right
-corner, with its right edge aligned with the return-to-top button.
 Settings, rule cards, sections and the domain dialog open with a short 180 ms
 slide, without fading text. Reduced-motion preferences disable these animations;
 closing remains immediate so hidden content never retains keyboard focus.
-Open Settings with the gear next to the ruleset indicator; the dropdown closes
+Open Settings with the gear in the header; the dropdown closes
 with Escape or a click outside. Changing **Dark theme** saves an explicit preference. Existing saved
 theme choices are preserved. To test system-theme behavior again, remove only
 the `darkmode` key in DevTools > Application > Local Storage.

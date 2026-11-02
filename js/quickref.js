@@ -311,8 +311,6 @@ function updateRulesToggleLabel() {
     label.querySelector('.item-desc').textContent = current2024
         ? 'Switches to the D&D 2014 (legacy) ruleset.'
         : 'Switches to the D&D 2024 ruleset.';
-    document.getElementById('active-ruleset-label').textContent = 'Current Ruleset: D&D ' + (current2024 ? '2024' : '2014 (legacy)');
-    document.getElementById('header-ruleset-label').textContent = 'D&D ' + (current2024 ? '2024' : '2014');
 }
 
 function showDomainModal() {
