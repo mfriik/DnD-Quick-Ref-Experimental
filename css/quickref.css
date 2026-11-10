@@ -92,7 +92,7 @@ body > .dark-mode {
     display: flex;
     align-items: center;
     gap: 20px;
-    padding: 40px 0 28px;
+    padding: 20px 0 12px;
 }
 .brand-mark {
     display: grid;
@@ -190,7 +190,7 @@ h1 span { color: var(--gold); }
     gap: 6px;
     width: fit-content;
     max-width: 100%;
-    margin: 0 0 24px auto;
+    margin: 0 0 12px auto;
 }
 .menu-group {
     display: flex;
@@ -249,7 +249,7 @@ h1 span { color: var(--gold); }
     --category: maroon;
 }
 .section-container {
-    margin-bottom: 20px;
+    margin-bottom: 10px;
     border: 1px solid var(--line);
     border-top: 3px solid var(--category);
     border-radius: var(--radius);
@@ -275,8 +275,8 @@ h1 span { color: var(--gold); }
     display: flex;
     flex-wrap: wrap;
     align-items: center;
-    gap: 8px 16px;
-    padding: 12px 16px;
+    gap: 4px 12px;
+    padding: 4px 12px;
 }
 .section-heading { margin: 0; flex: 1 1 220px; font-size: 1.125rem; }
 .section-toggle {
@@ -321,9 +321,9 @@ h1 span { color: var(--gold); }
 .collapse-all-btn:disabled { border-color: var(--line); cursor: default; color: var(--muted); }
 .collapse-all-btn:disabled .collapse-all-icon { opacity: .35; }
 .app-version { color: var(--muted); font-size: .75rem; }
-.section-content { padding: 0 16px 16px; overflow: hidden; }
-.section-subtitle { margin: 0 0 12px; color: var(--muted); font-size: .875rem; }
-.section-row + .section-subtitle { margin-top: 20px; }
+.section-content { padding: 0 12px 8px; overflow: hidden; }
+.section-subtitle { margin: 0 0 6px; color: var(--muted); font-size: .875rem; }
+.section-row + .section-subtitle { margin-top: 10px; }
 .items-grid-container, #settings-items-container {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr));
@@ -549,17 +549,17 @@ input:focus-visible + .slider { outline: 3px solid var(--focus); outline-offset:
 }
 @media (max-width: 700px) {
     body > .dark-mode { width: calc(100% - 24px); margin: 0 12px; }
-    .site-header { flex-wrap: wrap; gap: 12px; padding: 24px 0 20px; }
+    .site-header { flex-wrap: wrap; gap: 12px; padding: 12px 0 8px; }
     .brand-mark { width: 48px; height: 52px; font-size: .875rem; }
     .brand-mark img { width: 32px; height: 32px; }
     .site-heading { flex: 1; }
     .eyebrow { font-size: .625rem; letter-spacing: .08em; }
-    .top-menu { margin-bottom: 16px; }
-    .section-title { padding: 8px 12px; gap: 4px 12px; }
+    .top-menu { margin-bottom: 10px; }
+    .section-title { padding: 2px 10px; gap: 0 8px; }
     .section-heading { flex-basis: 100%; }
     .section-limit { flex: 1; }
     .collapse-all-btn { margin-left: auto; }
-    .section-content { padding: 0 10px 12px; }
+    .section-content { padding: 0 10px 8px; }
     .item-header { min-height: 72px; }
     .site-footer { padding-left: 4px; }
     .domain-modal-header { padding: 20px 12px 12px 20px; }
