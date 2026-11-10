@@ -119,7 +119,18 @@ function setExpanded(button, content, expanded, animate = false) {
 function add_quickref_item(parent, data, type) {
     const item = document.createElement('div');
     item.className = 'item itemsize';
-    item.setAttribute('title', data.optional || 'Standard rule');
+    const ruleType = data.optional || 'Standard rule';
+    const extraRule = ruleType === 'Optional rule' || ruleType === 'Homebrew rule';
+    item.dataset.ruleType = ruleType;
+    if (data.description) {
+        const description = document.createElement('template');
+        description.innerHTML = data.description;
+        description.content.querySelectorAll('br, p, div, li').forEach(function(element) {
+            element.after(document.createTextNode(' '));
+        });
+        const tooltip = description.content.textContent.replace(/\s+/g, ' ').trim();
+        if (tooltip) item.title = tooltip;
+    }
 
     const heading = document.createElement('h3');
     heading.className = 'item-heading';
@@ -141,10 +152,23 @@ function add_quickref_item(parent, data, type) {
     const title = document.createElement('span');
     title.className = 'item-title';
     title.textContent = data.title || '[no title]';
+    if (extraRule) {
+        const marker = document.createElement('span');
+        marker.className = 'rule-marker ' +
+            (ruleType === 'Optional rule' ? 'rule-marker-optional' : 'rule-marker-homebrew');
+        marker.setAttribute('aria-hidden', 'true');
+        title.prepend(marker);
+    }
     const subtitle = document.createElement('span');
     subtitle.className = 'item-desc';
     subtitle.textContent = data.subtitle || '';
     text.append(title, subtitle);
+    if (extraRule) {
+        const classification = document.createElement('span');
+        classification.className = 'sr-only';
+        classification.textContent = ruleType;
+        text.appendChild(classification);
+    }
     const chevron = document.createElement('span');
     chevron.className = 'chevron';
     chevron.setAttribute('aria-hidden', 'true');
@@ -169,10 +193,10 @@ function add_quickref_item(parent, data, type) {
     content.innerHTML = '<p class="item-description">' + (data.description || data.subtitle || '') +
         '</p><div class="item-bullets">' + bulletsHTML +
         '</div><div class="item-reference">' + (data.reference || '') + '</div>';
-    if (data.optional === 'Optional rule' || data.optional === 'Homebrew rule') {
+    if (extraRule) {
         const badge = document.createElement('span');
         badge.className = 'rule-type';
-        badge.textContent = data.optional;
+        badge.textContent = ruleType;
         content.prepend(badge);
     }
 
@@ -326,8 +350,8 @@ function initCollapsibleSections() {
 function handleRulesToggle() {
     const optional = document.getElementById('optional-switch').checked;
     const homebrew = document.getElementById('homebrew-switch').checked;
-    document.querySelectorAll('.item[title]').forEach(function(item) {
-        const ruleType = item.getAttribute('title');
+    document.querySelectorAll('.item[data-rule-type]').forEach(function(item) {
+        const ruleType = item.dataset.ruleType;
         const hide = (ruleType === 'Optional rule' && !optional) ||
             (ruleType === 'Homebrew rule' && !homebrew);
         if (hide && item.contains(document.activeElement)) {

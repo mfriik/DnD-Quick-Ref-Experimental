@@ -58,9 +58,14 @@ short summaries, expanded explanations and source references.
   Colors transition smoothly without hiding text; reduced-motion preferences
   make theme changes immediate.
 - **Include extra rules.** Settings provides separate switches for optional
-  official rules (`*`) and homebrew rules (`**`), both hidden by default.
+  official rules and homebrew rules, both hidden by default. A tiny gold star
+  marks optional rules; a gold beer stein marks homebrew rules. These icons
+  appear before the card title. Expanded cards retain
+  their written rule-type labels.
   Currently, these extra entries are present in the 2014 dataset; all entries
   in the 2024 dataset are classified as standard rules.
+  The 2014 homebrew entries include Exhaustion (2024), an alternative to the
+  original Exhaustion condition, not an additional set of penalties.
 - **Give feedback or return to the regular site.** Both links are in Settings.
 - **Print what you need.** Open the sections and cards you want, then use your
   browser's Print or Save as PDF option. Print styling removes navigation and
@@ -69,6 +74,7 @@ short summaries, expanded explanations and source references.
 The layout adapts to narrow screens. Controls support keyboard navigation,
 visible focus and explanatory tooltips, and animations respect your system's
 reduced-motion preference.
+Hovering over a rule card shows its description in a native browser tooltip.
 
 ### Saved preferences
 

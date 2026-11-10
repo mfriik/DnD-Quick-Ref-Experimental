@@ -37,7 +37,7 @@ data_bonusaction = [
         ]
     },
     {
-        title: "Overrun*",
+        title: "Overrun",
         optional: "Optional rule",
         icon: "shield-bash",
         subtitle: "Run through a hostile space",
@@ -51,7 +51,7 @@ data_bonusaction = [
         ]
     },
     {
-        title: "Tumble*",
+        title: "Tumble",
         optional: "Optional rule",
         icon: "tumble",
         subtitle: "Tumble through a hostile space",
@@ -64,7 +64,7 @@ data_bonusaction = [
         ]
     },
     {
-        title: "Drink a potion **",
+        title: "Drink a potion",
         optional: "Homebrew rule",
         icon: "potion-ball",
         subtitle: "Roll for the effect",

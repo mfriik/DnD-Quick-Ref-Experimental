@@ -43,7 +43,7 @@ data_action = [
         ]
     },
     {
-        title: "Shove Aside*",
+        title: "Shove Aside",
         optional: "Optional rule",
         icon: "hand",
         subtitle: "Special melee attack",
@@ -228,7 +228,7 @@ data_action = [
         ]
     },
     {
-        title: "Disarm*",
+        title: "Disarm",
         optional: "Optional rule",
         icon: "sword-break",
         subtitle: "Knock item out of enemy's grasp",
@@ -244,7 +244,7 @@ data_action = [
         ]
     },
     {
-        title: "Overrun*",
+        title: "Overrun",
         optional: "Optional rule",
         icon: "shield-bash",
         subtitle: "Run through a hostile space",
@@ -258,7 +258,7 @@ data_action = [
         ]
     },
     {
-        title: "Tumble*",
+        title: "Tumble",
         optional: "Optional rule",
         icon: "tumble",
         subtitle: "Tumble through a hostile space",
@@ -271,10 +271,10 @@ data_action = [
         ]
     },
     {
-        title: "Mark*",
+        title: "Mark",
         optional: "Optional rule",
         icon: "cross-mark",
-        subtitle: "Give Advantage on Opportunity Attacks",
+        subtitle: "Opportunity attack advantage",
         description: "This option makes it easier for melee combatants to harry each other with opportunity attacks.",
         reference: "DMG, page 271",
         bullets: [
@@ -287,7 +287,7 @@ data_action = [
         ]
     },
     {
-        title: "Climb onto a bigger creature*",
+        title: "Climb on a creature",
         optional: "Optional rule",
         icon: "mountain-climbing",
         subtitle: "Climb a bigger creature",

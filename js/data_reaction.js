@@ -37,7 +37,7 @@ data_reaction = [
         ]
     },
     {
-        title: "Grapple **",
+        title: "Grapple",
         optional: "Homebrew rule",
         icon: "grab",
         subtitle: "Special melee attack",
