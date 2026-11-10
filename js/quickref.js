@@ -563,10 +563,18 @@ function initMenuTooltips() {
 }
 
 function drawHelpConnections(container, connections, sheet, intermediate = false) {
+    const origin = intermediate ? container.getBoundingClientRect() : {left: 0, top: 0};
+    const canvasHeight = intermediate ? container.offsetHeight : window.innerHeight;
+    const canvasRect = rect => ({
+        left: rect.left - origin.left, right: rect.right - origin.left,
+        top: rect.top - origin.top, bottom: rect.bottom - origin.top,
+        width: rect.width, height: rect.height
+    });
+    sheet = canvasRect(sheet);
     const namespace = 'http://www.w3.org/2000/svg';
     const svg = document.createElementNS(namespace, 'svg');
     svg.classList.add('help-connectors');
-    svg.setAttribute('viewBox', '0 0 ' + window.innerWidth + ' ' + window.innerHeight);
+    svg.setAttribute('viewBox', '0 0 ' + window.innerWidth + ' ' + canvasHeight);
     const defs = document.createElementNS(namespace, 'defs');
     const marker = document.createElementNS(namespace, 'marker');
     marker.id = 'help-arrow';
@@ -583,7 +591,7 @@ function drawHelpConnections(container, connections, sheet, intermediate = false
     defs.appendChild(marker);
     svg.appendChild(defs);
     const labels = Array.from(container.querySelectorAll('.help-callout'));
-    const obstacles = [sheet, ...labels.map(label => label.getBoundingClientRect())];
+    const obstacles = [sheet, ...labels.map(label => canvasRect(label.getBoundingClientRect()))];
     const horizontalLanes = [...new Set(obstacles.flatMap(rect => [rect.top - 12, rect.bottom + 12]))];
     const verticalLanes = [...new Set(obstacles.flatMap(rect => [rect.left - 12, rect.right + 12]))];
     const used = new Map();
@@ -642,34 +650,38 @@ function drawHelpConnections(container, connections, sheet, intermediate = false
     // Keep menu leaders in separate lanes, with the enclosing preferences group last.
     const order = [1, 2, 4, 5, 6, 3, 7, 8, 9, 10];
     for (const connection of connections.slice().sort((a, b) => order.indexOf(a.number) - order.indexOf(b.number))) {
-        const labelRect = connection.label.getBoundingClientRect();
-        let targetPorts = ports(connection.target, labelRect);
-        if (connection.number === 7 && !intermediate) {
-            targetPorts = targetPorts.filter(port => port.edge.x === connection.target.left);
+        const labelRect = canvasRect(connection.label.getBoundingClientRect());
+        const targetRect = canvasRect(connection.target);
+        let targetPorts = ports(targetRect, labelRect);
+        if (connection.number === 2 || connection.number === 6) {
+            const edge = {x: targetRect.left + targetRect.width / 2, y: targetRect.bottom};
+            targetPorts = [{edge, outer: {x: edge.x, y: edge.y + 16}}];
         }
-        let pairs = ports(labelRect, connection.target).flatMap(start =>
+        if (connection.number === 7 && !intermediate) {
+            targetPorts = targetPorts.filter(port => port.edge.x === targetRect.left);
+        }
+        let pairs = ports(labelRect, targetRect).flatMap(start =>
             targetPorts.map(end => ({start, end})))
             .sort((a, b) => Math.hypot(a.start.edge.x - a.end.edge.x, a.start.edge.y - a.end.edge.y) -
                 Math.hypot(b.start.edge.x - b.end.edge.x, b.start.edge.y - b.end.edge.y));
         if (connection.number <= 6) {
             const rank = order.indexOf(connection.number);
             const start = {x: labelRect.left + labelRect.width / 2, y: labelRect.top};
-            const target = connection.target;
+            const target = targetRect;
             const end = {x: target.left + target.width / 2, y: target.bottom};
             if (connection.number === 1 || connection.number === 3) {
                 end.x = connection.number === 1 ? target.left : target.right;
                 end.y = target.top + target.height / 2;
             }
-            const lane = document.querySelector('.top-menu').getBoundingClientRect().bottom +
+            const lane = canvasRect(document.querySelector('.top-menu').getBoundingClientRect()).bottom +
                 16 + rank * 12;
             const approach = connection.number === 1 ? end.x - 16 :
                 connection.number === 3 ? end.x + 16 : end.x;
             const route = [start];
             let x = start.x;
             if (intermediate && connection.number === 3) {
-                start.x = labelRect.right;
-                start.y = labelRect.top + labelRect.height / 2;
-                route.push({x: window.innerWidth - 4, y: start.y},
+                route.push({x: start.x, y: labelRect.top - 12},
+                    {x: window.innerWidth - 4, y: labelRect.top - 12},
                     {x: window.innerWidth - 4, y: end.y});
             } else {
                 const offset = intermediate ? rank * 12 : 0;
@@ -683,6 +695,12 @@ function drawHelpConnections(container, connections, sheet, intermediate = false
             }
             route.push(end);
             pairs = intermediate ? [{points: route}, ...pairs] : [{points: route}];
+        }
+        if (intermediate && connection.number === 3 && window.innerWidth < 1136) {
+            const start = {x: labelRect.left, y: labelRect.top + labelRect.height / 2};
+            const end = {x: targetRect.left, y: targetRect.top + targetRect.height / 2};
+            const x = labelRect.left - 12;
+            pairs.unshift({points: [start, {x, y: start.y}, {x, y: end.y}, end]});
         }
         let accepted = false;
         const routes = pairs.flatMap(function(pair) {
@@ -706,11 +724,22 @@ function drawHelpConnections(container, connections, sheet, intermediate = false
             }
             return routes;
         });
+        if (intermediate && connection.number === 10) {
+            const start = {x: labelRect.left, y: labelRect.top + labelRect.height / 2};
+            for (const x of verticalLanes) {
+                for (const end of targetPorts) {
+                    for (const y of horizontalLanes) {
+                        routes.push([start, {x: x, y: start.y}, {x, y},
+                            {x: end.outer.x, y}, end.outer, end.edge]);
+                    }
+                }
+            }
+        }
         for (const points of routes) {
             const ownBox = obstacles[labels.indexOf(connection.label) + 1];
             if (intermediate && points.slice(1).some((end, index) => {
                 const start = points[index];
-                if (end.x < 2 || end.y < 2 || end.x > window.innerWidth - 2 || end.y > window.innerHeight - 2) return true;
+                if (end.x < 2 || end.y < 2 || end.x > window.innerWidth - 2 || end.y > canvasHeight - 2) return true;
                 if (obstacles.some(rect => rect !== ownBox &&
                     Math.min(start.x, end.x) < rect.right + 2 && Math.max(start.x, end.x) > rect.left - 2 &&
                     Math.min(start.y, end.y) < rect.bottom + 2 && Math.max(start.y, end.y) > rect.top - 2)) return true;
@@ -730,7 +759,7 @@ function drawHelpConnections(container, connections, sheet, intermediate = false
             let clear = true;
             for (let offset = 0; offset <= length; offset += 2) {
                 const p = path.getPointAtLength(offset);
-                if (p.x < 2 || p.y < 2 || p.x > window.innerWidth - 2 || p.y > window.innerHeight - 2 || nearUsed(p) ||
+                if (p.x < 2 || p.y < 2 || p.x > window.innerWidth - 2 || p.y > canvasHeight - 2 || nearUsed(p) ||
                     obstacles.some(rect => rect !== ownBox &&
                         p.x > rect.left - 2 && p.x < rect.right + 2 && p.y > rect.top - 2 && p.y < rect.bottom + 2)) {
                     clear = false;
@@ -804,7 +833,7 @@ function initHelp() {
             text: 'The small chevron before each section heading expands or collapses the whole section when tapped or clicked. The heading does the same. The page remembers this choice separately from open cards.'
         },
         {
-            title: 'Item Card', target: '.item-header',
+            title: 'Item Card', target: '#section-action .item-header',
             details: [
                 ['Card header / chevron', 'Each rule tile inside a section has a header with a chevron on the right. Tapping or clicking the header shows or hides details and the source. Open cards reset on reload.'],
                 ['Mouse hover', 'Resting the pointer over a card shows its description in a tooltip; touch-only screens do not have hover.']
@@ -862,7 +891,7 @@ function initHelp() {
     let touchY = null;
     const intro = document.getElementById('help-intro');
     const originalIntro = intro.textContent;
-    const intermediateIntro = 'Scroll with the wheel, swipe or use the arrow keys to view the page beneath these fixed explanations. Controls remain paused. Arrows appear only for visible, unobscured controls with a clear connection. Close with X or Escape.';
+    const intermediateIntro = 'Scroll with the wheel, swipe or use the arrow keys. Explanations and their arrows stay anchored to the page, including controls outside the screen. Only this heading stays visible. Controls remain paused. Close with X or Escape.';
     function createCallout(topic, index) {
         const label = document.createElement('div');
         label.className = 'help-callout';
@@ -880,10 +909,13 @@ function initHelp() {
         annotations.replaceChildren();
         dialog.classList.remove('help-contextual');
         dialog.classList.add('help-intermediate');
+        document.body.classList.add('help-page-scroll');
+        annotations.style.transform = 'translateY(' + (-window.scrollY) + 'px)';
+        annotations.style.height = document.documentElement.scrollHeight + 'px';
         intro.textContent = intermediateIntro;
         const sheet = dialog.querySelector('.help-sheet').getBoundingClientRect();
         const menu = document.querySelector('.top-menu').getBoundingClientRect();
-        const columns = Math.min(5, Math.floor((window.innerWidth - 16) / 224));
+        const columns = 5;
         const gap = 24;
         const width = (window.innerWidth - 32 - gap * (columns - 1)) / columns;
         const labels = topics.map(createCallout);
@@ -891,8 +923,8 @@ function initHelp() {
             label.style.width = width + 'px';
             annotations.appendChild(label);
         });
-        const ordered = [0, 1, 3, 4, 5, 6, 7, 8, 9, 2].map(index => labels[index]);
-        let top = Math.max(sheet.bottom + 48, menu.bottom + 100);
+        const ordered = [0, 1, 3, 4, 5, 6, 7, 2, 9, 8].map(index => labels[index]);
+        let top = Math.max(sheet.height + 64, menu.bottom + window.scrollY + 100);
         for (let row = 0; row * columns < ordered.length; row++) {
             const items = ordered.slice(row * columns, (row + 1) * columns);
             const height = Math.max(...items.map(label => label.offsetHeight));
@@ -902,12 +934,21 @@ function initHelp() {
             });
             top += height + gap;
         }
-        if (top - gap > window.innerHeight - 16) {
-            annotations.replaceChildren();
-            dialog.classList.remove('help-intermediate');
-            intro.textContent = originalIntro;
-            return;
+        const grapple = Array.from(document.querySelectorAll('#section-reaction .item-header'))
+            .find(header => header.querySelector('.item-title').textContent.trim() === 'Grapple')
+            ?.querySelector('.rule-marker-homebrew');
+        if (grapple) {
+            const rect = grapple.getBoundingClientRect();
+            const cardHelp = labels[7].getBoundingClientRect();
+            if (rect.left < cardHelp.right && rect.right > cardHelp.left &&
+                rect.top < cardHelp.bottom && rect.bottom > cardHelp.top) {
+                labels[7].style.left = labels[9].style.left;
+            }
         }
+        labels[9].style.left = labels[8].style.left;
+        const collapseButton = document.querySelector('#section-bonus-action .collapse-all-btn').getBoundingClientRect();
+        labels[9].style.top = Math.max(labels[8].offsetTop + labels[8].offsetHeight + gap,
+            collapseButton.bottom + window.scrollY + gap) + 'px';
         close.focus({preventScroll: true});
         refreshIntermediateConnections();
     }
@@ -917,36 +958,37 @@ function initHelp() {
         const sheet = dialog.querySelector('.help-sheet').getBoundingClientRect();
         const labels = Array.from(annotations.querySelectorAll('.help-callout'));
         const boxes = [sheet, ...labels.map(label => label.getBoundingClientRect())];
-        const menu = document.querySelector('.top-menu').getBoundingClientRect();
         const overlaps = (a, b) => a.left < b.right + 4 && a.right + 4 > b.left &&
             a.top < b.bottom + 4 && a.bottom + 4 > b.top;
         const connections = [];
         topics.forEach((topic, index) => {
-            const selector = index === 6 ? '.section-toggle .chevron' : topic.target;
-            const element = Array.from(document.querySelectorAll(selector)).find(target => {
+            const selector = index === 6 ? '.section-toggle .chevron' :
+                index === 8 ? '#section-bonus-action .collapse-all-btn' :
+                index === 9 ? '.rule-marker-homebrew' : topic.target;
+            const targets = Array.from(document.querySelectorAll(selector));
+            if (index === 9) {
+                targets.sort((a, b) => Number(b.closest('.item-header').querySelector('.item-title').textContent.trim() === 'Grapple') -
+                    Number(a.closest('.item-header').querySelector('.item-title').textContent.trim() === 'Grapple'));
+            }
+            const element = targets.find(target => {
                 const rect = target.getBoundingClientRect();
                 return target.getClientRects().length && rect.width && rect.height &&
                     rect.left >= 8 && rect.right <= window.innerWidth - 8 &&
-                    rect.top >= (target.closest('.top-menu') ? 8 : menu.bottom + 8) &&
-                    rect.bottom <= window.innerHeight - 8 && !boxes.some(box => overlaps(rect, box));
+                    rect.top + window.scrollY >= 8 && !boxes.some(box => overlaps(rect, box));
             });
             if (!element) return;
             const rect = element.getBoundingClientRect();
             connections.push({label: labels[index], target: rect, number: index + 1});
         });
         drawHelpConnections(annotations, connections, sheet, true);
-        // Only highlight targets that have an accurate, collision-free connector.
-        const connected = new Set(Array.from(annotations.querySelectorAll('.help-connectors > path'),
-            path => Number(path.dataset.helpTopic)));
         connections.forEach(connection => {
-            if (!connected.has(connection.number)) return;
             const highlight = document.createElement('div');
             highlight.className = 'help-highlight';
             if (connection.number === 3) highlight.classList.add('help-highlight-preferences');
             highlight.dataset.helpTopic = String(connection.number);
             const rect = connection.target;
             Object.assign(highlight.style, {
-                left: rect.left + 'px', top: rect.top + 'px',
+                left: rect.left + 'px', top: (rect.top + window.scrollY) + 'px',
                 width: rect.width + 'px', height: rect.height + 'px'
             });
             const number = document.createElement('span');
@@ -960,7 +1002,7 @@ function initHelp() {
         if (!dialog.classList.contains('help-intermediate') || trackingFrame) return;
         trackingFrame = requestAnimationFrame(() => {
             trackingFrame = 0;
-            refreshIntermediateConnections();
+            annotations.style.transform = 'translateY(' + (-window.scrollY) + 'px)';
         });
     }
     function scrollPage(delta) {
@@ -1005,6 +1047,9 @@ function initHelp() {
     }
     function layoutAnnotations() {
         annotations.replaceChildren();
+        annotations.style.transform = '';
+        annotations.style.height = '';
+        document.body.classList.remove('help-page-scroll');
         dialog.classList.remove('help-contextual', 'help-intermediate');
         intro.textContent = originalIntro;
         if (window.innerWidth < 1000 || window.innerHeight < 560) return;
@@ -1155,6 +1200,9 @@ function initHelp() {
         touchY = null;
         frame = 0;
         annotations.replaceChildren();
+        annotations.style.transform = '';
+        annotations.style.height = '';
+        document.body.classList.remove('help-page-scroll');
         dialog.classList.remove('help-intermediate');
         intro.textContent = originalIntro;
         previousFilters.forEach(function(saved) { saved.input.checked = saved.checked; });

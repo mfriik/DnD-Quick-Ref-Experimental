@@ -583,6 +583,7 @@ input:focus-visible + .slider { outline: 3px solid var(--focus); outline-offset:
 .help-intermediate .help-heading { border-bottom: 0; }
 .help-intermediate .help-body { overflow: visible; }
 .help-intermediate { touch-action: pinch-zoom; }
+.help-page-scroll .top-menu { position: relative; top: auto; }
 .help-annotations { position: absolute; inset: 0; pointer-events: none; }
 .help-callout {
     position: absolute;

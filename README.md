@@ -82,10 +82,12 @@ short summaries, expanded explanations and source references.
   on every screen size. Multi-part explanations use bullet lists with bold
   labels.
   When the large-screen annotations do not fit, an intermediate layout keeps
-  all ten bubbles fixed in columns across the viewport, with the Help heading
-  and X always visible. Scroll the page underneath using the wheel, a swipe,
-  arrow keys, Page Up/Down or Home/End. Arrows track visible, unobscured examples
-  of the controls; arrows without a clear, noncrossing route are not drawn.
+  all ten bubbles anchored in columns on the page, with only the Help heading
+  and X always visible. Scroll the page and annotations together using the wheel,
+  a swipe, arrow keys, Page Up/Down or Home/End. Arrows are drawn once for
+  specific controls, including offscreen controls, and do not reroute on scroll.
+  The top menu also scrolls with the page in this mode so its arrows stay aligned.
+  Arrows without a clear, noncrossing route are not drawn.
   The large-screen layout still pauses scrolling. On phones, short viewports or
   when the fixed bubbles cannot fit legibly, a scrollable guide covers all topics.
   Ten separate topics cover navigation, Jump to Top, preferences, ruleset,
