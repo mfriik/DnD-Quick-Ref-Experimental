@@ -78,8 +78,9 @@ Individual cards start closed after a reload.
 
 Preferences are specific to the browser and site address: the experimental site,
 regular site and local preview do not share them. No account is required.
-A first-visit dialog identifies the experimental site, and a separate notice
-can be dismissed with **Accept**.
+The cookie notice can be dismissed with **Accept**. To show it again locally,
+run `localStorage.removeItem('cookiesAccepted'); location.reload();` in your
+browser's developer console on the local preview. Other preferences are preserved.
 
 ## Run locally
 

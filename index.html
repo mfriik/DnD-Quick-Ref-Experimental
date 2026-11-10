@@ -25,7 +25,7 @@
         // This logic is inlined in the HTML to ensure it runs even if the main JS file is cached.
         (function() {
             // Increment this version number when you deploy breaking changes or significant updates.
-            const CURRENT_APP_VERSION = '2.2.0';
+            const CURRENT_APP_VERSION = '3.0.0';
             window.dndQuickRefAppVersion = CURRENT_APP_VERSION; // Expose version for other scripts
             const VERSION_KEY = 'appVersion';
             const storedVersion = localStorage.getItem(VERSION_KEY);
@@ -46,26 +46,6 @@
 
 <body class="page-background">
     <a class="skip-link" href="#main-content">Skip to rules</a>
-    <!-- Domain Change Notification Modal -->
-    <dialog id="domain-change-modal" class="domain-modal-overlay" aria-labelledby="domain-modal-title">
-        <div class="domain-modal-content">
-            <div class="domain-modal-header">
-                <h2 id="domain-modal-title">📍 Experimental Quick Reference</h2>
-                <button type="button" class="domain-modal-close" aria-label="Close domain notification" onclick="closeDomainModal()">&times;</button>
-            </div>
-            <div class="domain-modal-body">
-                <p>This is the experimental version of the D&D 5e Quick Reference.</p>
-                <p class="domain-highlight">
-                    🔗 <strong>Website:</strong> <a class="new-domain" href="https://dndtest.misiek.win/">dndtest.misiek.win</a>
-                </p>
-                <p>Find the source code and report issues in the <a href="https://github.com/mfriik/DnD-Quick-Ref-Experimental" target="_blank" rel="noopener noreferrer">experimental repository <span class="sr-only">(opens in a new tab)</span></a>.</p>
-            </div>
-            <div class="domain-modal-footer">
-                <button type="button" class="domain-btn-primary" onclick="closeDomainModal()" autofocus>Got it, thanks!</button>
-            </div>
-        </div>
-    </dialog>
-
     <div class="dark-mode">
         <header class="site-header">
             <div class="brand-mark" aria-hidden="true"><img src="favicon.ico" alt="" width="40" height="40"></div>
@@ -301,7 +281,7 @@
     </div>
     <!-- Cookie notice: informs users about cookie usage and provides an accept button -->
     <div id="cookie-notice" class="cookie-notice" role="region" aria-label="Cookie notice" hidden>
-        <p>This website uses cookies to ensure you get the best experience on our website.</p>
+        <p>This website saves your preferences in your browser.<br>Hosting or third-party services may use cookies.</p>
         <button type="button" id="accept-cookies">Accept</button>
     </div>
     <!-- Main quickref JavaScript logic: handles dynamic content, toggles, and filtering -->

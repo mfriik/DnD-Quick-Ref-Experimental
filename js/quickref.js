@@ -17,7 +17,6 @@ const dataReady = Promise.all(ruleFiles.map(function(base) {
 }));
 
 let itemSequence = 0;
-let domainModalReturnFocus = null;
 const systemTheme = window.matchMedia('(prefers-color-scheme: dark)');
 const rulesetTransitionKey = 'rulesetTransition';
 const pendingRuleset = sessionStorage.getItem(rulesetTransitionKey);
@@ -42,7 +41,7 @@ function finishRulesetTransition(error) {
         rulesetStatus.textContent = error ? 'Could not switch rulesets. Please reload to try again.'
             : 'Now showing ' + document.getElementById('ruleset-trigger').textContent +
                 (localStorage.getItem('rules2024') === 'true' ? ' (2024)' : ' (2014)') + ' rules.';
-        if (restoreRulesetFocus && !document.getElementById('domain-change-modal').open) {
+        if (restoreRulesetFocus) {
             document.getElementById('ruleset-trigger').focus({preventScroll: true});
         }
     }
@@ -539,48 +538,7 @@ function initMenuTooltips() {
     window.addEventListener('resize', hide);
 }
 
-function showDomainModal() {
-    const modal = document.getElementById('domain-change-modal');
-    if (!modal.open) {
-        domainModalReturnFocus = document.activeElement;
-        modal.showModal();
-        document.body.classList.add('dialog-open');
-    }
-}
-
-function closeDomainModal() {
-    localStorage.setItem('domainChangeNotificationDismissed', 'true');
-    document.getElementById('domain-change-modal').close();
-}
-
 function initNotices() {
-    const modal = document.getElementById('domain-change-modal');
-    modal.addEventListener('keydown', function(event) {
-        if (event.key !== 'Tab') return;
-        const buttons = modal.querySelectorAll('button');
-        const first = buttons[0];
-        const last = buttons[buttons.length - 1];
-        if (event.shiftKey && document.activeElement === first) {
-            event.preventDefault();
-            last.focus();
-        } else if (!event.shiftKey && document.activeElement === last) {
-            event.preventDefault();
-            first.focus();
-        }
-    });
-    modal.addEventListener('cancel', function(event) {
-        event.preventDefault();
-        closeDomainModal();
-    });
-    modal.addEventListener('close', function() {
-        document.body.classList.remove('dialog-open');
-        const target = domainModalReturnFocus && domainModalReturnFocus !== document.body && domainModalReturnFocus.isConnected
-            ? domainModalReturnFocus : document.getElementById('main-content');
-        target.focus({preventScroll: true});
-    });
-    const dismissed = localStorage.getItem('domainChangeNotificationDismissed') === 'true';
-    if (!dismissed) showDomainModal();
-
     const notice = document.getElementById('cookie-notice');
     notice.hidden = localStorage.getItem('cookiesAccepted') === 'true';
     function updateNoticeSpace() {
@@ -596,7 +554,7 @@ function initNotices() {
         document.getElementById('main-content').focus({preventScroll: true});
     });
     document.addEventListener('focusin', function(event) {
-        if (!notice.hidden && !notice.contains(event.target) && !modal.open && event.target.id !== 'back-to-top') {
+        if (!notice.hidden && !notice.contains(event.target) && event.target.id !== 'back-to-top') {
             const bottom = event.target.getBoundingClientRect().bottom;
             const noticeTop = notice.getBoundingClientRect().top;
             if (bottom > noticeTop - 12) window.scrollBy(0, bottom - noticeTop + 16);
