@@ -44,7 +44,7 @@ data_action = [
     },
     {
         title: "Shove Aside",
-        optional: "Optional rule",
+        optional: "Optional Official rule",
         icon: "hand",
         subtitle: "Special Melee Attack",
         description: "Shove a Creature, Either to Knock It Prone or Push It Aside From You",
@@ -228,7 +228,7 @@ data_action = [
     },
     {
         title: "Disarm",
-        optional: "Optional rule",
+        optional: "Optional Official rule",
         icon: "sword-break",
         subtitle: "Knock Item Out of Enemy's Grasp",
         description: "A Creature Can Use a Weapon Attack to Knock a Weapon or Another Item From a Target's Grasp.",
@@ -243,7 +243,7 @@ data_action = [
     },
     {
         title: "Overrun",
-        optional: "Optional rule",
+        optional: "Optional Official rule",
         icon: "shield-bash",
         subtitle: "Run Through a Hostile Space",
         description: "When a Creature Tries to Move Through a Hostile Creature's Space, the Mover Can Try to Force Its Way Through by Overrunning the Hostile Creature.",
@@ -256,7 +256,7 @@ data_action = [
     },
     {
         title: "Tumble",
-        optional: "Optional rule",
+        optional: "Optional Official rule",
         icon: "tumble",
         subtitle: "Tumble Through a Hostile Space",
         description: "A Creature Can Try to Tumble Through a Hostile Creature's Space, Ducking and Weaving Past the Opponent.",
@@ -268,7 +268,7 @@ data_action = [
     },
     {
         title: "Mark",
-        optional: "Optional rule",
+        optional: "Optional Official rule",
         icon: "cross-mark",
         subtitle: "Opportunity Attack Advantage",
         description: "This Option Makes It Easier for Melee Combatants to Harry Each Other with Opportunity Attacks.",
@@ -283,7 +283,7 @@ data_action = [
     },
     {
         title: "Climb on a Creature",
-        optional: "Optional rule",
+        optional: "Optional Official rule",
         icon: "mountain-climbing",
         subtitle: "Climb a Bigger Creature",
         description: "If One Creature Wants to Jump Onto Another Creature, It Can Do so by Grappling. A Suitably Large Opponent Can Be Treated as Terrain for the Purpose of Jumping Onto Its Back or Clinging to a Limb.",

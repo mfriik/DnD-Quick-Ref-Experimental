@@ -38,7 +38,7 @@ data_bonusaction = [
     },
     {
         title: "Overrun",
-        optional: "Optional rule",
+        optional: "Optional Official rule",
         icon: "shield-bash",
         subtitle: "Run Through a Hostile Space",
         description: "When a Creature Tries to Move Through a Hostile Creature's Space, the Mover Can Try to Force Its Way Through by Overrunning the Hostile Creature.",
@@ -51,7 +51,7 @@ data_bonusaction = [
     },
     {
         title: "Tumble",
-        optional: "Optional rule",
+        optional: "Optional Official rule",
         icon: "tumble",
         subtitle: "Tumble Through a Hostile Space",
         description: "A Creature Can Try to Tumble Through a Hostile Creature's Space, Ducking and Weaving Past the Opponent.",

@@ -81,14 +81,18 @@ short summaries, expanded explanations and source references.
   The same descriptions identify each control's location and explain its action
   on every screen size. Multi-part explanations use bullet lists with bold
   labels.
-  Close help to scroll to other controls, then reopen it; on small screens or
-  when there is not enough room for every annotation, a scrollable guide covers
-  all topics.
+  When the large-screen annotations do not fit, an intermediate layout keeps
+  all ten bubbles fixed in columns across the viewport, with the Help heading
+  and X always visible. Scroll the page underneath using the wheel, a swipe,
+  arrow keys, Page Up/Down or Home/End. Arrows track visible, unobscured examples
+  of the controls; arrows without a clear, noncrossing route are not drawn.
+  The large-screen layout still pauses scrolling. On phones, short viewports or
+  when the fixed bubbles cannot fit legibly, a scrollable guide covers all topics.
   Ten separate topics cover navigation, Jump to Top, preferences, ruleset,
   theme, Settings, sections, cards, Collapse All and rule markers. Repeated
   controls can be highlighted in a later section when an earlier one has no
   room for its description.
-  The page underneath is blocked until you close help
+  Controls underneath are blocked until you close help
   with X or Escape. While help is open, optional and homebrew cards are shown
   temporarily so their markers can be explained. Closing help restores your
   filters and scroll position without changing saved preferences or open cards.
