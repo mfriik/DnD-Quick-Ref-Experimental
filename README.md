@@ -25,12 +25,13 @@ After editing HTML, CSS or JavaScript, refresh the page; use `Ctrl + Shift + R`
 if the browser retains old assets.
 
 The interface uses a compact field-guide style with light and dark surfaces.
-Light-theme section accents use the legacy palette: maroon, black, indigo, green,
-darkgoldenrod and teal. Dark mode uses #8f3838, #454545, #311942,
+Light-theme section accents use maroon, steel blue (#355c9a), indigo, green,
+darkgoldenrod and teal. Dark mode uses #8f3838, #608ac4, #311942,
 darkolivegreen, #7a4b2a and #2f4f4f respectively, including derived accents
 and navigation icons. Rule and navigation pictograms are always white
 on their section-colored icon background in both themes; card and section surfaces
 continue to follow the selected theme.
+Rule-card headers retain their section-tinted background whether open or closed.
 On a first visit, the theme follows the operating system.
 The compact top menu is aligned right and sticks near the top edge while scrolling.
 From left to right it contains Movement, Action, Bonus action, Reaction, Conditions,
