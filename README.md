@@ -22,7 +22,7 @@ interface changes and features before they may reach the regular site. It is
 a quick reminder of the rules, not a replacement for the rulebooks.
 
 - **[Open the experimental site](https://dndtest.misiek.win/)**
-- [Open the regular site](https://dnd.misiek.win/)
+- [Open the regular site](https://dnd.misiek.win/) - Different Repo, oldschool version
 - [Source repository](https://github.com/mfriik/DnD-Quick-Ref-Experimental)
 
 ## What it covers
@@ -75,9 +75,15 @@ short summaries, expanded explanations and source references.
   Shove Aside and Exhaustion (2024) stay beside their standard counterparts.
 - **Give feedback or return to the regular site.** Both links are in Settings.
 - **Get interface help.** The question-mark button after Settings opens a
-  read-only guide over a dimmed page. Descriptions appear directly below visible
-  controls on larger screens, without a side list. Close help to scroll to other
-  controls, then reopen it; on small screens a scrollable guide covers all topics.
+  read-only guide over a dimmed page. Descriptions appear beside visible controls
+  on larger screens, without a side list. Rounded gold arrows connect each
+  description to its control without crossing or overlapping other arrows.
+  The same descriptions identify each control's location and explain its action
+  on every screen size. Multi-part explanations use bullet lists with bold
+  labels.
+  Close help to scroll to other controls, then reopen it; on small screens or
+  when there is not enough room for every annotation, a scrollable guide covers
+  all topics.
   Ten separate topics cover navigation, Jump to Top, preferences, ruleset,
   theme, Settings, sections, cards, Collapse All and rule markers. Repeated
   controls can be highlighted in a later section when an earlier one has no

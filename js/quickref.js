@@ -562,6 +562,160 @@ function initMenuTooltips() {
     window.addEventListener('resize', hide);
 }
 
+function drawHelpConnections(container, connections, sheet) {
+    const namespace = 'http://www.w3.org/2000/svg';
+    const svg = document.createElementNS(namespace, 'svg');
+    svg.classList.add('help-connectors');
+    svg.setAttribute('viewBox', '0 0 ' + window.innerWidth + ' ' + window.innerHeight);
+    const defs = document.createElementNS(namespace, 'defs');
+    const marker = document.createElementNS(namespace, 'marker');
+    marker.id = 'help-arrow';
+    marker.setAttribute('viewBox', '0 0 8 8');
+    marker.setAttribute('refX', '7');
+    marker.setAttribute('refY', '4');
+    marker.setAttribute('markerWidth', '8');
+    marker.setAttribute('markerHeight', '8');
+    marker.setAttribute('markerUnits', 'userSpaceOnUse');
+    marker.setAttribute('orient', 'auto');
+    const arrow = document.createElementNS(namespace, 'path');
+    arrow.setAttribute('d', 'M 1 1 L 7 4 L 1 7');
+    marker.appendChild(arrow);
+    defs.appendChild(marker);
+    svg.appendChild(defs);
+    const obstacles = [sheet, ...connections.map(connection => connection.label.getBoundingClientRect())];
+    const used = new Map();
+    const step = 8;
+    function nearUsed(p) {
+        const x = Math.floor(p.x / step), y = Math.floor(p.y / step);
+        for (let dx = -1; dx <= 1; dx++) {
+            for (let dy = -1; dy <= 1; dy++) {
+                if (used.get((x + dx) + ',' + (y + dy))?.some(other =>
+                    Math.hypot(p.x - other.x, p.y - other.y) < step)) return true;
+            }
+        }
+        return false;
+    }
+    function reserve(p) {
+        const key = Math.floor(p.x / step) + ',' + Math.floor(p.y / step);
+        if (!used.has(key)) used.set(key, []);
+        used.get(key).push(p);
+    }
+    function ports(rect, other) {
+        const x = Math.max(rect.left + 6, Math.min(rect.right - 6, other.left + other.width / 2));
+        const y = Math.max(rect.top + 6, Math.min(rect.bottom - 6, other.top + other.height / 2));
+        return [
+            [{x, y: rect.top}, {x: 0, y: -16}],
+            [{x: rect.right, y}, {x: 16, y: 0}],
+            [{x, y: rect.bottom}, {x: 0, y: 16}],
+            [{x: rect.left, y}, {x: -16, y: 0}],
+            [{x: rect.left + rect.width / 2, y: rect.top}, {x: 0, y: -16}],
+            [{x: rect.right, y: rect.top + rect.height / 2}, {x: 16, y: 0}],
+            [{x: rect.left + rect.width / 2, y: rect.bottom}, {x: 0, y: 16}],
+            [{x: rect.left, y: rect.top + rect.height / 2}, {x: -16, y: 0}]
+        ].map(([edge, offset]) => ({edge, outer: {x: edge.x + offset.x, y: edge.y + offset.y}}));
+    }
+    function roundedPath(points) {
+        points = points.filter((p, index) => !index || p.x !== points[index - 1].x || p.y !== points[index - 1].y);
+        const corners = points.filter((p, index) => {
+            if (!index || index === points.length - 1) return true;
+            const a = points[index - 1], b = points[index + 1];
+            return (p.x - a.x) * (b.y - p.y) !== (p.y - a.y) * (b.x - p.x);
+        });
+        let d = 'M ' + corners[0].x + ' ' + corners[0].y;
+        for (let i = 1; i < corners.length - 1; i++) {
+            const a = corners[i - 1], b = corners[i], c = corners[i + 1];
+            const before = Math.hypot(b.x - a.x, b.y - a.y);
+            const after = Math.hypot(c.x - b.x, c.y - b.y);
+            const radius = Math.min(6, before / 2, after / 2);
+            const x1 = b.x + (a.x - b.x) * radius / before;
+            const y1 = b.y + (a.y - b.y) * radius / before;
+            const x2 = b.x + (c.x - b.x) * radius / after;
+            const y2 = b.y + (c.y - b.y) * radius / after;
+            d += ' L ' + x1 + ' ' + y1 + ' Q ' + b.x + ' ' + b.y + ' ' + x2 + ' ' + y2;
+        }
+        const last = corners[corners.length - 1];
+        return d + ' L ' + last.x + ' ' + last.y;
+    }
+    // Keep menu leaders in separate lanes, with the enclosing preferences group last.
+    const order = [1, 2, 4, 5, 6, 3, 7, 8, 9, 10];
+    for (const connection of connections.slice().sort((a, b) => order.indexOf(a.number) - order.indexOf(b.number))) {
+        const labelRect = connection.label.getBoundingClientRect();
+        let targetPorts = ports(connection.target, labelRect);
+        if (connection.number === 7) {
+            targetPorts = targetPorts.filter(port => port.edge.x === connection.target.left);
+        }
+        let pairs = ports(labelRect, connection.target).flatMap(start =>
+            targetPorts.map(end => ({start, end})))
+            .sort((a, b) => Math.hypot(a.start.edge.x - a.end.edge.x, a.start.edge.y - a.end.edge.y) -
+                Math.hypot(b.start.edge.x - b.end.edge.x, b.start.edge.y - b.end.edge.y));
+        if (connection.number <= 6) {
+            const start = {x: labelRect.left + labelRect.width / 2, y: labelRect.top};
+            const target = connection.target;
+            const end = {x: target.left + target.width / 2, y: target.bottom};
+            if (connection.number === 1 || connection.number === 3) {
+                end.x = connection.number === 1 ? target.left : target.right;
+                end.y = target.top + target.height / 2;
+            }
+            const lane = document.querySelector('.top-menu').getBoundingClientRect().bottom +
+                16 + order.indexOf(connection.number) * 12;
+            const approach = connection.number === 1 ? end.x - 16 :
+                connection.number === 3 ? end.x + 16 : end.x;
+            const route = [start];
+            let x = start.x;
+            if (x < sheet.right + 4) {
+                route.push({x, y: sheet.bottom + 12});
+                x = sheet.right + 4;
+                route.push({x, y: sheet.bottom + 12});
+            }
+            route.push({x, y: lane}, {x: approach, y: lane});
+            if (connection.number === 1 || connection.number === 3) route.push({x: approach, y: end.y});
+            route.push(end);
+            pairs = [{points: route}];
+        }
+        let accepted = false;
+        const routes = pairs.flatMap(function(pair) {
+            if (pair.points) return [pair.points];
+            const {start, end} = pair;
+            const direct = Math.hypot(start.edge.x - end.edge.x, start.edge.y - end.edge.y) <= 24 ?
+                [[start.edge, end.edge]] : [];
+            return direct.concat([
+                [start.edge, start.outer, {x: end.outer.x, y: start.outer.y}, end.outer, end.edge],
+                [start.edge, start.outer, {x: start.outer.x, y: end.outer.y}, end.outer, end.edge]
+            ]);
+        });
+        for (const points of routes) {
+            const path = document.createElementNS(namespace, 'path');
+            path.setAttribute('d', roundedPath(points));
+            path.dataset.helpTopic = String(connection.number);
+            svg.appendChild(path);
+            const length = path.getTotalLength();
+            const samples = [];
+            let clear = true;
+            for (let offset = 0; offset <= length; offset += 2) {
+                const p = path.getPointAtLength(offset);
+                if (p.x < 2 || p.y < 2 || p.x > window.innerWidth - 2 || p.y > window.innerHeight - 2 || nearUsed(p) ||
+                    obstacles.some(rect => rect !== obstacles[connections.indexOf(connection) + 1] &&
+                        p.x > rect.left - 2 && p.x < rect.right + 2 && p.y > rect.top - 2 && p.y < rect.bottom + 2)) {
+                    clear = false;
+                    break;
+                }
+                samples.push({x: p.x, y: p.y});
+            }
+            if (!clear) {
+                path.remove();
+                continue;
+            }
+            path.setAttribute('marker-end', 'url(#help-arrow)');
+            samples.forEach(reserve);
+            accepted = true;
+            break;
+        }
+        if (!accepted) return false;
+    }
+    container.prepend(svg);
+    return true;
+}
+
 function initHelp() {
     const trigger = document.getElementById('help-trigger');
     const dialog = document.getElementById('help-dialog');
@@ -571,53 +725,94 @@ function initHelp() {
     const topics = [
         {
             title: 'Section Navigation', target: '.category-nav',
-            text: 'Section icons open a collapsed section, scroll to it and update the address fragment. Navigation stays available while scrolling.'
+            details: [
+                ['Section icons', 'The icon group in the top menu links to rule sections. Each icon opens its section if collapsed, scrolls to it and updates the address fragment (#section-...). This makes sharing specific sections easier.'],
+                ['Sticky navigation', 'This Feature keeps this menu always available while scrolling down the page.']
+            ]
         },
         {
             title: 'Jump to Top', target: '#back-to-top',
-            text: 'Return to the title and clear the section fragment (#section-...) from the address, keeping the page path and query.'
+            text: 'The upward arrow after the section icons in the top menu returns to the page title and also clears the section fragment (#section-...) from the address bar.'
         },
         {
             title: 'Preferences Menu', target: '.preferences-menu',
-            text: 'Ruleset, theme, Settings and Help are grouped here. The question mark opens this guide without changing your preferences.'
+            details: [
+                ['Preferences group', 'The other top-menu group contains the D&D edition button, sun/moon, gear and question mark.'],
+                ['Help (?)', 'The question mark after the gear opens this guide without changing saved preferences.']
+            ]
         },
         {
             title: 'Ruleset', target: '#ruleset-trigger',
-            text: 'Switch D&D 5e (2014) / 5.5e (2024). The choice is saved and the page reloads with the other rules. Individual cards start closed.'
+            details: [
+                ['D&D edition button', 'The labelled button in the top-menu preferences group switches between D&D 5e (2014) and 5.5e (2024) and saves the choice.']
+            ]
         },
         {
             title: 'Light / Dark Mode', target: '#theme-trigger',
-            text: 'Change and save the theme without reloading. On your first visit, appearance follows your system setting.'
+            details: [
+                ['Sun / moon button', 'Next to the D&D edition button in the top menu, switches and saves the theme without reloading the page.'],
+                ['First visit', 'The theme follows your system setting until you choose one.']
+            ]
         },
         {
             title: 'Settings', target: '#settings-trigger',
-            text: 'Independent, saved switches show optional and homebrew cards. Feedback and main-site links open in new tabs.'
+            details: [
+                ['Gear button', 'Next to the sun/moon button in the top menu, it opens the Settings panel.'],
+                ['Optional / homebrew switches', 'Inside that panel, each switch controls and saves visibility for its extra rules.'],
+                ['Feedback / main-site links', 'At the bottom of the panel, each link opens in a new tab.']
+            ]
         },
         {
             title: 'Section Chevron', target: '.section-toggle',
-            text: 'Click the chevron or heading to expand or collapse the whole section. This choice is remembered separately from open cards.'
+            text: 'The small chevron before each section heading expands or collapses the whole section when tapped or clicked. The heading does the same. The page remembers this choice separately from open cards.'
         },
         {
             title: 'Item Card', target: '.item-header',
-            text: 'Click the header or chevron to show or hide details and the source. Hover for a native description tooltip. Open cards reset on reload.'
+            details: [
+                ['Card header / chevron', 'Each rule tile inside a section has a header with a chevron on the right. Tapping or clicking the header shows or hides details and the source. Open cards reset on reload.'],
+                ['Mouse hover', 'Resting the pointer over a card shows its description in a tooltip; touch-only screens do not have hover.']
+            ]
         },
         {
             title: 'Collapse All Open Cards', target: '.collapse-all-btn',
-            text: 'Close open cards in this section, not the section itself. Enabled only when at least one visible card here is expanded; otherwise dimmed and disabled.'
+            details: [
+                ['Curved-arrow button', 'On the right of each section heading, it closes all open cards in that section, not the section itself.'],
+                ['Availability', 'The button becomes enabled when at least one visible card in its section is expanded. Otherwise, it stays dimmed and disabled.']
+            ]
         },
         {
             title: 'Extra Rule Markers', target: '.rule-marker',
-            text: 'Extra cards have a gold star (optional) or beer stein (homebrew) before the title. Settings controls visibility; expanded cards also show the written type.'
+            details: [
+                ['Gold star', 'At the beginning of a card title, it marks an optional rule. It is separate from the main card icon.'],
+                ['Gold beer mug', 'In the same position before a card title, it marks a homebrew rule.'],
+                ['Visibility', 'The gear in the top menu opens Settings, where dedicated switches show or hide these rules. Expanded cards also show the written type.']
+            ]
         }
     ];
+    function appendExplanation(parent, topic) {
+        if (topic.details) {
+            const list = document.createElement('ul');
+            topic.details.forEach(function([name, description]) {
+                const item = document.createElement('li');
+                const label = document.createElement('strong');
+                label.textContent = name + ': ';
+                item.append(label, document.createTextNode(description));
+                list.appendChild(item);
+            });
+            parent.appendChild(list);
+        } else {
+            const text = document.createElement('p');
+            text.textContent = topic.text;
+            parent.appendChild(text);
+        }
+    }
     const list = document.getElementById('help-topics');
     topics.forEach(function(topic) {
         const entry = document.createElement('li');
         const heading = document.createElement('h3');
         heading.textContent = topic.title;
-        const text = document.createElement('p');
-        text.textContent = topic.text;
-        entry.append(heading, text);
+        entry.appendChild(heading);
+        appendExplanation(entry, topic);
         list.appendChild(entry);
     });
 
@@ -645,6 +840,12 @@ function initHelp() {
         const occupied = [heading];
         const menu = document.querySelector('.top-menu').getBoundingClientRect();
         const highlights = [];
+        const connections = [];
+        const menuRoutes = [];
+        function touchesRoute(box) {
+            return menuRoutes.some(p => p.x > box.left - 8 && p.x < box.right + 8 &&
+                p.y > box.top - 8 && p.y < box.bottom + 8);
+        }
         function overlaps(a, b) {
             return a.left < b.right + 4 && a.right + 4 > b.left &&
                 a.top < b.bottom + 4 && a.bottom + 4 > b.top;
@@ -653,50 +854,53 @@ function initHelp() {
             const label = document.createElement('div');
             label.className = 'help-callout';
             const title = document.createElement('h3');
-            title.textContent = (index + 1) + '. ' + topic.title;
-            const text = document.createElement('p');
-            text.textContent = topic.text;
-            label.append(title, text);
+            const topicNumber = document.createElement('span');
+            topicNumber.className = 'help-callout-number';
+            topicNumber.textContent = (index + 1) + '.';
+            title.append(topicNumber, document.createTextNode(' ' + topic.title));
+            label.appendChild(title);
+            appendExplanation(label, topic);
             annotations.appendChild(label);
             const width = label.offsetWidth;
             const height = label.offsetHeight;
             let placement;
+            if (index < 6) {
+                const left = window.innerWidth >= 1800 ? heading.right + 24 : 8;
+                const menuWidth = Math.min(240, Math.floor((window.innerWidth - left - 8 - 5 * 16) / 6));
+                label.style.width = menuWidth + 'px';
+                const column = [0, 1, 5, 2, 3, 4][index];
+                const top = window.innerWidth >= 1800 ? menuBottom + 100 : Math.max(menuBottom + 100, heading.bottom + 24);
+                placement = {
+                    left: left + column * (menuWidth + 16), top,
+                    right: left + column * (menuWidth + 16) + menuWidth,
+                    bottom: top + label.offsetHeight
+                };
+                const rect = document.querySelector(topic.target).getBoundingClientRect();
+                if (placement.bottom <= window.innerHeight - 8 && !occupied.some(other => overlaps(placement, other))) {
+                    placeLabel(rect);
+                } else {
+                    label.remove();
+                }
+                return;
+            }
             const target = Array.from(document.querySelectorAll(topic.target)).find(function(element) {
                 const rect = element.getBoundingClientRect();
                 const visible = element.getClientRects().length && rect.width && rect.height &&
                     rect.left >= 8 && rect.right <= window.innerWidth - 8 &&
                     rect.top >= (element.closest('.top-menu') ? 8 : Math.max(8, menuBottom + 8)) &&
-                    rect.bottom + height + 10 <= window.innerHeight - 8;
-                if (!visible || occupied.some(other => overlaps(rect, other))) return false;
+                    rect.bottom <= window.innerHeight - 8;
+                if (!visible || touchesRoute(rect) || occupied.some(other => overlaps(rect, other))) return false;
                 const offsets = [rect.left, rect.right - width, rect.left - width / 2];
-                placement = offsets.map(function(left) {
+                placement = offsets.flatMap(function(left) {
                     left = Math.max(8, Math.min(left, window.innerWidth - width - 8));
-                    return {left, top: rect.bottom + 10, right: left + width, bottom: rect.bottom + 10 + height};
-                }).find(box => !overlaps(box, menu) && !occupied.some(other => overlaps(box, other)) &&
-                    !highlights.some(other => overlaps(box, other)));
+                    return [rect.bottom + 10, rect.top - height - 10].map(top =>
+                        ({left, top, right: left + width, bottom: top + height}));
+                }).find(box => box.top >= 8 && box.bottom <= window.innerHeight - 8 &&
+                    !overlaps(box, menu) && !occupied.some(other => overlaps(box, other)) &&
+                    !highlights.some(other => overlaps(box, other)) && !touchesRoute(box));
                 return !!placement;
             });
             if (!target) {
-                if (!document.querySelector(topic.target)?.closest('.top-menu')) {
-                    label.remove();
-                    return;
-                }
-                const element = document.querySelector(topic.target);
-                const rect = element.getBoundingClientRect();
-                const columns = Math.max(1, Math.floor((window.innerWidth - 16) / (width + 8)));
-                const lefts = Array.from({length: columns}, (_, column) => 8 +
-                    column * (window.innerWidth - width - 16) / Math.max(1, columns - 1))
-                    .sort((a, b) => Math.abs(a + width / 2 - (rect.left + rect.width / 2)) -
-                        Math.abs(b + width / 2 - (rect.left + rect.width / 2)));
-                for (let top = menuBottom + 10; top + height <= window.innerHeight - 8 && !placement; top += 16) {
-                    placement = lefts.map(left => ({left, top, right: left + width, bottom: top + height}))
-                        .find(box => !occupied.some(other => overlaps(box, other)) &&
-                            !highlights.some(other => overlaps(box, other)));
-                }
-                if (placement) {
-                    placeLabel(rect);
-                    return;
-                }
                 label.remove();
                 return;
             }
@@ -718,11 +922,21 @@ function initHelp() {
                 number.textContent = String(index + 1);
                 highlight.appendChild(number);
                 annotations.appendChild(highlight);
+                connections.push({label, target: rect, number: index + 1});
                 occupied.push(placement);
                 highlights.push(rect);
+                if (index === 5 && connections.length === 6 && drawHelpConnections(annotations, connections, heading)) {
+                    annotations.querySelectorAll('.help-connectors > path').forEach(function(path) {
+                        for (let distance = 0; distance <= path.getTotalLength(); distance += 2) {
+                            menuRoutes.push(path.getPointAtLength(distance));
+                        }
+                    });
+                }
             }
         });
-        if (annotations.querySelectorAll('.help-callout').length !== topics.length) {
+        annotations.querySelector('.help-connectors')?.remove();
+        if (annotations.querySelectorAll('.help-callout').length !== topics.length ||
+            !drawHelpConnections(annotations, connections, heading)) {
             annotations.replaceChildren();
             dialog.classList.remove('help-contextual');
         }
