@@ -295,6 +295,7 @@ h1 span { color: var(--gold); }
 .section-toggle:hover, .section-toggle:focus-visible {
     color: var(--category);
 }
+.section-toggle[aria-expanded="false"] { min-height: 40px; }
 .section-toggle .chevron { color: var(--category); }
 .section-limit { color: var(--muted); font-size: .8125rem; }
 .collapse-all-btn {
@@ -705,7 +706,7 @@ input:focus-visible + .slider { outline: 3px solid var(--focus); outline-offset:
     .cookie-notice p { flex-basis: 100%; }
 }
 @media (pointer: coarse) {
-    .section-toggle, .collapse-all-btn { min-height: 44px; }
+    .section-toggle, .section-toggle[aria-expanded="false"], .collapse-all-btn { min-height: 44px; }
 }
 @media (prefers-reduced-motion: reduce) {
     .ruleset-entering .section-container,
