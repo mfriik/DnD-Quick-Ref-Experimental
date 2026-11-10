@@ -5,7 +5,7 @@ data_action = [
         icon: "crossed-swords",
         subtitle: "Melee or ranged attack",
         description: "Perform an attack roll with a weapon or an unarmed strike.",
-        reference: "PHB, pgs. 12, 361.",
+        reference: "PHB'24, pgs. 12, 361.",
         bullets: [
             "You can either equip or unequip one weapon when you make an attack as part of this action. You do so before or after the attack.",
             "Certain features, such as the <i>Extra Attack</i> feature of the fighter, allow you to make more than one attack with this action. Each of these attacks is a separate roll and may target different creatures. You may move in between these attacks.",
@@ -21,7 +21,7 @@ data_action = [
         icon: "grab",
         subtitle: "Special unarmed attack",
         description: "Attempt to grab a creature or wrestle with it",
-        reference: "PHB, pg. 377.",
+        reference: "PHB'24, pg. 377.",
         bullets: [
             "You can use the <i>Attack</i> action to make a special unarmed attack, a grapple. If you're able to make multiple attacks with the Attack action, this attack replaces one of them.",
             "The target of your grapple must be no more than one size larger than you, and you have to have a hand free to grab the target.",
@@ -34,7 +34,7 @@ data_action = [
         icon: "hand",
         subtitle: "Special unarmed attack",
         description: "Shove a creature, either to knock it prone or push it away from you",
-        reference: "PHB, pg. 377.",
+        reference: "PHB'24, pg. 377.",
         bullets: [
             "You can use the <i>Attack</i> action to make a special unarmed attack, a shove. If you're able to make multiple attacks with the Attack action, this attack replaces one of them.",
             "The target of your shove must be no more than one size larger than you.",
@@ -47,7 +47,7 @@ data_action = [
         icon: "magic-swirl",
         subtitle: "Cast time of 1 action",
         description: "Cast a spell with a casting time of 1 action",
-        reference: "PHB, pg. 235-238, 363.",
+        reference: "PHB'24, pg. 235-238, 363.",
         bullets: [
             "On a turn, you can expend only one spell slot to cast a spell. You can't, for example, cast a spell with a spell slot as your action and another one using your bonus action on the same turn.",
             "The target of a spell must be within the spell's range. To target something, you must have a clear path to it, so it can't be behind total cover.",
@@ -61,7 +61,7 @@ data_action = [
         icon: "sprint",
         subtitle: "Double movement speed",
         description: "Gain extra movement for the current turn",
-        reference: "PHB, pg. 365.",
+        reference: "PHB'24, pg. 365.",
         bullets: [
             "The increase equals your speed, after applying any modifiers."
         ]
@@ -72,7 +72,7 @@ data_action = [
         icon: "journey",
         subtitle: "Prevent opportunity attacks",
         description: "Your movement doesn't provoke opportunity attacks for the rest of the turn",
-        reference: "PHB, pg. 366.",
+        reference: "PHB'24, pg. 366.",
         bullets: [
         ]
     },
@@ -82,7 +82,7 @@ data_action = [
         icon: "aura",
         subtitle: "Increase defenses",
         description: "Focus entirely on avoiding attacks",
-        reference: "PHB, pg. 366.",
+        reference: "PHB'24, pg. 366.",
         bullets: [
             "Until the start of your next turn, any attack roll made against you has Disadvantage if you can see the attacker, and you make Dexterity saving throws with Advantage.",
             "You lose this benefit if you are <i>Incapacitated</i> or if your speed is 0."
@@ -94,7 +94,7 @@ data_action = [
         icon: "manacles",
         subtitle: "Escape a grapple",
         description: "Escape a grapple",
-        reference: "PHB, pg. 367.",
+        reference: "PHB'24, pg. 367.",
         bullets: [
             "To escape a grapple, you must succeed on a Strength (Athletics) or Dexterity (Acrobatics) check against the grapple's escape DC.",
             "Escaping other conditions that restrain you (such as manacles) may require a Dexterity or Strength check, as specified by the condition."
@@ -106,7 +106,7 @@ data_action = [
         icon: "telepathy",
         subtitle: "Grant an ally advantage",
         description: "Grant an ally advantage on an ability check or attack",
-        reference: "PHB, pg. 368.",
+        reference: "PHB'24, pg. 368.",
         bullets: [
             "You can choose one of your skill or tool proficiencies and one ally who is near enough for you to assist verbally or physically when they make an ability check. That ally has Advantage on the next ability check they make with the chosen skill or tool.",
             "Alternatively, you can choose to distract an enemy within 5 feet of you, giving Advantage to the next attack roll against that enemy.",
@@ -119,7 +119,7 @@ data_action = [
         icon: "snatch",
         subtitle: "Interact, use special abilities",
         description: "Interact with an object or use special object abilities",
-        reference: "PHB, pg. 377.",
+        reference: "PHB'24, pg. 377.",
         bullets: [
             "You normally interact with an object while doing something else, such as when you draw a sword as part of the attack action.",
             "When an object requires an action for its use, you take the <i>Utilize</i> action."
@@ -131,7 +131,7 @@ data_action = [
         icon: "round-shield",
         subtitle: "Equip or unequip a shield",
         description: "Equip or unequip a shield",
-        reference: "PHB, pgs. .",
+        reference: "PHB'24, pgs. .",
         bullets: [
             "Shields require the <i>Utilize</i> action to Don or Doff.",
             "Armor takes several minutes to equip or unequip.",
@@ -144,7 +144,7 @@ data_action = [
         icon: "hood",
         subtitle: "Try to conceal yourself",
         description: "Try to conceal yourself",
-        reference: "PHB, pg. 368.",
+        reference: "PHB'24, pg. 368.",
         bullets: [
             "You must succeed on a DC 15 Dexterity (Stealth) check while you're Heavily Obscured or behind at least Three-Quarters Cover and must be out of any enemy's line of sight.",
             "If you can see a creature, you can discern whether it can see you.",
@@ -158,7 +158,7 @@ data_action = [
         icon: "magnifying-glass",
         subtitle: "Urge a monster to do something.",
         description: "Urge a monster to do something.",
-        reference: "PHB, pg. 369.",
+        reference: "PHB'24, pg. 369.",
         bullets: [
             "Describe or roleplay how you're communication with the creature. Trying to deceive, intimidate, amuse or persuade?",
             "Your DM determines if an ability check is necessary."
@@ -170,7 +170,7 @@ data_action = [
         icon: "magnifying-glass",
         subtitle: "Discern something, that isn't obvious.",
         description: "Discern something, that isn't obvious.",
-        reference: "PHB, pg. 373.",
+        reference: "PHB'24, pg. 373.",
         bullets: [
             "You make a Wisdom check to discern something that isn't obvious.",
             "E.g. Creature's state of mind = Insight, Creature's ailment or cause of death = Medicine, Concealed creature or object = Perception, Tracks or Food = Survival",
@@ -183,7 +183,7 @@ data_action = [
         icon: "magnifying-glass",
         subtitle: "Study your memory, a book or a clue.",
         description: "Study your memory, a book or a clue.",
-        reference: "PHB, pg. 375.",
+        reference: "PHB'24, pg. 375.",
         bullets: [
             "You make an intelligence check to study a source of knowledge and call to mind an important piece of information about it."
         ]
@@ -194,7 +194,7 @@ data_action = [
         icon: "stopwatch",
         subtitle: "Wait for a particular circumstance.",
         description: "Choose a trigger and a response reaction",
-        reference: "PHB, pg. 372.",
+        reference: "PHB'24, pg. 372.",
         bullets: [
             "You take the <i>Ready</i> action on your turn, which lets you act by taking a Reaction before the start of your next turn.",
             "Decide, what perceivable circumstance will trigger your Reaction.",
@@ -220,7 +220,7 @@ data_action = [
         icon: "first-aid",
         subtitle: "Stabilize a dying creature.",
         description: "Stop a dying creature from needing to make death saving throws",
-        reference: "PHB, pg. 29.",
+        reference: "PHB'24, pg. 29.",
         bullets: [
             "Make a Wisdom (Medicine) check with DC 10.",
             "On a success, the creature is stable and no longer needs to make death saving throws even though it has 0 Hit Points.",
@@ -234,7 +234,7 @@ data_action = [
         icon: "juggler",
         subtitle: "Any action not on this list",
         description: "Perform any action you can imagine",
-        reference: "PHB, pg. 15.",
+        reference: "PHB'24, pg. 15.",
         bullets: [
             "When you describe an action not detailed elsewhere in the rules, the DM tells you whether that action is possible and what kind of roll you need to make, if any, to determine success or failure."
         ]

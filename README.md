@@ -41,8 +41,12 @@ short summaries, expanded explanations and source references.
 
 ## Using the reference
 
-- **Choose an edition.** The D&D 2014 / D&D 2024 button switches rulesets and
+- **Choose an edition.** The D&D 5e / D&D 5.5e button switches between the 2014
+  and 2024 rulesets respectively; its tooltip includes the edition year. It
   reloads the page with the selected data. The initial default is 2014.
+  A short fade and status message make the change visible; reduced-motion
+  preferences disable the animation and its added delay.
+  Sections and cards also fade in when the page first loads or is refreshed.
 - **Jump to a section.** The sticky navigation stays available while scrolling.
   Selecting a section opens it if it was collapsed. The up arrow returns to
   the top and clears the section fragment from the address.
@@ -51,6 +55,8 @@ short summaries, expanded explanations and source references.
   closes all its open cards; it is disabled when none are open.
 - **Switch the theme.** Use the sun/moon button beside the edition selector.
   On your first visit, the appearance follows your system theme.
+  Colors transition smoothly without hiding text; reduced-motion preferences
+  make theme changes immediate.
 - **Include extra rules.** Settings provides separate switches for optional
   official rules (`*`) and homebrew rules (`**`), both hidden by default.
   Currently, these extra entries are present in the 2014 dataset; all entries

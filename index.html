@@ -5,6 +5,13 @@
     <meta charset="utf-8" />
     <meta name=viewport content="width=device-width, initial-scale=1">
     <title>D&D 5e quick reference</title>
+    <style>
+        .rules-loading .section-container,
+        .rules-loading .category-nav > a { visibility: hidden; }
+    </style>
+    <script>
+        document.documentElement.classList.add('rules-loading');
+    </script>
     <!-- CSS -->
     <link rel="stylesheet" type="text/css" href="css/quickref.css">
     <link rel="stylesheet" type="text/css" href="css/icons.css">
@@ -69,14 +76,24 @@
         </header>
         <div class="top-menu">
             <nav class="menu-group category-nav" aria-label="Rule navigation">
-                <button type="button" class="menu-control" id="back-to-top" aria-label="Back to top" title="Back to top">
+                <a href="#section-movement" aria-label="Movement"><span class="menu-icon" aria-hidden="true"></span></a>
+                <a href="#section-action" aria-label="Action"><span class="menu-icon" aria-hidden="true"></span></a>
+                <a href="#section-bonus-action" aria-label="Bonus action"><span class="menu-icon" aria-hidden="true"></span></a>
+                <a href="#section-reaction" aria-label="Reaction"><span class="menu-icon" aria-hidden="true"></span></a>
+                <a href="#section-condition" aria-label="Conditions"><span class="menu-icon" aria-hidden="true"></span></a>
+                <a href="#section-environment" aria-label="Environmental effects"><span class="menu-icon" aria-hidden="true"></span></a>
+                <button type="button" class="menu-control" id="back-to-top" aria-label="Jump to top" title="Jump to top">
                     <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
                         <path d="M12 19V5M5 12l7-7 7 7"/>
                     </svg>
                 </button>
             </nav>
             <div class="menu-group preferences-menu" role="group" aria-label="Ruleset, theme and settings">
-                <button type="button" class="menu-control ruleset-trigger" id="ruleset-trigger"></button>
+                <button type="button" class="menu-control ruleset-trigger" id="ruleset-trigger">D&D 5e</button>
+                <script>
+                    document.getElementById('ruleset-trigger').textContent =
+                        localStorage.getItem('rules2024') === 'true' ? 'D&D 5.5e' : 'D&D 5e';
+                </script>
                 <button type="button" class="menu-control theme-trigger" id="theme-trigger" aria-label="Switch to dark mode">
                     <svg class="theme-moon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
                         <path d="M20.9 13A9 9 0 0 1 11 3.1 9 9 0 1 0 20.9 13Z"/>
@@ -288,7 +305,7 @@
         <button type="button" id="accept-cookies">Accept</button>
     </div>
     <!-- Main quickref JavaScript logic: handles dynamic content, toggles, and filtering -->
-    <script type="text/javascript" src="js/quickref.js" charset="utf-8"></script>
+    <script type="text/javascript" src="js/quickref.js" charset="utf-8" onerror="document.documentElement.classList.remove('rules-loading'); console.error('Quick reference application could not be loaded.');"></script>
 
 </body>
 

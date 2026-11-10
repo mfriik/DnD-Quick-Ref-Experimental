@@ -19,14 +19,102 @@ const dataReady = Promise.all(ruleFiles.map(function(base) {
 let itemSequence = 0;
 let domainModalReturnFocus = null;
 const systemTheme = window.matchMedia('(prefers-color-scheme: dark)');
+const rulesetTransitionKey = 'rulesetTransition';
+const pendingRuleset = sessionStorage.getItem(rulesetTransitionKey);
+const restoringRuleset = pendingRuleset !== null && pendingRuleset === localStorage.getItem('rules2024');
+const restoreRulesetFocus = sessionStorage.getItem('rulesetKeyboardFocus') === 'true';
+const rulesetStatus = document.createElement('div');
+rulesetStatus.className = 'ruleset-status';
+rulesetStatus.setAttribute('role', 'status');
+rulesetStatus.setAttribute('aria-live', 'polite');
+rulesetStatus.hidden = true;
+document.body.appendChild(rulesetStatus);
+document.body.classList.add('ruleset-entering');
+document.getElementById('main-content').setAttribute('aria-busy', 'true');
 
-function setExpanded(button, content, expanded) {
+function finishRulesetTransition(error) {
+    sessionStorage.removeItem(rulesetTransitionKey);
+    sessionStorage.removeItem('rulesetKeyboardFocus');
+    document.body.classList.remove('ruleset-entering');
+    document.getElementById('main-content').removeAttribute('aria-busy');
+    if (restoringRuleset) {
+        rulesetStatus.hidden = false;
+        rulesetStatus.textContent = error ? 'Could not switch rulesets. Please reload to try again.'
+            : 'Now showing ' + document.getElementById('ruleset-trigger').textContent +
+                (localStorage.getItem('rules2024') === 'true' ? ' (2024)' : ' (2014)') + ' rules.';
+        if (restoreRulesetFocus && !document.getElementById('domain-change-modal').open) {
+            document.getElementById('ruleset-trigger').focus({preventScroll: true});
+        }
+    }
+    if (!error) {
+        document.body.classList.add('ruleset-arriving');
+        setTimeout(function() {
+            document.body.classList.remove('ruleset-arriving');
+            rulesetStatus.hidden = true;
+        }, 3000);
+    }
+    document.documentElement.classList.remove('rules-loading');
+}
+
+const expansionAnimations = new WeakMap();
+
+function setExpanded(button, content, expanded, animate = false) {
+    const height = content.hidden ? 0 : content.getBoundingClientRect().height;
+    const currentStyles = getComputedStyle(content);
+    const startFrame = {
+        height: height + 'px', overflow: 'hidden', minHeight: '0',
+        paddingTop: height === 0 ? '0px' : currentStyles.paddingTop,
+        paddingBottom: height === 0 ? '0px' : currentStyles.paddingBottom,
+        borderTopWidth: height === 0 ? '0px' : currentStyles.borderTopWidth,
+        borderBottomWidth: height === 0 ? '0px' : currentStyles.borderBottomWidth
+    };
+    const previousAnimation = expansionAnimations.get(content);
+    if (previousAnimation) {
+        previousAnimation.cancel();
+        expansionAnimations.delete(content);
+    }
     if (!expanded && content.contains(document.activeElement)) {
         button.focus();
     }
     button.setAttribute('aria-expanded', String(expanded));
-    content.hidden = !expanded;
     content.classList.toggle('collapsed', !expanded);
+    content.inert = !expanded;
+    const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+    if (!animate || reducedMotion.matches) {
+        content.hidden = !expanded;
+        return;
+    }
+    content.hidden = false;
+    const targetHeight = expanded ? content.getBoundingClientRect().height : 0;
+    const styles = getComputedStyle(content);
+    const openFrame = {
+        overflow: 'hidden', minHeight: '0',
+        paddingTop: styles.paddingTop, paddingBottom: styles.paddingBottom,
+        borderTopWidth: styles.borderTopWidth, borderBottomWidth: styles.borderBottomWidth
+    };
+    const closedFrame = {
+        overflow: 'hidden', minHeight: '0',
+        paddingTop: '0', paddingBottom: '0', borderTopWidth: '0', borderBottomWidth: '0'
+    };
+    const animation = content.animate([
+        startFrame,
+        {...(expanded ? openFrame : closedFrame), height: targetHeight + 'px'}
+    ], {duration: 220, easing: 'cubic-bezier(0.25, 0.1, 0.25, 1)', fill: 'both'});
+    expansionAnimations.set(content, animation);
+    function finish() {
+        content.hidden = !expanded;
+        expansionAnimations.delete(content);
+        reducedMotion.removeEventListener('change', motionChanged);
+        animation.cancel();
+    }
+    function motionChanged(event) {
+        if (event.matches) animation.finish();
+    }
+    animation.onfinish = finish;
+    animation.oncancel = function() {
+        reducedMotion.removeEventListener('change', motionChanged);
+    };
+    reducedMotion.addEventListener('change', motionChanged);
 }
 
 function add_quickref_item(parent, data, type) {
@@ -90,7 +178,7 @@ function add_quickref_item(parent, data, type) {
     }
 
     button.addEventListener('click', function() {
-        setExpanded(button, content, content.hidden);
+        setExpanded(button, content, button.getAttribute('aria-expanded') !== 'true', true);
         updateCollapseAllButtonState(item.closest('.section-container'));
     });
     item.append(heading, content);
@@ -114,6 +202,7 @@ function init() {
     fill_section(data_environment_vision, 'environment-vision', 'Environment');
     fill_section(data_environment_cover, 'environment-cover', 'Environment');
     handleRulesToggle();
+    finishRulesetTransition(false);
 }
 
 function updateCollapseAllButtonState(section) {
@@ -138,7 +227,7 @@ function initCollapsibleSections() {
         const text = title.querySelector('.section-title-text');
         const name = text.firstChild.textContent.trim();
         if (section.id !== 'section-settings') {
-            const link = document.createElement('a');
+            const link = navigation.querySelector('a[href="#' + section.id + '"]') || document.createElement('a');
             link.href = '#' + section.id;
             const label = section.id === 'section-environment' ? 'Environmental effects'
                 : section.id === 'section-condition' ? 'Conditions' : name;
@@ -151,7 +240,7 @@ function initCollapsibleSections() {
                 icon.setAttribute('aria-hidden', 'true');
                 const iconUrl = new URL('img/' + iconName + '.png', document.baseURI);
                 icon.style.setProperty('--icon-image', 'url("' + iconUrl.href + '")');
-                link.appendChild(icon);
+                link.replaceChildren(icon);
             } else {
                 link.textContent = name;
             }
@@ -191,7 +280,7 @@ function initCollapsibleSections() {
             title.appendChild(collapseAll);
             collapseAll.addEventListener('click', function() {
                 section.querySelectorAll('.item-header[aria-expanded="true"]').forEach(function(button) {
-                    setExpanded(button, document.getElementById(button.getAttribute('aria-controls')), false);
+                    setExpanded(button, document.getElementById(button.getAttribute('aria-controls')), false, true);
                 });
                 updateCollapseAllButtonState(section);
             });
@@ -205,8 +294,9 @@ function initCollapsibleSections() {
         }
         setExpanded(toggle, content, localStorage.getItem(section.id + '-collapsed') !== 'true');
         toggle.addEventListener('click', function() {
-            setExpanded(toggle, content, content.hidden);
-            localStorage.setItem(section.id + '-collapsed', String(content.hidden));
+            const expanded = toggle.getAttribute('aria-expanded') !== 'true';
+            setExpanded(toggle, content, expanded, true);
+            localStorage.setItem(section.id + '-collapsed', String(!expanded));
         });
     });
     const topMenu = navigation.closest('.top-menu');
@@ -249,7 +339,19 @@ function handleRulesToggle() {
     document.querySelectorAll('.section-container').forEach(updateCollapseAllButtonState);
 }
 
-function applyTheme(dark) {
+let themeTransitionTimer;
+
+function applyTheme(dark, animate = false) {
+    clearTimeout(themeTransitionTimer);
+    const root = document.documentElement;
+    const transitioning = animate && !window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    root.classList.toggle('theme-transitioning', transitioning);
+    if (transitioning) {
+        getComputedStyle(document.body).backgroundColor;
+        themeTransitionTimer = setTimeout(function() {
+            root.classList.remove('theme-transitioning');
+        }, 500);
+    }
     document.documentElement.classList.toggle('dark-mode-active', dark);
     document.getElementById('theme-trigger').setAttribute('aria-label',
         dark ? 'Switch to light mode' : 'Switch to dark mode');
@@ -335,23 +437,42 @@ function initSettings() {
     document.getElementById('theme-trigger').addEventListener('click', function() {
         const dark = !document.documentElement.classList.contains('dark-mode-active');
         localStorage.setItem('darkmode', String(dark));
-        applyTheme(dark);
+        applyTheme(dark, true);
     });
     systemTheme.addEventListener('change', function(event) {
-        if (localStorage.getItem('darkmode') === null) applyTheme(event.matches);
+        if (localStorage.getItem('darkmode') === null) applyTheme(event.matches, true);
     });
     updateRulesToggleLabel();
-    document.getElementById('ruleset-trigger').addEventListener('click', function() {
-        localStorage.setItem('rules2024', String(localStorage.getItem('rules2024') !== 'true'));
-        location.reload();
+    document.getElementById('ruleset-trigger').addEventListener('click', function(event) {
+        const button = document.getElementById('ruleset-trigger');
+        if (button.getAttribute('aria-disabled') === 'true') return;
+        sessionStorage.setItem('rulesetKeyboardFocus', String(event.detail === 0));
+        const next2024 = localStorage.getItem('rules2024') !== 'true';
+        button.setAttribute('aria-disabled', 'true');
+        rulesetStatus.textContent = next2024 ? 'Switching to D&D 5.5e (2024)...' : 'Switching to D&D 5e (2014)...';
+        rulesetStatus.hidden = false;
+        const main = document.getElementById('main-content');
+        main.setAttribute('aria-busy', 'true');
+        main.inert = true;
+        document.body.classList.remove('ruleset-arriving');
+        document.body.classList.add('ruleset-leaving');
+        localStorage.setItem('rules2024', String(next2024));
+        sessionStorage.setItem(rulesetTransitionKey, String(next2024));
+        setTimeout(function() {
+            location.reload();
+        }, window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 0 : 200);
     });
 }
 
 function updateRulesToggleLabel() {
     const current2024 = localStorage.getItem('rules2024') === 'true';
     const button = document.getElementById('ruleset-trigger');
-    button.textContent = current2024 ? 'D&D 2024' : 'D&D 2014';
-    const label = 'Current ruleset: ' + button.textContent + '. Switch to D&D ' + (current2024 ? '2014' : '2024') + ' rules.';
+    button.textContent = current2024 ? 'D&D 5.5e' : 'D&D 5e';
+    const current = 'Current ruleset: ' + button.textContent + (current2024 ? ' (2024).' : ' (2014).');
+    const action = 'Click to switch to ' + (current2024 ? 'D&D 5e (2014)' : 'D&D 5.5e (2024)') + ' rules.';
+    button.dataset.tooltipHeading = current;
+    button.dataset.tooltip = action;
+    const label = current + ' ' + action;
     button.setAttribute('aria-label', label);
     button.title = label;
 }
@@ -379,6 +500,11 @@ function initMenuTooltips() {
         const label = control.getAttribute('aria-label');
         tooltip.textContent = control.dataset.tooltip ||
             (control.matches('.category-nav > a') ? 'Jump to ' + label : label);
+        if (control.dataset.tooltipHeading) {
+            const heading = document.createElement('strong');
+            heading.textContent = control.dataset.tooltipHeading;
+            tooltip.prepend(heading, document.createElement('br'));
+        }
         tooltip.hidden = false;
         control.setAttribute('aria-describedby', tooltip.id);
         const rect = control.getBoundingClientRect();
@@ -501,6 +627,7 @@ dataReady.then(function() {
     }
 }).catch(function(error) {
     console.error('Quick reference data failed to load:', error);
+    finishRulesetTransition(true);
     const message = document.createElement('p');
     message.className = 'load-error';
     message.setAttribute('role', 'alert');

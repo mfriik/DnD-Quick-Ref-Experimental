@@ -5,7 +5,7 @@ data_movement = [
         icon: "run",
         subtitle: "Cost: 5ft per 5ft",
         description: "Movement cost: 5ft per 5ft moved",
-        reference: "PHB, pg. 24-25, 374.",
+        reference: "PHB'24, pg. 24-25, 374.",
         bullets: [
             "If you have more than one speed, such as your walking speed and a flying speed, you can switch back and forth between your speeds during your move. Whenever you switch, subtract the distance you've already moved from the new speed.",
             "You can move through the space of an ally, a creature that has the <i>Incapacitated</i> condition, a Tiny creature or a creature that is two sizes larger or smaller than you.",
@@ -19,7 +19,7 @@ data_movement = [
         icon: "crags",
         subtitle: "Cost: +5ft per 5ft",
         description: "Movement cost: each foot of movement costs 1 extra foot",
-        reference: "PHB, pg. 363.",
+        reference: "PHB'24, pg. 363.",
         bullets: [
             "Each foot of movement costs 1 extra foot of movement while climbing. If you have a climb speed, you ignore this extra cost.",
             "May involve a Strength (Athletics) check if the climb is difficult."
@@ -31,7 +31,7 @@ data_movement = [
         icon: "at-sea",
         subtitle: "Cost: +5ft per 5ft",
         description: "Movement cost: each foot of movement costs 1 extra foot",
-        reference: "PHB, pg. 376.",
+        reference: "PHB'24, pg. 376.",
         bullets: [
             "Each foot of movement costs 1 extra foot of movement while swimming. If you have a swim speed, you ignore this extra cost.",
             "May involve a Strength (Athletics) check if you're swimming in rough waters."
@@ -43,7 +43,7 @@ data_movement = [
         icon: "angel-wings",
         subtitle: "Cost: 5ft per 5ft",
         description: "Movement cost: 5ft per 5ft flown",
-        reference: "PHB, pg. 367.",
+        reference: "PHB'24, pg. 367.",
         bullets: [
             "While you have a fly speed, you can stay aloft until you land, fall or die.",
             "While flying, you fall if you have the <i>Incapacitated</i> or <i>Prone</i> condition or your fly speed is reduced to 0.",
@@ -56,7 +56,7 @@ data_movement = [
         icon: "falling",
         subtitle: "Cost: 0ft",
         description: "Movement cost: 0ft (free)",
-        reference: "PHB, pgs. 25, 372.",
+        reference: "PHB'24, pgs. 25, 372.",
         bullets: [
             "You can drop prone without using any of your speed.",
             "To move while prone, you must crawl or use magic such as teleportation",
@@ -69,7 +69,7 @@ data_movement = [
         icon: "crawl",
         subtitle: "Cost: +5ft per 5ft",
         description: "Movement cost: each foot of movement costs 1 extra foot",
-        reference: "PHB, pg. 364.",
+        reference: "PHB'24, pg. 364.",
         bullets: [
             "Each foot of movement costs 1 extra foot of movement while crawling."
         ]
@@ -80,7 +80,7 @@ data_movement = [
         icon: "strong",
         subtitle: "Cost: half movement speed",
         description: "Movement cost: half of your speed, rounded down.",
-        reference: "PHB, pg. 372.",
+        reference: "PHB'24, pg. 372.",
         bullets: [
             "You can't stand up if you don't have enough movement left or if your speed is 0"
         ]
@@ -91,7 +91,7 @@ data_movement = [
         icon: "wingfoot",
         subtitle: "Cost: 5ft",
         description: "Movement cost: 5ft per 5ft jumped",
-        reference: "PHB, pg. 368.",
+        reference: "PHB'24, pg. 368.",
         bullets: [
             "You leap into the air a number of feet equal to <b>3 + your Strength modifier</b> if you move at least 10 feet on foot immediately before the jump.",
             "When you make a standing high jump, you can jump only half that distance.",
@@ -105,7 +105,7 @@ data_movement = [
         icon: "wingfoot",
         subtitle: "Cost: 5ft per 5ft",
         description: "Movement cost: 5ft per 5ft jumped",
-        reference: "PHB, pg. 370.",
+        reference: "PHB'24, pg. 370.",
         bullets: [
             "You cover a number of feet up to your <b>Strength score</b> if you move at least 10 feet on foot immediately before the jump.",
             "When you make a standing long jump, you can leap only half that distance",
@@ -128,7 +128,7 @@ data_movement = [
         optional: "Standard rule",
         icon: "stone-pile",
         subtitle: "Cost modifier: +5ft per 5ft",
-        reference: "PHB, pg. 25, 366.",
+        reference: "PHB'24, pg. 25, 366.",
         description: "Moving in difficult terrain costs an additional 5ft per 5ft of movement",
         bullets: [
             "Every foot of movement costs 1 extra foot.",
@@ -141,7 +141,7 @@ data_movement = [
         icon: "grab",
         subtitle: "Cost: +5ft per 5ft",
         description: "Drag or carry the grappled creature with you",
-        reference: "PHB, pg. 367.",
+        reference: "PHB'24, pg. 367.",
         bullets: [
             "If you move while grappling another creature, every foot of movement costs 1 extra foot unless the grappled creature is Tiny or you are two or more sizes larger than it."
         ]
@@ -152,7 +152,7 @@ data_movement = [
         icon: "run",
         subtitle: "Traveling outside of combat",
         description: "Travel Pace for Fast, Normal and Slow Travel outside of combat.",
-        reference: "PHB, pg. 20",
+        reference: "PHB'24, pg. 20",
         bullets: [
             "Establish a marching order while you travel.",
             "<table><tr><th style='text-align:left'>Pace</th><th></th><th></th><th>Minute</th><th></th><th></th><th>Hour</th><th></th><th></th><th>Day</th></tr><tr><td>Fast</td><td></td><td></td><td>400 feet</td><td></td><td></td><td>4 miles</td><td></td><td></td><td>30 miles</td></tr><tr><td>Normal</td><td></td><td></td><td>300 feet</td><td></td><td></td><td>3 miles</td><td></td><td></td><td>24 miles</td></tr><tr><td>Slow</td><td></td><td></td><td>200 feet</td><td></td><td></td><td>2 miles</td><td></td><td></td><td>18 miles</td></tr></table>",
