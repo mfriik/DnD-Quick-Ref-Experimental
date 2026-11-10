@@ -37,6 +37,20 @@ data_reaction = [
         ]
     },
     {
+        title: "Intercept Attack",
+        optional: "Homebrew rule",
+        icon: "shield-reflect",
+        subtitle: "Take a Hit for an Ally",
+        description: "Throw Yourself in the Path of an Attack Directed at an Adjacent Ally.",
+        reference: "Popular 5e Homebrew",
+        bullets: [
+            "When a creature you can see attacks a target other than you that is within 5 feet of you, you can use your reaction to intercept the attack.",
+            "You become the target of the attack instead.",
+            "The attacker's roll is compared against your Armor Class. If the attack hits, you take the damage and any associated effects.",
+            "You cannot use this reaction if you have the Incapacitated or Restrained conditions."
+        ]
+    },
+    {
         title: "Grapple",
         optional: "Homebrew rule",
         icon: "grab",
@@ -49,5 +63,5 @@ data_reaction = [
             "Using at least one free hand, you try to seize the target by making a grapple check, a Strength (Athletics) check contested by the target's Strength (Athletics) or Dexterity (Acrobatics) check (the target chooses the ability to use).",
             "If you succeed, you subject the target to the grappled condition (its speed is set to 0)."
         ]
-    },    
+    }
 ]

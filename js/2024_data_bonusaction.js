@@ -47,5 +47,17 @@ data_bonusaction = [
             "Once used, a potion takes effect immediately, and it is used up."
         ],
     },
-    
+    {
+        title: "Switch Mastery",
+        optional: "Homebrew rule",
+        icon: "mixed-swords",
+        subtitle: "Change Active Weapon Mastery",
+        description: "Dynamically Change the Active Mastery Property of Your Held Weapon.",
+        reference: "Popular 5.5e Homebrew",
+        bullets: [
+            "If you have the Weapon Mastery feature and know multiple mastery properties, you can use a Bonus Action to switch the active property on a weapon you are currently holding.",
+            "The weapon must be eligible for the new mastery property (e.g., you cannot apply 'Cleave' to a weapon without the 'Heavy' property unless a specific class feature allows it).",
+            "This eliminates the need to constantly swap different weapons just to utilize different tactical effects during combat."
+        ]
+    }
 ]

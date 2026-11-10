@@ -34,5 +34,18 @@ data_reaction = [
             "Trigger: specified by the spell.",
             "For further details, see the <i>Cast a spell</i> action."
         ]
+    },
+    {
+        title: "Duck and Cover",
+        optional: "Homebrew rule",
+        icon: "arrows-shield",
+        subtitle: "Drop Prone to Avoid Damage",
+        description: "Drop Prone as a Reaction to Gain Advantage on a Dexterity Saving Throw.",
+        reference: "Popular 5.5e Homebrew",
+        bullets: [
+            "When you are subjected to an effect that allows a Dexterity saving throw, you can use your Reaction to immediately drop Prone.",
+            "You gain Advantage on the Dexterity saving throw against that specific effect.",
+            "You must be standing and not Restrained, Grappled, or Incapacitated to use this reaction."
+        ]
     }
 ]

@@ -216,5 +216,32 @@ data_condition = [
             "You can be stabilized by an ally taking the Help (Stabilize) action and succeeding on a DC 10 Wisdom (Medicine) check.",
             "Once stable, you are at 0 HP, still unconcious, but no longer dying. you regain 1 hit point after 1d4 hours if not healed."
         ]
+    },
+    {
+        title: "Dazed",
+        optional: "Homebrew rule",
+        icon: "pummeled",
+        subtitle: "Limited Action Economy",
+        description: "You Can Move or Take One Action on Your Turn, Not Both. You Cannot Take Bonus Actions or Reactions.",
+        reference: "One D&D Playtest / Homebrew",
+        bullets: [
+            "You can move or take one Action on your turn, not both.",
+            "You cannot take a Bonus Action or a Reaction.",
+            "This condition is commonly applied by homebrew monsters and environmental hazards as a less punishing alternative to the Stunned condition, allowing the player to still participate in combat."
+        ]
+    },
+    {
+        title: "Flanked",
+        optional: "Homebrew rule",
+        icon: "target-arrows",
+        subtitle: "Flankers Gain +2 to Hit",
+        description: "Enemies Flanking You Gain +2 to Melee Attack Rolls Against You.",
+        reference: "3.5e-Inspired Homebrew for D&D 5.5e",
+        bullets: [
+            "You are flanked when at least two enemies allied with each other are adjacent to you and on opposite sides or corners of your space.",
+            "A creature can't flank you if it has the Incapacitated condition.",
+            "Flanking grants each flanking creature a flat +2 bonus to melee attack rolls against you, rather than Advantage.",
+            "This ensures that Weapon Mastery properties (such as Vex) and standard Advantage sources remain mechanically relevant and stack cleanly with tactical positioning."
+        ]
     }
 ]

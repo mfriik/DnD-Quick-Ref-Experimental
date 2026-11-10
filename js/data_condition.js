@@ -228,5 +228,33 @@ data_condition = [
             "You can also be stabilized by an ally taking the Stabilize action and succeeding on a DC 10 Wisdom (Medicine) check.",
             "Once stable, you regain 1 hit point after 1d4 hours."
         ]
+    },
+    {
+        title: "Bleeding",
+        optional: "Homebrew rule",
+        icon: "open-wound",
+        subtitle: "Taking Damage Over Time",
+        description: "You Are Losing Blood and Taking Necrotic Damage at the Start of Your Turns.",
+        reference: "Popular 5e Homebrew",
+        bullets: [
+            "At the start of each of your turns, you take 1d4 necrotic damage for each stack of the Bleeding condition you have.",
+            "The damage ignores resistance and immunity.",
+            "The condition ends if you receive magical healing of any kind.",
+            "Alternatively, a creature (including yourself) can use an Action to make a DC 15 Wisdom (Medicine) check, ending the condition on a success."
+        ]
+    },
+    {
+        title: "Flanked",
+        optional: "Homebrew rule",
+        icon: "target-arrows",
+        subtitle: "Flankers Gain +2 to Hit",
+        description: "Enemies Flanking You Gain +2 to Melee Attack Rolls Against You.",
+        reference: "3.5e-Inspired Homebrew for D&D 5e",
+        bullets: [
+            "You are flanked when at least two enemies allied with each other are adjacent to you and on opposite sides or corners of your space.",
+            "A creature can't flank you if it is incapacitated or can't see you.",
+            "Instead of granting advantage, flanking grants each flanking creature a flat +2 bonus to melee attack rolls against you.",
+            "This bonus stacks with advantage, ensuring that tactical positioning remains valuable even when using spells like Faerie Fire or features like Reckless Attack."
+        ]
     }
 ]

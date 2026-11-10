@@ -62,10 +62,17 @@ short summaries, expanded explanations and source references.
   marks optional rules; a gold beer stein marks homebrew rules. These icons
   appear before the card title. Expanded cards retain
   their written rule-type labels.
-  Currently, these extra entries are present in the 2014 dataset; all entries
-  in the 2024 dataset are classified as standard rules.
+  Homebrew entries are available in both editions; optional official entries
+  are currently present in the 2014 dataset.
   The 2014 homebrew entries include Exhaustion (2024), an alternative to the
   original Exhaustion condition, not an additional set of penalties.
+  Other 2014 homebrew entries include Bleeding, Intercept Attack, Take Aim and
+  Throw a Potion.
+  Both editions include Delay and the 3.5e-inspired Flanked condition (+2 to
+  melee attacks against the flanked target). The 2024 homebrew entries also
+  include Switch Mastery, Duck and Cover, and Dazed.
+  Cards show standard rules first, then optional rules, then homebrew.
+  Shove Aside and Exhaustion (2024) stay beside their standard counterparts.
 - **Give feedback or return to the regular site.** Both links are in Settings.
 - **Print what you need.** Open the sections and cards you want, then use your
   browser's Print or Save as PDF option. Print styling removes navigation and

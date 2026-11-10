@@ -238,5 +238,19 @@ data_action = [
         bullets: [
             "When you describe an action not detailed elsewhere in the rules, the DM tells you whether that action is possible and what kind of roll you need to make, if any, to determine success or failure."
         ]
+    },
+    {
+        title: "Delay",
+        optional: "Homebrew rule",
+        icon: "hourglass",
+        subtitle: "Change Initiative Order",
+        description: "Delay Your Turn to Act Later in the Initiative Order.",
+        reference: "Popular 5.5e Homebrew",
+        bullets: [
+            "Instead of taking your turn, you can choose to Delay. Your initiative permanently changes to a lower number of your choice for the rest of the combat.",
+            "You cannot interrupt another creature's turn; you must act immediately after it finishes.",
+            "If you do not take your turn before the round ends, you lose your turn for that round.",
+            "Effects that end at the 'end of your turn' persist until you actually take your delayed turn, preventing players from exploiting Delay to shed negative conditions early."
+        ]
     }
 ]

@@ -50,7 +50,6 @@ data_action = [
         description: "Shove a Creature, Either to Knock It Prone or Push It Aside From You",
         reference: "PHB'14, pg. 195. / DMG, page 272",
         bullets: [
-            "(Optional Rule):",
             "With this option, a creature uses the special shove attack to force a target to the side.",
             "The attacker has disadvantage on its Strength (Athletics) check when it does so.",
             "If that check is successful, the attacker moves the target 5 feet to a different space within its reach."
@@ -235,7 +234,6 @@ data_action = [
         description: "A Creature Can Use a Weapon Attack to Knock a Weapon or Another Item From a Target's Grasp.",
         reference: "DMG, page 271",
         bullets: [
-            "(Optional Rule):",
             "The attacker makes an attack roll contested by the target's Strength (Athletics) check or Dexterity (Acrobatics) check.",
             "If the attacker wins the contest, the attack causes no damage or other ill effect, but the defender drops the item.",
             "The attacker has disadvantage on its attack roll if the target is holding the item with two or more hands.",
@@ -251,7 +249,6 @@ data_action = [
         description: "When a Creature Tries to Move Through a Hostile Creature's Space, the Mover Can Try to Force Its Way Through by Overrunning the Hostile Creature.",
         reference: "DMG, page 272",
         bullets: [
-            "(Optional Rule):",
             "As an action, the mover makes a Strength (Athletics) check contested by the hostile creature's Strength (Athletics) check.",
             "The creature attempting the overrun has advantage on this check if it is larger than the hostile creature, or disadvantage if it is smaller.",
             "If the mover wins the contest, it can move through the hostile creature's space once this turn."
@@ -265,7 +262,6 @@ data_action = [
         description: "A Creature Can Try to Tumble Through a Hostile Creature's Space, Ducking and Weaving Past the Opponent.",
         reference: "DMG, page 272",
         bullets: [
-            "(Optional Rule):",
             "As an action, the tumbler makes a Dexterity (Acrobatics) check contested by the hostile creature's Dexterity (Acrobatics) check.",
             "If the tumbler wins the contest, it can move through the hostile creature's space once this turn."
         ]
@@ -278,7 +274,6 @@ data_action = [
         description: "This Option Makes It Easier for Melee Combatants to Harry Each Other with Opportunity Attacks.",
         reference: "DMG, page 271",
         bullets: [
-            "(Optional Rule):",
             "When a creature makes a melee attack, it can also mark its target.",
             "Until the end of the attacker's next turn, any opportunity attack it makes against the marked target has advantage.",
             "The opportunity attack doesn't expend the attacker's reaction",
@@ -294,10 +289,37 @@ data_action = [
         description: "If One Creature Wants to Jump Onto Another Creature, It Can Do so by Grappling. A Suitably Large Opponent Can Be Treated as Terrain for the Purpose of Jumping Onto Its Back or Clinging to a Limb.",
         reference: "DMG, page 271",
         bullets: [
-            "(Optional Rule):",
             "After making any ability checks necessary to get into position and onto the larger creature, the smaller creature uses its action to make a Strength (Athletics) or Dexterity (Acrobatics) check contested by the target's Dexterity (Acrobatics) check.",
             "If it wins the contest, the smaller creature successfully moves into the target creature's space.",
             "The smaller creature moves with the target and has advantage on attack rolls against it.",
+        ]
+    },
+    {
+        title: "Throw a Potion",
+        optional: "Homebrew rule",
+        icon: "shattered-glass",
+        subtitle: "Ranged Improvised Attack",
+        description: "Throw a Potion to a Willing Creature to Apply Its Effects at a Distance.",
+        reference: "Popular 5e Homebrew",
+        bullets: [
+            "You can use an Action to throw a potion at a willing creature or a specific 5-foot square within 20 feet of you.",
+            "Make a ranged attack roll (Improvised Weapon) against AC 10.",
+            "On a hit, the potion shatters and the creature in the targeted space receives the potion's full effect (e.g., healing rolled as normal).",
+            "On a miss, the potion shatters on the ground in an adjacent unoccupied space and its magic is wasted."
+        ]
+    },
+    {
+        title: "Delay",
+        optional: "Homebrew rule",
+        icon: "hourglass",
+        subtitle: "Change Initiative Order",
+        description: "Delay Your Turn to Act Later in the Initiative Order.",
+        reference: "Popular 5e Homebrew",
+        bullets: [
+            "Instead of taking your turn, you can choose to delay. Your initiative permanently changes to a lower number of your choice for the rest of the combat.",
+            "You cannot interrupt another creature's turn; you must act immediately after it finishes.",
+            "If you do not take your turn before the round ends, you lose your turn for that round.",
+            "Effects that end at the 'end of your turn' persist until you actually take your delayed turn, preventing players from exploiting delay to shed negative conditions early."
         ]
     }
 ]
