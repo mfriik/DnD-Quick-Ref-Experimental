@@ -397,6 +397,21 @@ ul { padding-left: 20px; }
 .settings-item { display: flex; align-items: center; gap: 12px; padding: 14px; min-height: 94px; }
 label.item-text-container { cursor: pointer; }
 .settings-item .item-toggle { flex-shrink: 0; }
+.settings-link-icon {
+    display: grid;
+    place-items: center;
+    flex: 0 0 48px;
+    height: 44px;
+}
+.settings-link-icon::before {
+    content: '';
+    width: 40px;
+    height: 40px;
+    background-color: currentColor;
+    mask: var(--icon-image) center / contain no-repeat;
+}
+#feedback-link-item .settings-link-icon { --icon-image: url('../img/conversation.png'); }
+#dnd-main-site-link-item .settings-link-icon { --icon-image: url('../img/castle.png'); }
 .switch { position: relative; display: inline-flex; align-items: center; width: 48px; height: 44px; }
 .switch input { position: absolute; inset: 0; width: 100%; height: 100%; margin: 0; opacity: 0; cursor: pointer; z-index: 1; }
 .slider { width: 48px; height: 28px; border: 1px solid var(--control-line); border-radius: 20px; background: var(--surface-muted); }
