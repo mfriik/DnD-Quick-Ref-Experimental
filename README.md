@@ -74,6 +74,18 @@ short summaries, expanded explanations and source references.
   Cards show standard rules first, then optional rules, then homebrew.
   Shove Aside and Exhaustion (2024) stay beside their standard counterparts.
 - **Give feedback or return to the regular site.** Both links are in Settings.
+- **Get interface help.** The question-mark button after Settings opens a
+  read-only guide over a dimmed page. Descriptions appear directly below visible
+  controls on larger screens, without a side list. Close help to scroll to other
+  controls, then reopen it; on small screens a scrollable guide covers all topics.
+  Ten separate topics cover navigation, Jump to Top, preferences, ruleset,
+  theme, Settings, sections, cards, Collapse All and rule markers. Repeated
+  controls can be highlighted in a later section when an earlier one has no
+  room for its description.
+  The page underneath is blocked until you close help
+  with X or Escape. While help is open, optional and homebrew cards are shown
+  temporarily so their markers can be explained. Closing help restores your
+  filters and scroll position without changing saved preferences or open cards.
 - **Print what you need.** Open the sections and cards you want, then use your
   browser's Print or Save as PDF option. Print styling removes navigation and
   notices; collapsed or filtered-out content remains hidden.
@@ -99,6 +111,8 @@ browser's developer console on the local preview. Other preferences are preserve
 
 The application is a static HTML, CSS and JavaScript site. It needs no package
 installation, build step or application server.
+The help overlay also runs entirely in the browser and works with static
+GitHub Pages hosting, including repository subpaths; no backend is required.
 
 With Python installed, run this from the repository root:
 

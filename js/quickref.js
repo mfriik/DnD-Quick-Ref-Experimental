@@ -562,6 +562,223 @@ function initMenuTooltips() {
     window.addEventListener('resize', hide);
 }
 
+function initHelp() {
+    const trigger = document.getElementById('help-trigger');
+    const dialog = document.getElementById('help-dialog');
+    const close = document.getElementById('help-close');
+    const body = dialog.querySelector('.help-body');
+    const annotations = dialog.querySelector('.help-annotations');
+    const topics = [
+        {
+            title: 'Section Navigation', target: '.category-nav',
+            text: 'Section icons open a collapsed section, scroll to it and update the address fragment. Navigation stays available while scrolling.'
+        },
+        {
+            title: 'Jump to Top', target: '#back-to-top',
+            text: 'Return to the title and clear the section fragment (#section-...) from the address, keeping the page path and query.'
+        },
+        {
+            title: 'Preferences Menu', target: '.preferences-menu',
+            text: 'Ruleset, theme, Settings and Help are grouped here. The question mark opens this guide without changing your preferences.'
+        },
+        {
+            title: 'Ruleset', target: '#ruleset-trigger',
+            text: 'Switch D&D 5e (2014) / 5.5e (2024). The choice is saved and the page reloads with the other rules. Individual cards start closed.'
+        },
+        {
+            title: 'Light / Dark Mode', target: '#theme-trigger',
+            text: 'Change and save the theme without reloading. On your first visit, appearance follows your system setting.'
+        },
+        {
+            title: 'Settings', target: '#settings-trigger',
+            text: 'Independent, saved switches show optional and homebrew cards. Feedback and main-site links open in new tabs.'
+        },
+        {
+            title: 'Section Chevron', target: '.section-toggle',
+            text: 'Click the chevron or heading to expand or collapse the whole section. This choice is remembered separately from open cards.'
+        },
+        {
+            title: 'Item Card', target: '.item-header',
+            text: 'Click the header or chevron to show or hide details and the source. Hover for a native description tooltip. Open cards reset on reload.'
+        },
+        {
+            title: 'Collapse All Open Cards', target: '.collapse-all-btn',
+            text: 'Close open cards in this section, not the section itself. Enabled only when at least one visible card here is expanded; otherwise dimmed and disabled.'
+        },
+        {
+            title: 'Extra Rule Markers', target: '.rule-marker',
+            text: 'Extra cards have a gold star (optional) or beer stein (homebrew) before the title. Settings controls visibility; expanded cards also show the written type.'
+        }
+    ];
+    const list = document.getElementById('help-topics');
+    topics.forEach(function(topic) {
+        const entry = document.createElement('li');
+        const heading = document.createElement('h3');
+        heading.textContent = topic.title;
+        const text = document.createElement('p');
+        text.textContent = topic.text;
+        entry.append(heading, text);
+        list.appendChild(entry);
+    });
+
+    let frame = 0;
+    let previousPadding;
+    let wasLocked;
+    let previousFilters;
+    let previousScroll;
+    const observer = new ResizeObserver(scheduleLayout);
+    function scheduleLayout() {
+        if (!dialog.open || frame) return;
+        frame = requestAnimationFrame(function() {
+            frame = 0;
+            layoutAnnotations();
+        });
+    }
+    function layoutAnnotations() {
+        annotations.replaceChildren();
+        dialog.classList.remove('help-contextual');
+        if (window.innerWidth < 1000 || window.innerHeight < 560) return;
+        dialog.classList.add('help-contextual');
+        if (document.activeElement === body) close.focus({preventScroll: true});
+        const heading = dialog.querySelector('.help-sheet').getBoundingClientRect();
+        const menuBottom = document.querySelector('.top-menu').getBoundingClientRect().bottom;
+        const occupied = [heading];
+        const menu = document.querySelector('.top-menu').getBoundingClientRect();
+        const highlights = [];
+        function overlaps(a, b) {
+            return a.left < b.right + 4 && a.right + 4 > b.left &&
+                a.top < b.bottom + 4 && a.bottom + 4 > b.top;
+        }
+        topics.forEach(function(topic, index) {
+            const label = document.createElement('div');
+            label.className = 'help-callout';
+            const title = document.createElement('h3');
+            title.textContent = (index + 1) + '. ' + topic.title;
+            const text = document.createElement('p');
+            text.textContent = topic.text;
+            label.append(title, text);
+            annotations.appendChild(label);
+            const width = label.offsetWidth;
+            const height = label.offsetHeight;
+            let placement;
+            const target = Array.from(document.querySelectorAll(topic.target)).find(function(element) {
+                const rect = element.getBoundingClientRect();
+                const visible = element.getClientRects().length && rect.width && rect.height &&
+                    rect.left >= 8 && rect.right <= window.innerWidth - 8 &&
+                    rect.top >= (element.closest('.top-menu') ? 8 : Math.max(8, menuBottom + 8)) &&
+                    rect.bottom + height + 10 <= window.innerHeight - 8;
+                if (!visible || occupied.some(other => overlaps(rect, other))) return false;
+                const offsets = [rect.left, rect.right - width, rect.left - width / 2];
+                placement = offsets.map(function(left) {
+                    left = Math.max(8, Math.min(left, window.innerWidth - width - 8));
+                    return {left, top: rect.bottom + 10, right: left + width, bottom: rect.bottom + 10 + height};
+                }).find(box => !overlaps(box, menu) && !occupied.some(other => overlaps(box, other)) &&
+                    !highlights.some(other => overlaps(box, other)));
+                return !!placement;
+            });
+            if (!target) {
+                if (!document.querySelector(topic.target)?.closest('.top-menu')) {
+                    label.remove();
+                    return;
+                }
+                const element = document.querySelector(topic.target);
+                const rect = element.getBoundingClientRect();
+                const columns = Math.max(1, Math.floor((window.innerWidth - 16) / (width + 8)));
+                const lefts = Array.from({length: columns}, (_, column) => 8 +
+                    column * (window.innerWidth - width - 16) / Math.max(1, columns - 1))
+                    .sort((a, b) => Math.abs(a + width / 2 - (rect.left + rect.width / 2)) -
+                        Math.abs(b + width / 2 - (rect.left + rect.width / 2)));
+                for (let top = menuBottom + 10; top + height <= window.innerHeight - 8 && !placement; top += 16) {
+                    placement = lefts.map(left => ({left, top, right: left + width, bottom: top + height}))
+                        .find(box => !occupied.some(other => overlaps(box, other)) &&
+                            !highlights.some(other => overlaps(box, other)));
+                }
+                if (placement) {
+                    placeLabel(rect);
+                    return;
+                }
+                label.remove();
+                return;
+            }
+            const rect = target.getBoundingClientRect();
+            placeLabel(rect);
+            function placeLabel(rect) {
+                label.style.left = placement.left + 'px';
+                label.style.top = placement.top + 'px';
+                const highlight = document.createElement('div');
+                highlight.className = 'help-highlight';
+                highlight.dataset.helpTopic = String(index + 1);
+                if (topic.target === '.preferences-menu') highlight.classList.add('help-highlight-preferences');
+                Object.assign(highlight.style, {
+                    left: rect.left + 'px', top: rect.top + 'px',
+                    width: rect.width + 'px', height: rect.height + 'px'
+                });
+                const number = document.createElement('span');
+                number.className = 'help-target-number';
+                number.textContent = String(index + 1);
+                highlight.appendChild(number);
+                annotations.appendChild(highlight);
+                occupied.push(placement);
+                highlights.push(rect);
+            }
+        });
+        if (annotations.querySelectorAll('.help-callout').length !== topics.length) {
+            annotations.replaceChildren();
+            dialog.classList.remove('help-contextual');
+        }
+    }
+    trigger.addEventListener('click', function() {
+        if (dialog.open) return;
+        const settings = document.getElementById('settings-panel');
+        settings.hidden = true;
+        document.getElementById('settings-trigger').setAttribute('aria-expanded', 'false');
+        previousScroll = {left: window.scrollX, top: window.scrollY};
+        previousFilters = ['optional-switch', 'homebrew-switch'].map(function(id) {
+            const input = document.getElementById(id);
+            const checked = input.checked;
+            input.checked = true;
+            return {input, checked};
+        });
+        handleRulesToggle();
+        previousPadding = document.body.style.paddingRight;
+        wasLocked = document.body.classList.contains('dialog-open');
+        const scrollbar = window.innerWidth - document.documentElement.clientWidth;
+        document.body.style.paddingRight = (parseFloat(getComputedStyle(document.body).paddingRight) + scrollbar) + 'px';
+        document.body.classList.add('dialog-open');
+        dialog.showModal();
+        body.scrollTop = 0;
+        close.focus({preventScroll: true});
+        observer.observe(document.querySelector('.top-menu'));
+        observer.observe(document.getElementById('main-content'));
+        window.addEventListener('resize', scheduleLayout);
+        scheduleLayout();
+    });
+    close.addEventListener('click', function() { dialog.close(); });
+    dialog.addEventListener('cancel', function(event) {
+        event.preventDefault();
+        dialog.close();
+    });
+    dialog.addEventListener('keydown', function(event) {
+        if (event.key !== 'Tab') return;
+        event.preventDefault();
+        (dialog.classList.contains('help-contextual') ? close :
+            document.activeElement === close ? body : close).focus({preventScroll: true});
+    });
+    dialog.addEventListener('close', function() {
+        observer.disconnect();
+        window.removeEventListener('resize', scheduleLayout);
+        cancelAnimationFrame(frame);
+        frame = 0;
+        annotations.replaceChildren();
+        previousFilters.forEach(function(saved) { saved.input.checked = saved.checked; });
+        handleRulesToggle();
+        document.body.style.paddingRight = previousPadding;
+        if (!wasLocked) document.body.classList.remove('dialog-open');
+        window.scrollTo({...previousScroll, behavior: 'instant'});
+        trigger.focus({preventScroll: true});
+    });
+}
+
 function initNotices() {
     const notice = document.getElementById('cookie-notice');
     notice.hidden = localStorage.getItem('cookiesAccepted') === 'true';
@@ -578,6 +795,7 @@ function initNotices() {
         document.getElementById('main-content').focus({preventScroll: true});
     });
     document.addEventListener('focusin', function(event) {
+        if (event.target.closest('#help-dialog')) return;
         if (!notice.hidden && !notice.contains(event.target) && event.target.id !== 'back-to-top') {
             const bottom = event.target.getBoundingClientRect().bottom;
             const noticeTop = notice.getBoundingClientRect().top;
@@ -589,6 +807,7 @@ function initNotices() {
 document.addEventListener('DOMContentLoaded', function() {
     initCollapsibleSections();
     initSettings();
+    initHelp();
     initMenuTooltips();
     initNotices();
     document.getElementById('back-to-top').addEventListener('click', function() {

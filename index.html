@@ -91,6 +91,12 @@
                         </svg>
                     </button>
                 </div>
+                <button type="button" class="menu-control help-trigger" id="help-trigger" aria-label="How to use this page" aria-haspopup="dialog" aria-controls="help-dialog">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                        <circle cx="12" cy="12" r="9"/>
+                        <path d="M9.5 9a2.5 2.5 0 0 1 5 .3c0 1.7-2.5 2-2.5 3.7M12 17h.01"/>
+                    </svg>
+                </button>
             </div>
         </div>
         <main id="main-content" class="page fontsize" data-size="fullscreen" tabindex="-1">
@@ -279,6 +285,23 @@
             <a href="https://github.com/mfriik/DnD-Quick-Ref-Experimental" target="_blank" rel="noopener noreferrer">View on GitHub <span class="sr-only">(opens in a new tab)</span><span aria-hidden="true">&#8599;</span></a>
         </footer>
     </div>
+    <dialog id="help-dialog" class="help-dialog" aria-labelledby="help-heading" aria-describedby="help-intro">
+        <div class="help-annotations" aria-hidden="true"></div>
+        <section class="help-sheet">
+            <div class="help-heading">
+                <h2 id="help-heading">How to Use This Page</h2>
+                <button type="button" id="help-close" class="menu-control" aria-label="Close help" autofocus>
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true">
+                        <path d="m6 6 12 12M18 6 6 18"/>
+                    </svg>
+                </button>
+            </div>
+            <div class="help-body" tabindex="0" role="region" aria-label="Page instructions">
+                <p id="help-intro">The page is paused for help. On larger screens, descriptions appear below visible controls. Close help to scroll to other controls, then reopen it. On small screens, read the guide below. Close with X or `Esc` key.</p>
+                <ol id="help-topics"></ol>
+            </div>
+        </section>
+    </dialog>
     <!-- Cookie notice: informs users about cookie usage and provides an accept button -->
     <div id="cookie-notice" class="cookie-notice" role="region" aria-label="Cookie notice" hidden>
         <p>This website saves your preferences in your browser.<br>Hosting or third-party services may use cookies.</p>
