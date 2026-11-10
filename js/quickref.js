@@ -203,10 +203,11 @@ function initCollapsibleSections() {
             localStorage.setItem(section.id + '-collapsed', String(content.hidden));
         });
     });
+    const topMenu = navigation.closest('.top-menu');
     const updateMenuSpace = function() {
-        document.documentElement.style.setProperty('--top-menu-height', navigation.offsetHeight + 'px');
+        document.documentElement.style.setProperty('--top-menu-height', topMenu.offsetHeight + 'px');
     };
-    new ResizeObserver(updateMenuSpace).observe(navigation);
+    new ResizeObserver(updateMenuSpace).observe(topMenu);
     updateMenuSpace();
 
     document.querySelectorAll('a[href^="#section-"]').forEach(function(link) {
@@ -348,6 +349,61 @@ function updateRulesToggleLabel() {
     button.title = label;
 }
 
+function initMenuTooltips() {
+    const tooltip = document.createElement('div');
+    tooltip.id = 'menu-tooltip';
+    tooltip.className = 'menu-tooltip';
+    tooltip.setAttribute('role', 'tooltip');
+    tooltip.hidden = true;
+    document.body.appendChild(tooltip);
+    let activeControl = null;
+    let hideTimer;
+
+    function hide() {
+        clearTimeout(hideTimer);
+        tooltip.hidden = true;
+        if (activeControl) activeControl.removeAttribute('aria-describedby');
+        activeControl = null;
+    }
+
+    function show(control) {
+        hide();
+        activeControl = control;
+        tooltip.textContent = control.getAttribute('aria-label');
+        tooltip.hidden = false;
+        control.setAttribute('aria-describedby', tooltip.id);
+        const rect = control.getBoundingClientRect();
+        const left = Math.max(12, Math.min(rect.left + (rect.width - tooltip.offsetWidth) / 2,
+            window.innerWidth - tooltip.offsetWidth - 12));
+        tooltip.style.left = left + 'px';
+        tooltip.style.top = Math.max(12, Math.min(rect.bottom + 8,
+            window.innerHeight - tooltip.offsetHeight - 12)) + 'px';
+    }
+
+    function scheduleHide() {
+        clearTimeout(hideTimer);
+        hideTimer = setTimeout(hide, 120);
+    }
+
+    document.querySelectorAll('.category-nav > a, .top-menu .menu-control, .settings-trigger').forEach(function(control) {
+        control.removeAttribute('title');
+        control.addEventListener('pointerenter', function(event) {
+            if (event.pointerType !== 'touch') show(control);
+        });
+        control.addEventListener('pointerleave', scheduleHide);
+        control.addEventListener('focus', function() { show(control); });
+        control.addEventListener('blur', scheduleHide);
+        control.addEventListener('click', hide);
+    });
+    tooltip.addEventListener('pointerenter', function() { clearTimeout(hideTimer); });
+    tooltip.addEventListener('pointerleave', scheduleHide);
+    document.addEventListener('keydown', function(event) {
+        if (event.key === 'Escape') hide();
+    });
+    window.addEventListener('scroll', hide, {passive: true});
+    window.addEventListener('resize', hide);
+}
+
 function showDomainModal() {
     const modal = document.getElementById('domain-change-modal');
     if (!modal.open) {
@@ -416,6 +472,7 @@ function initNotices() {
 document.addEventListener('DOMContentLoaded', function() {
     initCollapsibleSections();
     initSettings();
+    initMenuTooltips();
     initNotices();
     document.getElementById('back-to-top').addEventListener('click', function() {
         history.replaceState(history.state, '', window.location.pathname + window.location.search);

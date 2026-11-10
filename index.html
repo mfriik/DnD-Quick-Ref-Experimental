@@ -70,22 +70,26 @@
                 <h1 id="page-title" tabindex="-1">D&D <span>Quick Reference</span></h1>
             </div>
         </header>
-        <nav class="top-menu category-nav" aria-label="Quick reference controls">
-            <button type="button" class="menu-control" id="back-to-top" aria-label="Back to top" title="Back to top">
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                    <path d="M12 19V5M5 12l7-7 7 7"/>
-                </svg>
-            </button>
-            <button type="button" class="menu-control ruleset-trigger" id="ruleset-trigger"></button>
-            <div class="settings-dropdown">
-                <button type="button" class="settings-trigger" id="settings-trigger" aria-label="Settings" aria-expanded="false" aria-controls="settings-panel" title="Settings">
-                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                        <path d="m9 3-.6 2.4-2 .9-2.2-.7-2 3.4 1.7 1.7v2.6L2.2 15l2 3.4 2.2-.7 2 .9L9 21h4l.6-2.4 2-.9 2.2.7 2-3.4-1.7-1.7v-2.6L19.8 9l-2-3.4-2.2.7-2-.9L13 3Z"/>
-                        <circle cx="11" cy="12" r="3"/>
+        <div class="top-menu">
+            <nav class="menu-group category-nav" aria-label="Rule navigation">
+                <button type="button" class="menu-control" id="back-to-top" aria-label="Back to top" title="Back to top">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                        <path d="M12 19V5M5 12l7-7 7 7"/>
                     </svg>
                 </button>
+            </nav>
+            <div class="menu-group preferences-menu" role="group" aria-label="Ruleset and settings">
+                <button type="button" class="menu-control ruleset-trigger" id="ruleset-trigger"></button>
+                <div class="settings-dropdown">
+                    <button type="button" class="settings-trigger" id="settings-trigger" aria-label="Settings" aria-expanded="false" aria-controls="settings-panel" title="Settings">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                            <path d="m9 3-.6 2.4-2 .9-2.2-.7-2 3.4 1.7 1.7v2.6L2.2 15l2 3.4 2.2-.7 2 .9L9 21h4l.6-2.4 2-.9 2.2.7 2-3.4-1.7-1.7v-2.6L19.8 9l-2-3.4-2.2.7-2-.9L13 3Z"/>
+                            <circle cx="11" cy="12" r="3"/>
+                        </svg>
+                    </button>
+                </div>
             </div>
-        </nav>
+        </div>
         <main id="main-content" class="page fontsize" data-size="fullscreen" tabindex="-1">
 
             <!-- Movement section -->

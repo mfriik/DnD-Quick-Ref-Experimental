@@ -28,9 +28,12 @@ The interface uses a compact field-guide style, with category-colored icon backg
 and light and dark surfaces. Pictograms use a contrasting color for each theme.
 On a first visit, the theme follows the operating system.
 The compact top menu is aligned right and sticks near the top edge while scrolling.
-From right to left it contains Movement, Action, Bonus action, Reaction, Conditions,
+From left to right it contains Movement, Action, Bonus action, Reaction, Conditions,
 Environmental effects, Back to top, the D&D edition button and Settings.
+Navigation (including Back to top) and edition/settings controls have separate
+visual groups within the same sticky container.
 Category links use the corresponding rule-card pictograms and wrap on narrow screens.
+All menu controls show tooltips on hover or keyboard focus; Escape dismisses them.
 The menu's measured height keeps section headings clear when navigating.
 Category navigation is generated from rule sections.
 New sections following the existing `.section-container` structure are included
