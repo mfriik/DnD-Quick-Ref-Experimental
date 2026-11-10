@@ -69,25 +69,22 @@
                 <p class="eyebrow">Your adventuring companion</p>
                 <h1 id="page-title" tabindex="-1">D&D <span>Quick Reference</span></h1>
             </div>
-            <div class="header-meta">
-                <div class="settings-dropdown">
-                    <button type="button" class="settings-trigger" id="settings-trigger" aria-label="Settings" aria-expanded="false" aria-controls="settings-panel" title="Settings">
-                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                            <path d="m9 3-.6 2.4-2 .9-2.2-.7-2 3.4 1.7 1.7v2.6L2.2 15l2 3.4 2.2-.7 2 .9L9 21h4l.6-2.4 2-.9 2.2.7 2-3.4-1.7-1.7v-2.6L19.8 9l-2-3.4-2.2.7-2-.9L13 3Z"/>
-                            <circle cx="11" cy="12" r="3"/>
-                        </svg>
-                        <span>Settings</span>
-                    </button>
-                </div>
-            </div>
         </header>
-        <nav class="category-nav" aria-label="Rule categories">
-            <a href="#section-movement">Movement</a>
-            <a href="#section-action">Action</a>
-            <a href="#section-bonus-action">Bonus action</a>
-            <a href="#section-reaction">Reaction</a>
-            <a href="#section-condition">Conditions</a>
-            <a href="#section-environment">Environment</a>
+        <nav class="top-menu category-nav" aria-label="Quick reference controls">
+            <button type="button" class="menu-control" id="back-to-top" aria-label="Back to top" title="Back to top">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                    <path d="M12 19V5M5 12l7-7 7 7"/>
+                </svg>
+            </button>
+            <button type="button" class="menu-control ruleset-trigger" id="ruleset-trigger"></button>
+            <div class="settings-dropdown">
+                <button type="button" class="settings-trigger" id="settings-trigger" aria-label="Settings" aria-expanded="false" aria-controls="settings-panel" title="Settings">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                        <path d="m9 3-.6 2.4-2 .9-2.2-.7-2 3.4 1.7 1.7v2.6L2.2 15l2 3.4 2.2-.7 2 .9L9 21h4l.6-2.4 2-.9 2.2.7 2-3.4-1.7-1.7v-2.6L19.8 9l-2-3.4-2.2.7-2-.9L13 3Z"/>
+                        <circle cx="11" cy="12" r="3"/>
+                    </svg>
+                </button>
+            </div>
         </nav>
         <main id="main-content" class="page fontsize" data-size="fullscreen" tabindex="-1">
 
@@ -262,16 +259,6 @@
                                     <span class="slider round"></span>
                                 </label></div>
                         </div>
-                        <div class="item itemsize settings-item" title="Include 2024 Rules">
-                            <div class="item-text-container text" id="2024rules-toggle-item">
-                                <div class="item-title">Switch to 2024 Rules</div>
-                                <div class="item-desc">Enable D&D 2024 Rules.</div>
-                            </div>
-                            <div class="item-toggle"><label class="switch">
-                                    <input type="checkbox" id="rules2024-switch">
-                                    <span class="slider round"></span>
-                                </label></div>
-                        </div>
                         <a href="https://github.com/mfriik/dnd5e-quickref/issues" target="_blank" rel="noopener noreferrer" class="item itemsize settings-item" title="Leave Feedback" id="feedback-link-item">
                             <div class="item-text-container text">
                                 <div class="item-title">Leave Feedback</div>
@@ -287,11 +274,6 @@
             <a href="https://github.com/mfriik/dnd5e-quickref" target="_blank" rel="noopener noreferrer">View on GitHub <span class="sr-only">(opens in a new tab)</span><span aria-hidden="true">&#8599;</span></a>
         </footer>
     </div>
-    <button type="button" class="back-to-top" id="back-to-top" aria-label="Back to top" title="Back to top">
-        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-            <path d="M12 19V5M5 12l7-7 7 7"/>
-        </svg>
-    </button>
     <!-- Cookie notice: informs users about cookie usage and provides an accept button -->
     <div id="cookie-notice" class="cookie-notice" role="region" aria-label="Cookie notice" hidden>
         <p>This website uses cookies to ensure you get the best experience on our website.</p>

@@ -125,7 +125,14 @@ function updateCollapseAllButtonState(section) {
 
 function initCollapsibleSections() {
     const navigation = document.querySelector('.category-nav');
-    navigation.replaceChildren();
+    const sectionIcons = {
+        'section-movement': 'run',
+        'section-action': 'crossed-swords',
+        'section-bonus-action': 'embrassed-energy',
+        'section-reaction': 'stopwatch',
+        'section-condition': 'deathcab',
+        'section-environment': 'broken-shield'
+    };
     document.querySelectorAll('.section-container').forEach(function(section) {
         const title = section.querySelector('.section-title');
         const text = title.querySelector('.section-title-text');
@@ -133,8 +140,22 @@ function initCollapsibleSections() {
         if (section.id !== 'section-settings') {
             const link = document.createElement('a');
             link.href = '#' + section.id;
-            link.textContent = name;
-            navigation.appendChild(link);
+            const label = section.id === 'section-environment' ? 'Environmental effects'
+                : section.id === 'section-condition' ? 'Conditions' : name;
+            link.setAttribute('aria-label', label);
+            link.title = label;
+            const iconName = sectionIcons[section.id];
+            if (iconName) {
+                const icon = document.createElement('span');
+                icon.className = 'menu-icon';
+                icon.setAttribute('aria-hidden', 'true');
+                const iconUrl = new URL('img/' + iconName + '.png', document.baseURI);
+                icon.style.setProperty('--icon-image', 'url("' + iconUrl.href + '")');
+                link.appendChild(icon);
+            } else {
+                link.textContent = name;
+            }
+            navigation.insertBefore(link, document.getElementById('back-to-top'));
         }
         const content = section.querySelector('.section-content');
         content.id = section.id + '-content';
@@ -182,6 +203,11 @@ function initCollapsibleSections() {
             localStorage.setItem(section.id + '-collapsed', String(content.hidden));
         });
     });
+    const updateMenuSpace = function() {
+        document.documentElement.style.setProperty('--top-menu-height', navigation.offsetHeight + 'px');
+    };
+    new ResizeObserver(updateMenuSpace).observe(navigation);
+    updateMenuSpace();
 
     document.querySelectorAll('a[href^="#section-"]').forEach(function(link) {
         link.addEventListener('click', function(event) {
@@ -226,6 +252,14 @@ function initSettings() {
     const panel = document.getElementById('settings-panel');
     const trigger = document.getElementById('settings-trigger');
     dropdown.appendChild(panel);
+    function updateSettingsSpace() {
+        if (!panel.hidden) {
+            const menuBottom = dropdown.closest('.top-menu').getBoundingClientRect().bottom;
+            panel.style.setProperty('--settings-top', (menuBottom + 12) + 'px');
+        }
+    }
+    window.addEventListener('scroll', updateSettingsSpace, {passive: true});
+    new ResizeObserver(updateSettingsSpace).observe(dropdown.closest('.top-menu'));
     document.getElementById('app-version-display').textContent = 'v' + window.dndQuickRefAppVersion;
     function closeSettings(restoreFocus) {
         panel.hidden = true;
@@ -236,6 +270,7 @@ function initSettings() {
         const opening = panel.hidden;
         panel.hidden = !opening;
         trigger.setAttribute('aria-expanded', String(opening));
+        updateSettingsSpace();
     });
     document.addEventListener('click', function(event) {
         if (!panel.hidden && !dropdown.contains(event.target)) {
@@ -254,8 +289,7 @@ function initSettings() {
     const controls = [
         ['optional', 'optional-toggle-item', 'optional-switch'],
         ['homebrew', 'homebrew-toggle-item', 'homebrew-switch'],
-        ['darkmode', 'darkmode-toggle-item', 'darkmode-switch'],
-        ['rules2024', '2024rules-toggle-item', 'rules2024-switch']
+        ['darkmode', 'darkmode-toggle-item', 'darkmode-switch']
     ];
     controls.forEach(function([key, labelId, inputId]) {
         const oldLabel = document.getElementById(labelId);
@@ -288,9 +322,6 @@ function initSettings() {
             localStorage.setItem(key, String(input.checked));
             if (key === 'darkmode') {
                 applyTheme(input.checked);
-            } else if (key === 'rules2024') {
-                updateRulesToggleLabel();
-                location.reload();
             } else {
                 handleRulesToggle();
             }
@@ -302,15 +333,19 @@ function initSettings() {
         if (localStorage.getItem('darkmode') === null) applyTheme(event.matches);
     });
     updateRulesToggleLabel();
+    document.getElementById('ruleset-trigger').addEventListener('click', function() {
+        localStorage.setItem('rules2024', String(localStorage.getItem('rules2024') !== 'true'));
+        location.reload();
+    });
 }
 
 function updateRulesToggleLabel() {
-    const current2024 = document.getElementById('rules2024-switch').checked;
-    const label = document.getElementById('2024rules-toggle-item');
-    label.querySelector('.item-title').textContent = current2024 ? 'Switch to 2014 Rules' : 'Switch to 2024 Rules';
-    label.querySelector('.item-desc').textContent = current2024
-        ? 'Switches to the D&D 2014 (legacy) ruleset.'
-        : 'Switches to the D&D 2024 ruleset.';
+    const current2024 = localStorage.getItem('rules2024') === 'true';
+    const button = document.getElementById('ruleset-trigger');
+    button.textContent = current2024 ? 'D&D 2024' : 'D&D 2014';
+    const label = 'Current ruleset: ' + button.textContent + '. Switch to D&D ' + (current2024 ? '2014' : '2024') + ' rules.';
+    button.setAttribute('aria-label', label);
+    button.title = label;
 }
 
 function showDomainModal() {
@@ -383,6 +418,7 @@ document.addEventListener('DOMContentLoaded', function() {
     initSettings();
     initNotices();
     document.getElementById('back-to-top').addEventListener('click', function() {
+        history.replaceState(history.state, '', window.location.pathname + window.location.search);
         document.getElementById('page-title').focus({preventScroll: true});
         window.scrollTo({
             top: 0,

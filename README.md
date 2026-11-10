@@ -27,14 +27,22 @@ if the browser retains old assets.
 The interface uses a compact field-guide style, with category-colored icon backgrounds
 and light and dark surfaces. Pictograms use a contrasting color for each theme.
 On a first visit, the theme follows the operating system.
-Category navigation is generated from rule sections and fills the available width.
+The compact top menu is aligned right and sticks near the top edge while scrolling.
+From right to left it contains Movement, Action, Bonus action, Reaction, Conditions,
+Environmental effects, Back to top, the D&D edition button and Settings.
+Category links use the corresponding rule-card pictograms and wrap on narrow screens.
+The menu's measured height keeps section headings clear when navigating.
+Category navigation is generated from rule sections.
 New sections following the existing `.section-container` structure are included
-automatically; Settings lives in its separate header dropdown. The fixed arrow button
-returns to the page heading and respects reduced-motion preferences.
+automatically, with text labels when no category icon is defined.
+The **D&D 2014 / D&D 2024** button switches editions and saves the choice;
+there is no duplicate edition switch in Settings.
+The arrow returns to the page heading, removes the section hash from the URL
+without changing its path or query, and respects reduced-motion preferences.
 Settings, rule cards, sections and the domain dialog open with a short 180 ms
 slide, without fading text. Reduced-motion preferences disable these animations;
 closing remains immediate so hidden content never retains keyboard focus.
-Open Settings with the gear in the header; the dropdown closes
+Open Settings with the gear in the sticky menu; the dropdown closes
 with Escape or a click outside. Changing **Dark theme** saves an explicit preference. Existing saved
 theme choices are preserved. To test system-theme behavior again, remove only
 the `darkmode` key in DevTools > Application > Local Storage.
