@@ -3,8 +3,8 @@ data_condition = [
         title: "Blinded",
         optional: "Standard rule",
         icon: "one-eyed",
-        subtitle: "No sight; Attack disadvantage",
-        description: "You can't see: sight-based checks fail, your attacks have disadvantage, and attacks against you have advantage.",
+        subtitle: "No Sight; Attack Disadvantage",
+        description: "You Can't See: Sight-Based Checks Fail, Your Attacks Have Disadvantage, and Attacks Against You Have Advantage.",
         reference: "PHB'14, pg. 290.",
         bullets: [
             "You automatically fail any ability check which requires sight.",
@@ -16,8 +16,8 @@ data_condition = [
         title: "Charmed",
         optional: "Standard rule",
         icon: "smitten",
-        subtitle: "Can't harm your charmer",
-        description: "You can't attack or harm your charmer with abilities or magic. They have advantage on social checks with you.",
+        subtitle: "Can't Harm Your Charmer",
+        description: "You Can't Attack or Harm Your Charmer with Abilities or Magic. They Have Advantage on Social Checks with You.",
         reference: "PHB'14, pg. 290.",
         bullets: [
             "You can't attack your charmer or target them with harmful abilities or magical effects.",
@@ -28,8 +28,8 @@ data_condition = [
         title: "Deafened",
         optional: "Standard rule",
         icon: "elf-ear",
-        subtitle: "Hearing checks fail",
-        description: "You can't hear and automatically fail ability checks that require hearing.",
+        subtitle: "Hearing Checks Fail",
+        description: "You Can't Hear and Automatically Fail Ability Checks That Require Hearing.",
         reference: "PHB'14, pg. 290.",
         bullets: [
             "You automatically fail any ability check which requires hearing."
@@ -39,8 +39,8 @@ data_condition = [
         title: "Exhaustion",
         optional: "Standard rule",
         icon: "crawl",
-        subtitle: "Penalties by level",
-        description: "Six cumulative levels impair checks, speed, attacks, saves, and maximum hit points, ending in death at level 6.",
+        subtitle: "Penalties by Level",
+        description: "Six Cumulative Levels Impair Checks, Speed, Attacks, Saves, and Maximum Hit Points, Ending in Death at Level 6.",
         reference: "PHB'14, pg. 291.",
         bullets: [
             "<table><tr><th>Level</th><th></th><th></th><th style='text-align:left'>Effect</th></tr><tr><td>1</td><td></td><td></td><td>Disadvantage on ability checks</td></tr><tr><td>2</td><td></td><td></td><td>Speed halved</td></tr><tr><td>3</td><td></td><td></td><td>Disadvantage on attack rolls and saving throws</td></tr><tr><td>4</td><td></td><td></td><td>Hit point maximum halved</td></tr><tr><td>5</td><td></td><td></td><td>Speed reduced to 0</td></tr><tr><td>6</td><td></td><td></td><td>Death</td></tr></table>",
@@ -53,8 +53,8 @@ data_condition = [
         title: "Exhaustion (2024)",
         optional: "Homebrew rule",
         icon: "crawl",
-        subtitle: "D20 and speed penalties",
-        description: "Each level gives -2 to ability checks, attacks, and saves, and -5 ft. speed; level 6 means death. Replaces 2014 Exhaustion.",
+        subtitle: "D20 and Speed Penalties",
+        description: "Each Level Gives -2 to Ability Checks, Attacks, and Saves, and -5 Ft. Speed; Level 6 Means Death. Replaces 2014 Exhaustion.",
         reference: "PHB'24, pg. 366. Homebrew adaptation for D&D 5e.",
         bullets: [
             "This is an alternative to the standard Exhaustion condition, not an additional set of penalties.",
@@ -68,8 +68,8 @@ data_condition = [
         title: "Frightened",
         optional: "Standard rule",
         icon: "sharp-smile",
-        subtitle: "Can't approach source",
-        description: "You can't willingly approach the source of fear. While you can see it, your attacks and ability checks have disadvantage.",
+        subtitle: "Can't Approach Source",
+        description: "You Can't Willingly Approach the Source of Fear. While You Can See It, Your Attacks and Ability Checks Have Disadvantage.",
         reference: "PHB'14, pg. 290.",
         bullets: [
             "You have disadvantage on ability checks and attack rolls while the source of your fear is within line of sight.",
@@ -80,8 +80,8 @@ data_condition = [
         title: "Grappled",
         optional: "Standard rule",
         icon: "grab",
-        subtitle: "Speed reduced to 0",
-        description: "Your speed is 0 and can't benefit from bonuses. The grapple ends if the grappler is incapacitated or you leave their reach.",
+        subtitle: "Speed Reduced to 0",
+        description: "Your Speed Is 0 and Can't Benefit From Bonuses. The Grapple Ends If the Grappler Is Incapacitated or You Leave Their Reach.",
         reference: "PHB'14, pg. 290.",
         bullets: [
             "Your speed becomes 0, and you can't benefit from any bonus to your speed.",
@@ -93,8 +93,8 @@ data_condition = [
         title: "Incapacitated",
         optional: "Standard rule",
         icon: "internal-injury",
-        subtitle: "No actions or reactions",
-        description: "You can't take actions, bonus actions, or reactions.",
+        subtitle: "No Actions or Reactions",
+        description: "You Can't Take Actions, Bonus Actions, or Reactions.",
         reference: "PHB'14, pg. 290.",
         bullets: [
         ]
@@ -103,8 +103,8 @@ data_condition = [
         title: "Invisible",
         optional: "Standard rule",
         icon: "invisible",
-        subtitle: "Unseen; attack advantage",
-        description: "You can't be seen without magic or special senses. Your attacks have advantage; attacks against you have disadvantage. Noise and tracks can reveal you.",
+        subtitle: "Unseen; Attack Advantage",
+        description: "You Can't Be Seen Without Magic or Special Senses. Your Attacks Have Advantage; Attacks Against You Have Disadvantage. Noise and Tracks Can Reveal You.",
         reference: "PHB'14, pg. 291.",
         bullets: [
             "For the purpose of hiding, you are heavily obscured.",
@@ -118,8 +118,8 @@ data_condition = [
         title: "Paralyzed",
         optional: "Standard rule",
         icon: "internal-injury",
-        subtitle: "Incapacitated; can't move",
-        description: "You can't act, move, or speak and fail Strength/Dexterity saves. Attacks against you have advantage; hits from within 5 ft. are critical.",
+        subtitle: "Incapacitated; Can't Move",
+        description: "You Can't Act, Move, or Speak and Fail Strength/Dexterity Saves. Attacks Against You Have Advantage; Hits From Within 5 Ft. Are Critical.",
         bullets: [
             "You are incapacitated and can't move or speak.",
             "Attack rolls against you have advantage.",
@@ -131,8 +131,8 @@ data_condition = [
         title: "Petrified",
         optional: "Standard rule",
         icon: "stone-pile",
-        subtitle: "Inert; resist all damage",
-        description: "You and your nonmagical gear become an inert substance. You can't act or move, fail Strength/Dexterity saves, and resist all damage.",
+        subtitle: "Inert; Resist All Damage",
+        description: "You and Your Nonmagical Gear Become an Inert Substance. You Can't Act or Move, Fail Strength/Dexterity Saves, and Resist All Damage.",
         reference: "PHB'14, pg. 291.",
         bullets: [
             "Your weight increases by a factor of ten, and you cease aging.",
@@ -147,8 +147,8 @@ data_condition = [
         title: "Poisoned",
         optional: "Standard rule",
         icon: "deathcab",
-        subtitle: "Attacks & tests have disadvantage",
-        description: "Your attack rolls and ability checks have disadvantage.",
+        subtitle: "Attacks & Tests Have Disadvantage",
+        description: "Your Attack Rolls and Ability Checks Have Disadvantage.",
         reference: "PHB'14, pg. 292.",
         bullets: [
             "You have disadvantage on attack rolls and ability checks."
@@ -158,8 +158,8 @@ data_condition = [
         title: "Prone",
         optional: "Standard rule",
         icon: "crawl",
-        subtitle: "Crawl; Attack disadvantage",
-        description: "Crawl or stand up. Your attacks have disadvantage; attacks against you have advantage from within 5 ft., otherwise disadvantage.",
+        subtitle: "Crawl; Attack Disadvantage",
+        description: "Crawl or Stand up. Your Attacks Have Disadvantage; Attacks Against You Have Advantage From Within 5 Ft., Otherwise Disadvantage.",
         reference: "PHB'14, pg. 292.",
         bullets: [
             "Your only movement option is to crawl, unless you stand up.",
@@ -171,8 +171,8 @@ data_condition = [
         title: "Restrained",
         optional: "Standard rule",
         icon: "imprisoned",
-        subtitle: "Speed 0; Attack disadvantage",
-        description: "Your speed is 0. Your attacks and Dexterity saves have disadvantage; attacks against you have advantage.",
+        subtitle: "Speed 0; Attack Disadvantage",
+        description: "Your Speed Is 0. Your Attacks and Dexterity Saves Have Disadvantage; Attacks Against You Have Advantage.",
         reference: "PHB'14, pg. 292.",
         bullets: [
             "Your speed becomes 0, and you can't benefit from any bonus to your speed.",
@@ -185,8 +185,8 @@ data_condition = [
         title: "Stunned",
         optional: "Standard rule",
         icon: "internal-injury",
-        subtitle: "Incapacitated; can't move",
-        description: "You can't act or move and can barely speak. You fail Strength/Dexterity saves; attacks against you have advantage.",
+        subtitle: "Incapacitated; Can't Move",
+        description: "You Can't Act or Move and Can Barely Speak. You Fail Strength/Dexterity Saves; Attacks Against You Have Advantage.",
         reference: "PHB'14, pg. 292.",
         bullets: [
             "You are incapacitated, can't move, and can speak only falteringly.",
@@ -198,8 +198,8 @@ data_condition = [
         title: "Unconscious",
         optional: "Standard rule",
         icon: "coma",
-        subtitle: "Incapacitated; fall prone",
-        description: "You can't act, move, speak, or perceive your surroundings. You fall prone, drop held items, and fail Strength/Dexterity saves. Hits from within 5 ft. are critical.",
+        subtitle: "Incapacitated; Fall Prone",
+        description: "You Can't Act, Move, Speak, or Perceive Your Surroundings. You Fall Prone, Drop Held Items, and Fail Strength/Dexterity Saves. Hits From Within 5 Ft. Are Critical.",
         reference: "PHB'14, pg. 292.",
         bullets: [
             "You are incapacitated, can't move or speak, and are unaware of your surroundings.",
@@ -213,8 +213,8 @@ data_condition = [
         title: "Dying",
         optional: "Standard rule",
         icon: "dead-head",
-        subtitle: "0 HP; make death saves",
-        description: "At 0 HP and not stable, make death saves each turn: three successes stabilize you; three failures kill you. Healing ends dying.",
+        subtitle: "0 HP; Make Death Saves",
+        description: "At 0 HP and Not Stable, Make Death Saves Each Turn: Three Successes Stabilize You; Three Failures Kill You. Healing Ends Dying.",
         reference: "PHB'14, pg. 197.",
         bullets: [
             "If you are reduced to 0 hit points by damage that fails to kill you, you fall unconscious and are dying.",

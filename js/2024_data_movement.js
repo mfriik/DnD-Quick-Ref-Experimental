@@ -4,7 +4,7 @@ data_movement = [
         optional: "Standard rule",
         icon: "run",
         subtitle: "Cost: 5ft per 5ft",
-        description: "Movement cost: 5ft per 5ft moved",
+        description: "Movement Cost: 5ft per 5ft Moved",
         reference: "PHB'24, pg. 24-25, 374.",
         bullets: [
             "If you have more than one speed, such as your walking speed and a flying speed, you can switch back and forth between your speeds during your move. Whenever you switch, subtract the distance you've already moved from the new speed.",
@@ -18,7 +18,7 @@ data_movement = [
         optional: "Standard rule",
         icon: "crags",
         subtitle: "Cost: +5ft per 5ft",
-        description: "Movement cost: each foot of movement costs 1 extra foot",
+        description: "Movement Cost: Each Foot of Movement Costs 1 Extra Foot",
         reference: "PHB'24, pg. 363.",
         bullets: [
             "Each foot of movement costs 1 extra foot of movement while climbing. If you have a climb speed, you ignore this extra cost.",
@@ -30,7 +30,7 @@ data_movement = [
         optional: "Standard rule",
         icon: "at-sea",
         subtitle: "Cost: +5ft per 5ft",
-        description: "Movement cost: each foot of movement costs 1 extra foot",
+        description: "Movement Cost: Each Foot of Movement Costs 1 Extra Foot",
         reference: "PHB'24, pg. 376.",
         bullets: [
             "Each foot of movement costs 1 extra foot of movement while swimming. If you have a swim speed, you ignore this extra cost.",
@@ -42,7 +42,7 @@ data_movement = [
         optional: "Standard rule",
         icon: "angel-wings",
         subtitle: "Cost: 5ft per 5ft",
-        description: "Movement cost: 5ft per 5ft flown",
+        description: "Movement Cost: 5ft per 5ft Flown",
         reference: "PHB'24, pg. 367.",
         bullets: [
             "While you have a fly speed, you can stay aloft until you land, fall or die.",
@@ -51,11 +51,11 @@ data_movement = [
         ]
     },
     {
-        title: "Drop prone",
+        title: "Drop Prone",
         optional: "Standard rule",
         icon: "falling",
         subtitle: "Cost: 0ft",
-        description: "Movement cost: 0ft (free)",
+        description: "Movement Cost: 0ft (Free)",
         reference: "PHB'24, pgs. 25, 372.",
         bullets: [
             "You can drop prone without using any of your speed.",
@@ -68,29 +68,29 @@ data_movement = [
         optional: "Standard rule",
         icon: "crawl",
         subtitle: "Cost: +5ft per 5ft",
-        description: "Movement cost: each foot of movement costs 1 extra foot",
+        description: "Movement Cost: Each Foot of Movement Costs 1 Extra Foot",
         reference: "PHB'24, pg. 364.",
         bullets: [
             "Each foot of movement costs 1 extra foot of movement while crawling."
         ]
     },
     {
-        title: "Stand up",
+        title: "Stand Up",
         optional: "Standard rule",
         icon: "strong",
-        subtitle: "Cost: half movement speed",
-        description: "Movement cost: half of your speed, rounded down.",
+        subtitle: "Cost: Half Movement Speed",
+        description: "Movement Cost: Half of Your Speed, Rounded Down.",
         reference: "PHB'24, pg. 372.",
         bullets: [
             "You can't stand up if you don't have enough movement left or if your speed is 0"
         ]
     },
     {
-        title: "High jump",
+        title: "High Jump",
         optional: "Standard rule",
         icon: "wingfoot",
         subtitle: "Cost: 5ft",
-        description: "Movement cost: 5ft per 5ft jumped",
+        description: "Movement Cost: 5ft per 5ft Jumped",
         reference: "PHB'24, pg. 368.",
         bullets: [
             "You leap into the air a number of feet equal to <b>3 + your Strength modifier</b> if you move at least 10 feet on foot immediately before the jump.",
@@ -100,11 +100,11 @@ data_movement = [
         ]
     },
     {
-        title: "Long jump",
+        title: "Long Jump",
         optional: "Standard rule",
         icon: "wingfoot",
         subtitle: "Cost: 5ft per 5ft",
-        description: "Movement cost: 5ft per 5ft jumped",
+        description: "Movement Cost: 5ft per 5ft Jumped",
         reference: "PHB'24, pg. 370.",
         bullets: [
             "You cover a number of feet up to your <b>Strength score</b> if you move at least 10 feet on foot immediately before the jump.",
@@ -117,30 +117,30 @@ data_movement = [
         title: "Improvise",
         optional: "Standard rule",
         icon: "juggler",
-        subtitle: "Any stunt not on this list",
-        description: "Perform any movement or stunt you can imagine",
+        subtitle: "Any Stunt Not on This List",
+        description: "Perform Any Movement or Stunt You Can Imagine",
         bullets: [
             "When you describe a kind of movement not detailed elsewhere in the rules, the DM tells you whether it is possible and what kind of roll you need to make, if any, to determine success or failure."
         ]
     },
     {
-        title: "Difficult terrain",
+        title: "Difficult Terrain",
         optional: "Standard rule",
         icon: "stone-pile",
-        subtitle: "Cost modifier: +5ft per 5ft",
+        subtitle: "Cost Modifier: +5ft per 5ft",
         reference: "PHB'24, pg. 25, 366.",
-        description: "Moving in difficult terrain costs an additional 5ft per 5ft of movement",
+        description: "Moving in Difficult Terrain Costs an Additional 5ft per 5ft of Movement",
         bullets: [
             "Every foot of movement costs 1 extra foot.",
             "Difficult terrain isn't cumulative; either a space is difficult terrain or it isn't."
         ]
     },
     {
-        title: "Grapple move",
+        title: "Grapple Move",
         optional: "Standard rule",
         icon: "grab",
         subtitle: "Cost: +5ft per 5ft",
-        description: "Drag or carry the grappled creature with you",
+        description: "Drag or Carry the Grappled Creature with You",
         reference: "PHB'24, pg. 367.",
         bullets: [
             "If you move while grappling another creature, every foot of movement costs 1 extra foot unless the grappled creature is Tiny or you are two or more sizes larger than it."
@@ -150,8 +150,8 @@ data_movement = [
         title: "Travel Pace",
         optional: "Standard rule",
         icon: "run",
-        subtitle: "Traveling outside of combat",
-        description: "Travel Pace for Fast, Normal and Slow Travel outside of combat.",
+        subtitle: "Traveling Outside of Combat",
+        description: "Travel Pace for Fast, Normal and Slow Travel Outside of Combat.",
         reference: "PHB'24, pg. 20",
         bullets: [
             "Establish a marching order while you travel.",

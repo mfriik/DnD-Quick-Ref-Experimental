@@ -3,8 +3,8 @@ data_action = [
         title: "Attack",
         optional: "Standard rule",
         icon: "crossed-swords",
-        subtitle: "Melee or ranged attack",
-        description: "Perform a melee or ranged attack with your weapon",
+        subtitle: "Melee or Ranged Attack",
+        description: "Perform a Melee or Ranged Attack with Your Weapon",
         reference: "PHB'14, pgs. 192,194-195.",
         bullets: [
             "Certain features, such as the <i>Extra Attack</i> feature of the fighter, allow you to make more than one attack with this action. Each of these attacks is a separate roll and may target different creatures. You may move in between these attacks.",
@@ -18,8 +18,8 @@ data_action = [
         title: "Grapple",
         optional: "Standard rule",
         icon: "grab",
-        subtitle: "Special melee attack",
-        description: "Attempt to grab a creature or wrestle with it",
+        subtitle: "Special Melee Attack",
+        description: "Attempt to Grab a Creature or Wrestle with It",
         reference: "PHB'14, pg. 195.",
         bullets: [
             "You can use the <i>Attack</i> action to make a special melee attack, a grapple. If you're able to make multiple attacks with the Attack action, this attack replaces one of them.",
@@ -32,8 +32,8 @@ data_action = [
         title: "Shove",
         optional: "Standard rule",
         icon: "hand",
-        subtitle: "Special melee attack",
-        description: "Shove a creature, either to knock it prone or push it away from you",
+        subtitle: "Special Melee Attack",
+        description: "Shove a Creature, Either to Knock It Prone or Push It Away From You",
         reference: "PHB'14, pg. 195. / DMG, page 272",
         bullets: [
             "Using the <i>Attack</i> action, you can make a special melee attack to shove a creature. If you're able to make multiple attacks with the Attack action, this attack replaces one of them.",
@@ -46,8 +46,8 @@ data_action = [
         title: "Shove Aside",
         optional: "Optional rule",
         icon: "hand",
-        subtitle: "Special melee attack",
-        description: "Shove a creature, either to knock it prone or push it aside from you",
+        subtitle: "Special Melee Attack",
+        description: "Shove a Creature, Either to Knock It Prone or Push It Aside From You",
         reference: "PHB'14, pg. 195. / DMG, page 272",
         bullets: [
             "(Optional Rule):",
@@ -57,11 +57,11 @@ data_action = [
         ]
     },
     {
-        title: "Cast a spell",
+        title: "Cast a Spell",
         optional: "Standard rule",
         icon: "magic-swirl",
-        subtitle: "Cast time of 1 action",
-        description: "Cast a spell with a casting time of 1 action",
+        subtitle: "Cast Time of 1 Action",
+        description: "Cast a Spell with a Casting Time of 1 Action",
         reference: "PHB'14, pg. 192.",
         bullets: [
             "You can't cast a spell with you action and a different spell with your bonus action in the same turn, except if the action is used to cast a cantrip.",
@@ -74,8 +74,8 @@ data_action = [
         title: "Dash",
         optional: "Standard rule",
         icon: "sprint",
-        subtitle: "Double movement speed",
-        description: "Gain extra movement for the current turn",
+        subtitle: "Double Movement Speed",
+        description: "Gain Extra Movement for the Current Turn",
         reference: "PHB'14, pg. 192.",
         bullets: [
             "The increase equals your speed, after applying any modifiers."
@@ -85,8 +85,8 @@ data_action = [
         title: "Disengage",
         optional: "Standard rule",
         icon: "journey",
-        subtitle: "Prevent opportunity attacks",
-        description: "Your movement doesn't provoke opportunity attacks for the rest of the turn",
+        subtitle: "Prevent Opportunity Attacks",
+        description: "Your Movement Doesn't Provoke Opportunity Attacks for the Rest of the Turn",
         reference: "PHB'14, pg. 192.",
         bullets: [
         ]
@@ -95,8 +95,8 @@ data_action = [
         title: "Dodge",
         optional: "Standard rule",
         icon: "aura",
-        subtitle: "Increase defenses",
-        description: "Focus entirely on avoiding attacks",
+        subtitle: "Increase Defenses",
+        description: "Focus Entirely on Avoiding Attacks",
         reference: "PHB'14, pg. 192.",
         bullets: [
             "Until the start of your next turn, any attack roll made against you has disadvantage if you can see the attacker, and you make Dexterity saving throws with advantage.",
@@ -107,8 +107,8 @@ data_action = [
         title: "Escape",
         optional: "Standard rule",
         icon: "manacles",
-        subtitle: "Escape a grapple",
-        description: "Escape a grapple",
+        subtitle: "Escape a Grapple",
+        description: "Escape a Grapple",
         reference: "PHB'14, pg. 195.",
         bullets: [
             "To escape a grapple, you must succeed on a Strength (Athletics) or Dexterity (Acrobatics) check contested by the grappler's Strength (Athletics) check.",
@@ -119,8 +119,8 @@ data_action = [
         title: "Help",
         optional: "Standard rule",
         icon: "telepathy",
-        subtitle: "Grant an ally advantage",
-        description: "Grant an ally advantage on an ability check or attack",
+        subtitle: "Grant an Ally Advantage",
+        description: "Grant an Ally Advantage on an Ability Check or Attack",
         reference: "PHB'14, pg. 192.",
         bullets: [
             "The target gains advantage on the next ability check it makes to perform the task you are helping with.",
@@ -132,8 +132,8 @@ data_action = [
         title: "Use Object",
         optional: "Standard rule",
         icon: "snatch",
-        subtitle: "Interact, use special abilities",
-        description: "Interact with a second object or use special object abilities",
+        subtitle: "Interact, Use Special Abilities",
+        description: "Interact with a Second Object or Use Special Object Abilities",
         reference: "PHB'14, pg. 193.",
         bullets: [
             "You can interact with one object for free during your turn (such as drawing a weapon or opening a door). If you want to interact with a second object, use this action.",
@@ -141,11 +141,11 @@ data_action = [
         ]
     },
     {
-        title: "Use shield",
+        title: "Use Shield",
         optional: "Standard rule",
         icon: "round-shield",
-        subtitle: "Equip or unequip a shield",
-        description: "Equip or unequip a shield",
+        subtitle: "Equip or Unequip a Shield",
+        description: "Equip or Unequip a Shield",
         reference: "PHB'14, pgs. 144-146.",
         bullets: [
             "A shield always takes an action to equip or unequip.",
@@ -156,8 +156,8 @@ data_action = [
         title: "Hide",
         optional: "Standard rule",
         icon: "hood",
-        subtitle: "Attempt to hide",
-        description: "Attempt to hide",
+        subtitle: "Attempt to Hide",
+        description: "Attempt to Hide",
         reference: "PHB'14, pg. 192.",
         bullets: [
             "You can't hide from a creature that can see you. You must have total cover, be in a heavily obscured area, be invisible, or otherwise block the enemy's vision.",
@@ -171,8 +171,8 @@ data_action = [
         title: "Search",
         optional: "Standard rule",
         icon: "magnifying-glass",
-        subtitle: "Attempt to find something",
-        description: "Devote your attention to finding something",
+        subtitle: "Attempt to Find Something",
+        description: "Devote Your Attention to Finding Something",
         reference: "PHB'14, pg. 193.",
         bullets: [
             "Depending on the nature of your search, the DM might have you make a Wisdom (Perception) check or an Intelligence (Investigation) check."
@@ -182,8 +182,8 @@ data_action = [
         title: "Ready",
         optional: "Standard rule",
         icon: "stopwatch",
-        subtitle: "Choose trigger and action",
-        description: "Choose a trigger and a response reaction",
+        subtitle: "Choose Trigger and Action",
+        description: "Choose a Trigger and a Response Reaction",
         reference: "PHB'14, pg. 193.",
         bullets: [
             "First, you decide what perceivable circumstance will trigger your reaction.",
@@ -193,22 +193,22 @@ data_action = [
         ]
     },
     {
-        title: "Use class feature",
+        title: "Use Class Feature",
         optional: "Standard rule",
         icon: "embrassed-energy",
-        subtitle: "Some features use actions",
-        description: "Use a racial or class feature that uses an action",
+        subtitle: "Some Features Use Actions",
+        description: "Use a Racial or Class Feature That Uses an Action",
         reference: "See class page for more information.",
         bullets: [
 
         ]
     },
     {
-        title: "Stabilize a creature",
+        title: "Stabilize a Creature",
         optional: "Standard rule",
         icon: "first-aid",
-        subtitle: "Aid a dying creature",
-        description: "Stop a dying creature from needing to make death saving throws",
+        subtitle: "Aid a Dying Creature",
+        description: "Stop a Dying Creature From Needing to Make Death Saving Throws",
         reference: "PHB'14, pg. 197.",
         bullets: [
             "Make a Wisdom (Medicine) check with DC 10",
@@ -220,8 +220,8 @@ data_action = [
         title: "Improvise",
         optional: "Standard rule",
         icon: "juggler",
-        subtitle: "Any action not on this list",
-        description: "Perform any action you can imagine",
+        subtitle: "Any Action Not on This List",
+        description: "Perform Any Action You Can Imagine",
         reference: "PHB'14, pg. 193.",
         bullets: [
             "When you describe an action not detailed elsewhere in the rules, the DM tells you whether that action is possible and what kind of roll you need to make, if any, to determine success or failure."
@@ -231,8 +231,8 @@ data_action = [
         title: "Disarm",
         optional: "Optional rule",
         icon: "sword-break",
-        subtitle: "Knock item out of enemy's grasp",
-        description: "A creature can use a weapon attack to knock a weapon or another item from a target's grasp.",
+        subtitle: "Knock Item Out of Enemy's Grasp",
+        description: "A Creature Can Use a Weapon Attack to Knock a Weapon or Another Item From a Target's Grasp.",
         reference: "DMG, page 271",
         bullets: [
             "(Optional Rule):",
@@ -247,8 +247,8 @@ data_action = [
         title: "Overrun",
         optional: "Optional rule",
         icon: "shield-bash",
-        subtitle: "Run through a hostile space",
-        description: "When a creature tries to move through a hostile creature's space, the mover can try to force its way through by overrunning the hostile creature.",
+        subtitle: "Run Through a Hostile Space",
+        description: "When a Creature Tries to Move Through a Hostile Creature's Space, the Mover Can Try to Force Its Way Through by Overrunning the Hostile Creature.",
         reference: "DMG, page 272",
         bullets: [
             "(Optional Rule):",
@@ -261,8 +261,8 @@ data_action = [
         title: "Tumble",
         optional: "Optional rule",
         icon: "tumble",
-        subtitle: "Tumble through a hostile space",
-        description: "A creature can try to tumble through a hostile creature's space, ducking and weaving past the opponent.",
+        subtitle: "Tumble Through a Hostile Space",
+        description: "A Creature Can Try to Tumble Through a Hostile Creature's Space, Ducking and Weaving Past the Opponent.",
         reference: "DMG, page 272",
         bullets: [
             "(Optional Rule):",
@@ -274,8 +274,8 @@ data_action = [
         title: "Mark",
         optional: "Optional rule",
         icon: "cross-mark",
-        subtitle: "Opportunity attack advantage",
-        description: "This option makes it easier for melee combatants to harry each other with opportunity attacks.",
+        subtitle: "Opportunity Attack Advantage",
+        description: "This Option Makes It Easier for Melee Combatants to Harry Each Other with Opportunity Attacks.",
         reference: "DMG, page 271",
         bullets: [
             "(Optional Rule):",
@@ -287,11 +287,11 @@ data_action = [
         ]
     },
     {
-        title: "Climb on a creature",
+        title: "Climb on a Creature",
         optional: "Optional rule",
         icon: "mountain-climbing",
-        subtitle: "Climb a bigger creature",
-        description: "If one creature wants to jump onto another creature, it can do so by grappling. A suitably large opponent can be treated as terrain for the purpose of jumping onto its back or clinging to a limb.",
+        subtitle: "Climb a Bigger Creature",
+        description: "If One Creature Wants to Jump Onto Another Creature, It Can Do so by Grappling. A Suitably Large Opponent Can Be Treated as Terrain for the Purpose of Jumping Onto Its Back or Clinging to a Limb.",
         reference: "DMG, page 271",
         bullets: [
             "(Optional Rule):",

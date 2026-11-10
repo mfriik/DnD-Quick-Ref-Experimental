@@ -133,6 +133,8 @@ Follow the existing entry structure:
 
 - `title` and `subtitle` provide the card's heading and summary.
 - `description` and `bullets` provide the expanded explanation.
+- Write `title`, `subtitle` and `description` in Title Case, preserving acronyms
+  such as HP and D20. Detailed `bullets` keep normal sentence capitalization.
 - `reference` identifies the rule source.
 - `icon` names a PNG in [img/](./img/), without its extension.
 - `optional` classifies the entry as `Standard rule`, `Optional rule` or

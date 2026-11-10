@@ -1,10 +1,10 @@
 data_reaction = [
     {
-        title: "Opportunity attack",
+        title: "Opportunity Attack",
         optional: "Standard rule",
         icon: "crossed-swords",
-        subtitle: "Enemy leaves your reach",
-        description: "You can rarely move heedlessly past your foes without putting yourself in danger",
+        subtitle: "Enemy Leaves Your Reach",
+        description: "You Can Rarely Move Heedlessly Past Your Foes Without Putting Yourself in Danger",
         reference: "PHB'24, pg. 371.",
         bullets: [
             "Trigger: enemy creature you can see leaves your reach using its action, its Bonus Action, its Reaction or one of its Speeds.",
@@ -13,22 +13,22 @@ data_reaction = [
         ]
     },
     {
-        title: "Readied action",
+        title: "Readied Action",
         optional: "Standard rule",
         icon: "stopwatch",
-        subtitle: "Part of your Ready action",
-        description: "Execute the reaction specified by your Ready action",
+        subtitle: "Part of Your Ready Action",
+        description: "Execute the Reaction Specified by Your Ready Action",
         reference: "PHB'24, pg. 372-373.",
         bullets: [
             "Trigger and Reaction: specified by your <i>Ready</i> action."
         ]
     },
     {
-        title: "Cast a spell",
+        title: "Cast a Spell",
         optional: "Standard rule",
         icon: "magic-swirl",
-        subtitle: "Cast time of 1 reaction",
-        description: "Cast a spell with a casting time of 1 reaction",
+        subtitle: "Cast Time of 1 Reaction",
+        description: "Cast a Spell with a Casting Time of 1 Reaction",
         reference: "PHB'24, pg. 235-238.",
         bullets: [
             "Trigger: specified by the spell.",

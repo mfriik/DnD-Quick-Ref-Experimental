@@ -1,21 +1,21 @@
 data_environment_obscurance = [
     {
-        title: "Lightly obscured",
+        title: "Lightly Obscured",
         optional: "Standard rule",
         icon: "bleeding-eye",
         subtitle: "Disadvantage on Perception",
-        description: "Dim light, patchy fog, moderate foliage",
+        description: "Dim Light, Patchy Fog, Moderate Foliage",
         reference: "PHB'14, pg. 183.",
         bullets: [
             "Creatures have <b>disadvantage on Wisdom (Perception)</b> checks that rely on sight."
         ]
     },
     {
-        title: "Heavily obscured",
+        title: "Heavily Obscured",
         optional: "Standard rule",
         icon: "lightning-tear",
-        subtitle: "Effectively blind",
-        description: "Darkness, opaque fog, dense foliage",
+        subtitle: "Effectively Blind",
+        description: "Darkness, Opaque Fog, Dense Foliage",
         reference: "PHB'14, pg. 183.",
         bullets: [
             "A creature in a heavily obscured area effectively suffers from the <b>blinded condition</b>."
@@ -25,22 +25,22 @@ data_environment_obscurance = [
 
 data_environment_light = [
     {
-        title: "Bright light",
+        title: "Bright Light",
         optional: "Standard rule",
         icon: "star-pupil",
-        subtitle: "Normal vision",
-        description: "Bright light lets most creatures see normally",
+        subtitle: "Normal Vision",
+        description: "Bright Light Lets Most Creatures See Normally",
         reference: "PHB'14, pg. 183.",
         bullets: [
             "Gloomy days still provide bright light, as do torches, lanterns, fires, and other sources of illumination within a specific radius."
         ]
     },
     {
-        title: "Dim light",
+        title: "Dim Light",
         optional: "Standard rule",
         icon: "semi-closed-eye",
-        subtitle: "Lightly obscured",
-        description: "Dim light, also called shadows",
+        subtitle: "Lightly Obscured",
+        description: "Dim Light, Also Called Shadows",
         reference: "PHB'14, pg. 183.",
         bullets: [
             "Creates a <b>lightly obscured</b> area.",
@@ -52,8 +52,8 @@ data_environment_light = [
         title: "Darkness",
         optional: "Standard rule",
         icon: "worried-eyes",
-        subtitle: "Heavily obscured",
-        description: "Darkness creates a heavily obscured area",
+        subtitle: "Heavily Obscured",
+        description: "Darkness Creates a Heavily Obscured Area",
         reference: "PHB'14, pg. 183.",
         bullets: [
             "Creates a <b>heavily obscured</b> area.",
@@ -67,8 +67,8 @@ data_environment_vision = [
         title: "Blindsight",
         optional: "Standard rule",
         icon: "one-eyed",
-        subtitle: "Perceive without sight",
-        description: "Perceive your surroundings without relying on sight, within a certain radius",
+        subtitle: "Perceive Without Sight",
+        description: "Perceive Your Surroundings Without Relying on Sight, Within a Certain Radius",
         reference: "PHB'14, pg. 183.",
         bullets: [
             "Creatures without eyes, such as oozes, and creatures with echolocation or heightened senses, such as bats and true dragons, have this sense."
@@ -78,8 +78,8 @@ data_environment_vision = [
         title: "Darkvision",
         optional: "Standard rule",
         icon: "semi-closed-eye",
-        subtitle: "Limited vision in darkness",
-        description: "A creature with Darkvision can see better in the dark or low light conditions, within a certain radius",
+        subtitle: "Limited Vision in Darkness",
+        description: "A Creature with Darkvision Can See Better in the Dark or Low Light Conditions, Within a Certain Radius",
         reference: "PHB'14, pgs. 183-184.",
         bullets: [
             "Within a specified range, a creature with darkvision can <b>see in darkness as if the darkness were dim light</b>, so areas of darkness are only lightly obscured as far as that creature is concerned.",
@@ -91,8 +91,8 @@ data_environment_vision = [
         title: "Truesight",
         optional: "Standard rule",
         icon: "eye-shield",
-        subtitle: "See in darkness",
-        description: "A creature with truesight can see everything in its true form, independent of the environment",
+        subtitle: "See in Darkness",
+        description: "A Creature with Truesight Can See Everything in Its True Form, Independent of the Environment",
         reference: "PHB'14, pg. 184.",
         bullets: [
             "A creature with truesight can, out to a specific range, see in normal and magical darkness, see invisible creatures and objects, automatically detect visual illusions and succeed on saving throws against them, and perceives the original form of a shapechanger or a creature that is transformed by magic.",
@@ -103,11 +103,11 @@ data_environment_vision = [
 
 data_environment_cover = [
     {
-        title: "Half cover",
+        title: "Half Cover",
         optional: "Standard rule",
         icon: "broken-shield",
-        subtitle: "Low wall, furniture, creatures",
-        description: "A target has half cover if an obstacle blocks at least half of its body",
+        subtitle: "Low Wall, Furniture, Creatures",
+        description: "A Target Has Half Cover If an Obstacle Blocks at Least Half of Its Body",
         reference: "PHB'14, pg. 196.",
         bullets: [
             "The obstacle might be a low wall, a large piece of furniture, a narrow tree trunk, or a creature, whether that creature is an enemy or a friend.",
@@ -116,11 +116,11 @@ data_environment_cover = [
         ]
     },
     {
-        title: "Three-quarters cover",
+        title: "Three-Quarters Cover",
         optional: "Standard rule",
         icon: "cracked-shield",
-        subtitle: "Portcullis, arrow slit",
-        description: "A target has three-quarters cover if about three-quarters of it is covered by an obstacle",
+        subtitle: "Portcullis, Arrow Slit",
+        description: "A Target Has Three-Quarters Cover If About Three-Quarters of It Is Covered by an Obstacle",
         reference: "PHB'14, pg. 196.",
         bullets: [
             "The obstacle might be a portcullis, an arrow slit, or a thick tree trunk.",
@@ -129,11 +129,11 @@ data_environment_cover = [
         ]
     },
     {
-        title: "Full cover",
+        title: "Full Cover",
         optional: "Standard rule",
         icon: "shield",
-        subtitle: "Completely concealed",
-        description: "A target has total cover if it is completely concealed by an obstacle",
+        subtitle: "Completely Concealed",
+        description: "A Target Has Total Cover If It Is Completely Concealed by an Obstacle",
         reference: "PHB'14, pg. 196.",
         bullets: [
             "A target with total cover <b>can’t be targeted directly</b> by an attack or a spell, although some spells can reach such a target by including it in an area of effect.",
