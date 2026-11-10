@@ -56,7 +56,9 @@ short summaries, expanded explanations and source references.
 - **Switch the theme.** Use the sun/moon button beside the edition selector.
   On your first visit, the appearance follows your system theme.
   Colors transition smoothly without hiding text; reduced-motion preferences
-  make theme changes immediate.
+  make theme changes immediate. The site opts out of automatic color changes by
+  Dark Reader so its own theme is not transformed a second time. This cannot
+  prevent other extensions or browser settings from forcing a dark theme.
 - **Include extra rules.** Settings provides separate switches for optional
   official rules and homebrew rules, both hidden by default. A tiny gold star
   marks optional rules; a gold beer stein marks homebrew rules. These icons
@@ -112,6 +114,8 @@ Hovering over a rule card shows its description in a native browser tooltip.
 The site remembers your edition, theme choice, optional/homebrew filters,
 collapsed sections and dismissed notices in your browser's local storage.
 Individual cards start closed after a reload.
+On a first visit, the site follows your system theme until you choose one; that
+choice is remembered on later visits.
 
 Preferences are specific to the browser and site address: the experimental site,
 regular site and local preview do not share them. No account is required.
