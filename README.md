@@ -1,4 +1,4 @@
-# 🎲 mfriik/dnd5e-quickref v3.0
+# 🎲 mfriik/DnD-Quick-Ref-Experimental v3.0
 
 > **💡 Important:**  
 > If the page looks off, sections don’t load, or you’re not seeing the newest features —  
@@ -63,7 +63,9 @@ the `darkmode` key in DevTools > Application > Local Storage.
 
 ### Previewing the domain notification
 
-The notification opens automatically on every domain, including localhost,
+The notification identifies this experimental version and links to
+https://dndtest.misiek.win/ and its GitHub repository.
+It opens automatically on every domain, including localhost,
 until dismissed for that origin in the current browser.
 To preview it again after dismissal, open DevTools > Console and run:
 
@@ -96,9 +98,8 @@ do not replace manual keyboard and screen-reader testing.
 
 ## 🌐 Live View
 
-- [**mfriik.github.io/dnd5e-quickref**](https://mfriik.github.io/dnd5e-quickref/)  
-- [**dnd.milobedzki.pl**](https://dnd.milobedzki.pl/)
-- [**dnd.misiek.win**](https://dnd.misiek.win) - NEW DOMAIN - it was cheaper :P
+- [**dndtest.misiek.win**](https://dndtest.misiek.win/)
+- [**GitHub repository**](https://github.com/mfriik/DnD-Quick-Ref-Experimental)
 
 ---
 
@@ -154,7 +155,7 @@ img/ ← icons and images
 <details>
 <summary>🤝 <strong>Contributing</strong></summary>
 
-- Found a bug or have an idea? → [Open an Issue](https://github.com/mfriik/dnd5e-quickref/issues)  
+- Found a bug or have an idea? → [Open an Issue](https://github.com/mfriik/DnD-Quick-Ref-Experimental/issues)
 - Want to add a rule or feature? → Fork → Commit → PR  
 
 When editing, keep changes **focused and well-described**.  
@@ -189,7 +190,7 @@ Check the `LICENSE` file in this repository.
 <details>
 <summary>🧭 <strong>Contact</strong></summary>
 
-- 📮 Issues → [GitHub Issues Page](https://github.com/mfriik/dnd5e-quickref/issues)  
+- 📮 Issues → [GitHub Issues Page](https://github.com/mfriik/DnD-Quick-Ref-Experimental/issues)
 
 </details>
 
