@@ -182,6 +182,12 @@ function initCollapsibleSections() {
         if (collapseAll) {
             collapseAll.type = 'button';
             collapseAll.setAttribute('aria-label', 'Collapse all items in ' + name);
+            collapseAll.dataset.tooltip = 'Collapse all open cards';
+            const icon = document.createElement('span');
+            icon.className = 'collapse-all-icon';
+            icon.setAttribute('aria-hidden', 'true');
+            icon.textContent = '\u21a9';
+            collapseAll.replaceChildren(icon);
             title.appendChild(collapseAll);
             collapseAll.addEventListener('click', function() {
                 section.querySelectorAll('.item-header[aria-expanded="true"]').forEach(function(button) {
@@ -245,7 +251,8 @@ function handleRulesToggle() {
 
 function applyTheme(dark) {
     document.documentElement.classList.toggle('dark-mode-active', dark);
-    document.getElementById('darkmode-switch').checked = dark;
+    document.getElementById('theme-trigger').setAttribute('aria-label',
+        dark ? 'Switch to light mode' : 'Switch to dark mode');
 }
 
 function initSettings() {
@@ -289,8 +296,7 @@ function initSettings() {
     });
     const controls = [
         ['optional', 'optional-toggle-item', 'optional-switch'],
-        ['homebrew', 'homebrew-toggle-item', 'homebrew-switch'],
-        ['darkmode', 'darkmode-toggle-item', 'darkmode-switch']
+        ['homebrew', 'homebrew-toggle-item', 'homebrew-switch']
     ];
     controls.forEach(function([key, labelId, inputId]) {
         const oldLabel = document.getElementById(labelId);
@@ -321,15 +327,16 @@ function initSettings() {
         input.checked = localStorage.getItem(key) === 'true';
         input.addEventListener('change', function() {
             localStorage.setItem(key, String(input.checked));
-            if (key === 'darkmode') {
-                applyTheme(input.checked);
-            } else {
-                handleRulesToggle();
-            }
+            handleRulesToggle();
         });
     });
     const savedTheme = localStorage.getItem('darkmode');
     applyTheme(savedTheme === null ? systemTheme.matches : savedTheme === 'true');
+    document.getElementById('theme-trigger').addEventListener('click', function() {
+        const dark = !document.documentElement.classList.contains('dark-mode-active');
+        localStorage.setItem('darkmode', String(dark));
+        applyTheme(dark);
+    });
     systemTheme.addEventListener('change', function(event) {
         if (localStorage.getItem('darkmode') === null) applyTheme(event.matches);
     });
@@ -369,7 +376,9 @@ function initMenuTooltips() {
     function show(control) {
         hide();
         activeControl = control;
-        tooltip.textContent = control.getAttribute('aria-label');
+        const label = control.getAttribute('aria-label');
+        tooltip.textContent = control.dataset.tooltip ||
+            (control.matches('.category-nav > a') ? 'Jump to ' + label : label);
         tooltip.hidden = false;
         control.setAttribute('aria-describedby', tooltip.id);
         const rect = control.getBoundingClientRect();
@@ -385,7 +394,7 @@ function initMenuTooltips() {
         hideTimer = setTimeout(hide, 120);
     }
 
-    document.querySelectorAll('.category-nav > a, .top-menu .menu-control, .settings-trigger').forEach(function(control) {
+    document.querySelectorAll('.category-nav > a, .top-menu .menu-control, .settings-trigger, .collapse-all-btn').forEach(function(control) {
         control.removeAttribute('title');
         control.addEventListener('pointerenter', function(event) {
             if (event.pointerType !== 'touch') show(control);

@@ -1,4 +1,4 @@
-# 🎲 mfriik/dnd5e-quickref v2.0
+# 🎲 mfriik/dnd5e-quickref v3.0
 
 > **💡 Important:**  
 > If the page looks off, sections don’t load, or you’re not seeing the newest features —  
@@ -24,16 +24,27 @@ Open [localhost:8765](http://127.0.0.1:8765). No install or build step is needed
 After editing HTML, CSS or JavaScript, refresh the page; use `Ctrl + Shift + R`
 if the browser retains old assets.
 
-The interface uses a compact field-guide style, with category-colored icon backgrounds
-and light and dark surfaces. Pictograms use a contrasting color for each theme.
+The interface uses a compact field-guide style with light and dark surfaces.
+Light-theme section accents use the legacy palette: maroon, black, indigo, green,
+darkgoldenrod and teal. Dark mode uses #8f3838, #454545, #311942,
+darkolivegreen, #7a4b2a and #2f4f4f respectively, including derived accents
+and navigation icons. Rule and navigation pictograms are always white
+on their section-colored icon background in both themes; card and section surfaces
+continue to follow the selected theme.
 On a first visit, the theme follows the operating system.
 The compact top menu is aligned right and sticks near the top edge while scrolling.
 From left to right it contains Movement, Action, Bonus action, Reaction, Conditions,
-Environmental effects, Back to top, the D&D edition button and Settings.
-Navigation (including Back to top) and edition/settings controls have separate
+Environmental effects, Back to top, the D&D edition button, theme and Settings.
+The edition button uses a compact 44-by-44 CSS-pixel size with a wrapped label.
+The sun/moon button between edition and Settings switches light/dark mode;
+its tooltip describes the theme it will activate.
+Navigation (including Back to top) and edition/theme/settings controls have separate
 visual groups within the same sticky container.
 Category links use the corresponding rule-card pictograms and wrap on narrow screens.
 All menu controls show tooltips on hover or keyboard focus; Escape dismisses them.
+Section navigation tooltips read **Jump to [section name]**.
+Each section's collapse-all control shows a clockwise-rotated return arrow
+with a **Collapse all open cards** tooltip and a section-specific accessible name.
 The menu's measured height keeps section headings clear when navigating.
 Category navigation is generated from rule sections.
 New sections following the existing `.section-container` structure are included
@@ -46,7 +57,7 @@ Settings, rule cards, sections and the domain dialog open with a short 180 ms
 slide, without fading text. Reduced-motion preferences disable these animations;
 closing remains immediate so hidden content never retains keyboard focus.
 Open Settings with the gear in the sticky menu; the dropdown closes
-with Escape or a click outside. Changing **Dark theme** saves an explicit preference. Existing saved
+with Escape or a click outside. The theme button saves an explicit preference. Existing saved
 theme choices are preserved. To test system-theme behavior again, remove only
 the `darkmode` key in DevTools > Application > Local Storage.
 
