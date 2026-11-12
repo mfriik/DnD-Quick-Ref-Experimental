@@ -41,6 +41,19 @@ short summaries, expanded explanations and source references.
 
 ## Using the reference
 
+- **Search rules.** The search box in the sticky menu filters the current edition
+  as you type. It searches titles, subtitles, descriptions and bullet details
+  as readable text, ignoring letter case. Every word must occur somewhere in a
+  card; words can match different fields. Source references are not searched.
+  Search includes optional and homebrew rules even when their Settings switches
+  are off, without changing those switches. Empty sections, environmental groups
+  and their section-navigation icons disappear; sections with results open
+  temporarily, but individual cards keep their open/closed state.
+  Use the X inside the box to clear it and restore your section state and current
+  Settings filters. Empty or whitespace-only searches also restore that view.
+  Searches are not saved across reloads or edition changes.
+  Opening Help temporarily shows the full page; closing it restores your search
+  and view.
 - **Choose an edition.** The D&D 5e / D&D 5.5e button switches between the 2014
   and 2024 rulesets respectively; its tooltip includes the edition year. It
   reloads the page with the selected data. The initial default is 2014.
@@ -202,8 +215,9 @@ With Node.js 18 or later installed, run the dependency-free automated checks:
 node --test
 ```
 
-These check both editions' dataset formats and icons, JavaScript syntax and
-local asset references. They do not replace the browser interaction checks above.
+These check both editions' dataset formats and icons, JavaScript syntax, local
+asset references and search-word matching. They do not replace the browser
+interaction checks above.
 There is no build step.
 
 ## Credits and license

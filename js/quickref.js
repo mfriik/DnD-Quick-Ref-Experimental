@@ -115,19 +115,83 @@ function setExpanded(button, content, expanded, animate = false) {
     reducedMotion.addEventListener('change', motionChanged);
 }
 
+const searchableRules = new Map();
+let searchTerms = [];
+let searchSectionState = null;
+let rulesLoaded = false;
+let helpPreview = false;
+
+function readableText(html) {
+    const template = document.createElement('template');
+    template.innerHTML = html;
+    template.content.querySelectorAll('br, p, div, li, hr').forEach(function(element) {
+        element.before(document.createTextNode(' '));
+        element.after(document.createTextNode(' '));
+    });
+    return template.content.textContent.replace(/\s+/g, ' ').trim();
+}
+
+function getSearchTerms(query) {
+    return query.toLowerCase().trim().split(/\s+/).filter(Boolean);
+}
+
+function matchesSearch(text, terms) {
+    return terms.every(term => text.includes(term));
+}
+
+function ruleSearchText(data) {
+    return [data.title || '', data.subtitle || '', readableText(data.description || ''),
+        ...(data.bullets || []).map(readableText)].join(' ').replace(/\s+/g, ' ').trim().toLowerCase();
+}
+
+function getSectionState() {
+    return Array.from(document.querySelectorAll('.section-container'), section => ({
+        section,
+        expanded: section.querySelector('.section-toggle').getAttribute('aria-expanded') === 'true'
+    }));
+}
+
+function restoreSectionState(state) {
+    state.forEach(function({section, expanded}) {
+        setExpanded(section.querySelector('.section-toggle'), section.querySelector('.section-content'), expanded);
+    });
+}
+
+function updateSearch() {
+    const input = document.getElementById('rule-search');
+    document.getElementById('search-clear').hidden = input.value.length === 0;
+    const terms = getSearchTerms(input.value);
+    if (terms.length && !searchSectionState) searchSectionState = getSectionState();
+    searchTerms = terms;
+    if (rulesLoaded) handleRulesToggle(true);
+    if (!terms.length && searchSectionState) {
+        const previous = searchSectionState;
+        searchSectionState = null;
+        restoreSectionState(previous);
+    }
+}
+
+function initSearch() {
+    const input = document.getElementById('rule-search');
+    input.value = '';
+    input.closest('form').addEventListener('submit', event => event.preventDefault());
+    input.addEventListener('input', updateSearch);
+    document.getElementById('search-clear').addEventListener('click', function() {
+        input.focus({preventScroll: true});
+        input.value = '';
+        updateSearch();
+    });
+}
+
 function add_quickref_item(parent, data) {
     const item = document.createElement('div');
     item.className = 'item';
     const ruleType = data.optional || 'Standard rule';
     const extraRule = ruleType === 'Optional Official rule' || ruleType === 'Homebrew rule';
     item.dataset.ruleType = ruleType;
+    searchableRules.set(item, ruleSearchText(data));
     if (data.description) {
-        const description = document.createElement('template');
-        description.innerHTML = data.description;
-        description.content.querySelectorAll('br, p, div, li').forEach(function(element) {
-            element.after(document.createTextNode(' '));
-        });
-        const tooltip = description.content.textContent.replace(/\s+/g, ' ').trim();
+        const tooltip = readableText(data.description);
         if (tooltip) item.title = tooltip;
     }
 
@@ -214,7 +278,8 @@ function init() {
     fill_section(data_environment_light, 'environment-light');
     fill_section(data_environment_vision, 'environment-vision');
     fill_section(data_environment_cover, 'environment-cover');
-    handleRulesToggle();
+    rulesLoaded = true;
+    updateSearch();
     finishRulesetTransition(false);
 }
 
@@ -299,7 +364,9 @@ function initCollapsibleSections() {
         toggle.addEventListener('click', function() {
             const expanded = toggle.getAttribute('aria-expanded') !== 'true';
             setExpanded(toggle, content, expanded, true);
-            localStorage.setItem(section.id + '-collapsed', String(!expanded));
+            if (!searchTerms.length && !helpPreview) {
+                localStorage.setItem(section.id + '-collapsed', String(!expanded));
+            }
         });
     });
     const topMenu = navigation.closest('.top-menu');
@@ -316,7 +383,9 @@ function initCollapsibleSections() {
             const section = document.getElementById(link.hash.slice(1));
             const toggle = section.querySelector('.section-toggle');
             setExpanded(toggle, section.querySelector('.section-content'), true);
-            localStorage.setItem(section.id + '-collapsed', 'false');
+            if (!searchTerms.length && !helpPreview) {
+                localStorage.setItem(section.id + '-collapsed', 'false');
+            }
             history.pushState(null, '', link.hash);
             toggle.focus({preventScroll: true});
             section.scrollIntoView({
@@ -327,19 +396,45 @@ function initCollapsibleSections() {
     });
 }
 
-function handleRulesToggle() {
+function handleRulesToggle(expandResults = false) {
     const optional = document.getElementById('optional-switch').checked;
     const homebrew = document.getElementById('homebrew-switch').checked;
-    document.querySelectorAll('.item[data-rule-type]').forEach(function(item) {
+    const searching = searchTerms.length > 0 && !helpPreview;
+    let count = 0;
+    searchableRules.forEach(function(text, item) {
         const ruleType = item.dataset.ruleType;
-        const hide = (ruleType === 'Optional Official rule' && !optional) ||
+        const hide = helpPreview ? false : searching ? !matchesSearch(text, searchTerms) :
+            (ruleType === 'Optional Official rule' && !optional) ||
             (ruleType === 'Homebrew rule' && !homebrew);
         if (hide && item.contains(document.activeElement)) {
-            document.getElementById(ruleType === 'Optional Official rule' ? 'optional-switch' : 'homebrew-switch').focus();
+            document.getElementById(searching || searchSectionState ? 'rule-search' :
+                ruleType === 'Optional Official rule' ? 'optional-switch' : 'homebrew-switch').focus({preventScroll: true});
         }
         item.classList.toggle('item-hidden', hide);
+        if (!hide) count++;
     });
-    document.querySelectorAll('.section-container').forEach(updateCollapseAllButtonState);
+    document.querySelectorAll('.section-container').forEach(function(section) {
+        const hidden = searching && !section.querySelector('.item:not(.item-hidden)');
+        const link = document.querySelector('.category-nav a[href="#' + section.id + '"]');
+        if (hidden && (section.contains(document.activeElement) || link === document.activeElement)) {
+            document.getElementById('rule-search').focus({preventScroll: true});
+        }
+        section.hidden = hidden;
+        link.hidden = hidden;
+        section.querySelectorAll('.items-grid-container').forEach(function(group) {
+            group.hidden = searching && !group.querySelector('.item:not(.item-hidden)');
+            const subtitle = group.previousElementSibling;
+            if (subtitle?.classList.contains('section-subtitle')) subtitle.hidden = group.hidden;
+        });
+        if (!hidden && (helpPreview || searching && expandResults)) {
+            setExpanded(section.querySelector('.section-toggle'), section.querySelector('.section-content'), true);
+        }
+        updateCollapseAllButtonState(section);
+    });
+    document.getElementById('search-empty').hidden = !searching || count > 0;
+    document.getElementById('search-status').textContent = searching ?
+        count + (count === 1 ? ' matching rule.' : ' matching rules.') +
+        ' Searching includes optional and homebrew rules.' : '';
 }
 
 let themeTransitionTimer;
@@ -756,7 +851,8 @@ function initHelp() {
             title: 'Section Navigation', target: '.category-nav',
             details: [
                 ['Section icons', 'The icon group in the top menu links to rule sections. Each icon opens its section if collapsed, scrolls to it and updates the address fragment (#section-...). This makes sharing specific sections easier.'],
-                ['Sticky navigation', 'This Feature keeps this menu always available while scrolling down the page.']
+                ['Sticky navigation', 'This Feature keeps this menu always available while scrolling down the page.'],
+                ['Search rules', 'The search box before the section icons filters this edition by title, subtitle, description and details. Every word must match somewhere in a card. Search includes optional and homebrew rules even when their Settings switches are off. Use the X inside the box to clear the filter and restore your sections and Settings filters.']
             ]
         },
         {
@@ -850,6 +946,7 @@ function initHelp() {
     let wasLocked;
     let previousFilters;
     let previousScroll;
+    let previousSections;
     let trackingFrame = 0;
     let touchY = null;
     const intro = document.getElementById('help-intro');
@@ -1121,6 +1218,8 @@ function initHelp() {
         settings.hidden = true;
         document.getElementById('settings-trigger').setAttribute('aria-expanded', 'false');
         previousScroll = {left: window.scrollX, top: window.scrollY};
+        previousSections = getSectionState();
+        helpPreview = true;
         previousFilters = ['optional-switch', 'homebrew-switch'].map(function(id) {
             const input = document.getElementById(id);
             const checked = input.checked;
@@ -1169,7 +1268,9 @@ function initHelp() {
         dialog.classList.remove('help-intermediate');
         intro.textContent = originalIntro;
         previousFilters.forEach(function(saved) { saved.input.checked = saved.checked; });
+        helpPreview = false;
         handleRulesToggle();
+        restoreSectionState(previousSections);
         document.body.style.paddingRight = previousPadding;
         if (!wasLocked) document.body.classList.remove('dialog-open');
         window.scrollTo({...previousScroll, behavior: 'instant'});
@@ -1205,6 +1306,7 @@ function initNotices() {
 document.addEventListener('DOMContentLoaded', function() {
     initCollapsibleSections();
     initSettings();
+    initSearch();
     initHelp();
     initMenuTooltips();
     initNotices();

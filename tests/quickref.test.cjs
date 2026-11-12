@@ -70,3 +70,56 @@ test('the page and its linked stylesheets reference existing local assets', () =
         }
     }
 });
+
+function searchContext() {
+    const element = () => ({setAttribute() {}});
+    const context = vm.createContext({
+        document: {
+            createElement: element,
+            head: {appendChild() {}},
+            body: {appendChild() {}, classList: {add() {}}},
+            getElementById: element,
+            addEventListener() {}
+        },
+        window: {matchMedia: () => ({matches: false})},
+        localStorage: {getItem: () => null},
+        sessionStorage: {getItem: () => null}
+    });
+    vm.runInContext(fs.readFileSync(path.join(root, 'js', 'quickref.js'), 'utf8'), context);
+    return context;
+}
+
+test('search normalizes words and requires every word without treating input as regex', () => {
+    const {getSearchTerms, matchesSearch} = searchContext();
+    assert.deepEqual(Array.from(getSearchTerms('  AtTaCk \n ADVANTAGE\t')), ['attack', 'advantage']);
+    assert.deepEqual(Array.from(getSearchTerms(' \t\n')), []);
+    assert.ok(matchesSearch('attack with advantage', getSearchTerms('ADVANTAGE attack')));
+    assert.ok(!matchesSearch('attack with disadvantage', getSearchTerms('attack missing')));
+    assert.ok(matchesSearch('attack', getSearchTerms('')));
+    for (const literal of ['[', '.*', '(', '+', '?', '\\']) {
+        assert.ok(matchesSearch('literal ' + literal, getSearchTerms(literal)));
+        assert.ok(!matchesSearch('plain text', getSearchTerms(literal)));
+    }
+});
+
+test('search indexes only the four supported fields and matches across fields', () => {
+    const context = searchContext();
+    context.readableText = text => text;
+    const {ruleSearchText, getSearchTerms, matchesSearch} = context;
+    const text = ruleSearchText({
+        title: 'Attack',
+        subtitle: 'One Action',
+        description: 'Choose a Target',
+        bullets: ['Roll a D20.', 'Apply damage.'],
+        reference: 'Secret source',
+        icon: 'hidden-icon',
+        optional: 'Homebrew rule'
+    });
+    for (const query of ['ATTACK', 'action', 'target', 'D20', 'damage', 'attack damage target']) {
+        assert.ok(matchesSearch(text, getSearchTerms(query)), query);
+    }
+    for (const query of ['secret', 'source', 'hidden-icon', 'homebrew', 'missing']) {
+        assert.ok(!matchesSearch(text, getSearchTerms(query)), query);
+    }
+    assert.equal(ruleSearchText({}), '');
+});

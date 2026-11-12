@@ -55,6 +55,19 @@
             </div>
         </header>
         <div class="top-menu">
+            <form class="rule-search" role="search" aria-label="Search rules">
+                <svg class="search-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                    <circle cx="10.5" cy="10.5" r="6.5"/>
+                    <path d="m16 16 5 5"/>
+                </svg>
+                <label class="sr-only" for="rule-search">Search all rules in this edition, including optional and homebrew</label>
+                <input type="search" id="rule-search" placeholder="Search rules..." autocomplete="off" spellcheck="false">
+                <button type="button" class="search-clear" id="search-clear" aria-label="Clear search" hidden>
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                        <path d="m6 6 12 12M18 6 6 18"/>
+                    </svg>
+                </button>
+            </form>
             <nav class="menu-group category-nav" aria-label="Rule navigation">
                 <a href="#section-movement" aria-label="Movement"><span class="menu-icon" aria-hidden="true"></span></a>
                 <a href="#section-action" aria-label="Action"><span class="menu-icon" aria-hidden="true"></span></a>
@@ -100,6 +113,8 @@
             </div>
         </div>
         <main id="main-content" tabindex="-1">
+            <p id="search-status" class="sr-only" role="status" aria-live="polite" aria-atomic="true"></p>
+            <p id="search-empty" class="search-empty" hidden>No matching rules. Try different words or clear the search.</p>
 
             <!-- Movement section -->
             <div id="section-movement" class="section-container">
