@@ -195,7 +195,10 @@ h1 span { color: var(--gold); }
     width: 100%;
     max-width: 100%;
     margin: 0 0 8px auto;
+    /* Let taps in the gaps of the wrapped mobile menu reach the cards underneath. */
+    pointer-events: none;
 }
+.top-menu > * { pointer-events: auto; }
 .rule-search {
     position: relative;
     flex: 1 1 180px;
