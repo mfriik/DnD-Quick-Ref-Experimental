@@ -15,7 +15,6 @@
     </script>
     <!-- CSS -->
     <link rel="stylesheet" type="text/css" href="css/quickref.css">
-    <link rel="stylesheet" type="text/css" href="css/icons.css">
     <!-- Fonts -->
     <link href='https://fonts.googleapis.com/css?family=Noto+Sans:400,700,400italic,700italic' rel='stylesheet'
         type='text/css'>
@@ -45,7 +44,7 @@
     </script>
 </head>
 
-<body class="page-background">
+<body>
     <a class="skip-link" href="#main-content">Skip to rules</a>
     <div class="dark-mode">
         <header class="site-header">
@@ -56,6 +55,19 @@
             </div>
         </header>
         <div class="top-menu">
+            <form class="rule-search" role="search" aria-label="Search rules">
+                <svg class="search-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                    <circle cx="10.5" cy="10.5" r="6.5"/>
+                    <path d="m16 16 5 5"/>
+                </svg>
+                <label class="sr-only" for="rule-search">Search all rules in this edition, including optional and homebrew</label>
+                <input type="search" id="rule-search" placeholder="Search rules..." autocomplete="off" spellcheck="false">
+                <button type="button" class="search-clear" id="search-clear" aria-label="Clear search" hidden>
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                        <path d="m6 6 12 12M18 6 6 18"/>
+                    </svg>
+                </button>
+            </form>
             <nav class="menu-group category-nav" aria-label="Rule navigation">
                 <a href="#section-movement" aria-label="Movement"><span class="menu-icon" aria-hidden="true"></span></a>
                 <a href="#section-action" aria-label="Action"><span class="menu-icon" aria-hidden="true"></span></a>
@@ -100,7 +112,9 @@
                 </button>
             </div>
         </div>
-        <main id="main-content" class="page fontsize" data-size="fullscreen" tabindex="-1">
+        <main id="main-content" tabindex="-1">
+            <p id="search-status" class="sr-only" role="status" aria-live="polite" aria-atomic="true"></p>
+            <p id="search-empty" class="search-empty" hidden>No matching rules. Try different words or clear the search.</p>
 
             <!-- Movement section -->
             <div id="section-movement" class="section-container">
@@ -115,7 +129,7 @@
                     </div>
                 </div>
                 <div class="section-content">
-                    <div class="section-row section-subtitle text fontsize">
+                    <div class="section-row section-subtitle">
                         You can move at any time during your turn (before, after, or during actions).
                     </div>
                     <div class="section-row" id="basic-movement">
@@ -136,7 +150,7 @@
                     </div>
                 </div>
                 <div class="section-content">
-                    <div class="section-row section-subtitle text fontsize">
+                    <div class="section-row section-subtitle">
                         You can also interact with one object or feature of the
                         environment for free.
                     </div>
@@ -157,7 +171,7 @@
                     </div>
                 </div>
                 <div class="section-content">
-                    <div class="section-row section-subtitle text fontsize">
+                    <div class="section-row section-subtitle">
                         You can take a bonus action only when a special ability, spell, or feature
                         states that you can do something as a bonus action.
                     </div>
@@ -178,7 +192,7 @@
                     </div>
                 </div>
                 <div class="section-content">
-                    <div class="section-row section-subtitle text fontsize">
+                    <div class="section-row section-subtitle">
                         A reaction is an instant response to a trigger of some kind, which
                         can occur on your turn or on someone else's.
                     </div>
@@ -198,7 +212,7 @@
                     </div>
                 </div>
                 <div class="section-content">
-                    <div class="section-row section-subtitle text fontsize">
+                    <div class="section-row section-subtitle">
                         Conditions alter your capabilities in a variety of ways, and can arise as a result of a spell, a
                         class feature, a monster's attack, or other effect.
                     </div>
@@ -218,19 +232,19 @@
                     </div>
                 </div>
                 <div class="section-content">
-                    <div class="section-row section-subtitle text fontsize">
+                    <div class="section-row section-subtitle">
                         Effects that obscure vision can prove a significant hindrance to most adventuring tasks.
                     </div>
                     <div class="section-row" id="environment-obscurance"></div>
-                    <div class="section-row section-subtitle text fontsize">
+                    <div class="section-row section-subtitle">
                         The presence or absence of light in an environment creates three categories of illumination.
                     </div>
                     <div class="section-row" id="environment-light"></div>
-                    <div class="section-row section-subtitle text fontsize">
+                    <div class="section-row section-subtitle">
                         Some creatures have extraordinary senses that allow them to perceive their environment.
                     </div>
                     <div class="section-row" id="environment-vision"></div>
-                    <div class="section-row section-subtitle text fontsize">
+                    <div class="section-row section-subtitle">
                         Obstacles can provide cover during combat, making a target more difficult to harm.
                     </div>
                     <div class="section-row" id="environment-cover"></div>
@@ -243,35 +257,35 @@
                 </div>
                 <div>
                     <div class="section-row" id="settings-items-container">
-                        <div class="item itemsize settings-item" title="Include Optional Rules">
-                            <div class="item-text-container text" id="optional-toggle-item">
-                                <div class="item-title">Include Optional Rules</div>
-                                <div class="item-desc">Show/hide optional official rules.</div>
-                            </div>
+                        <div class="item settings-item" title="Include Optional Rules">
+                            <label class="item-text-container" id="optional-toggle-item" for="optional-switch">
+                                <span class="item-title">Include Optional Rules</span>
+                                <span class="item-desc">Show/hide optional official rules.</span>
+                            </label>
                             <div class="item-toggle"><label class="switch">
                                     <input type="checkbox" id="optional-switch">
-                                    <span class="slider round"></span>
+                                    <span class="slider"></span>
                                 </label></div>
                         </div>
-                        <div class="item itemsize settings-item" title="Include Homebre Rules">
-                            <div class="item-text-container text" id="homebrew-toggle-item">
-                                <div class="item-title">Include Homebrew Rules</div>
-                                <div class="item-desc">Show/hide most common homebrew rules.</div>
-                            </div>
+                        <div class="item settings-item" title="Include Homebre Rules">
+                            <label class="item-text-container" id="homebrew-toggle-item" for="homebrew-switch">
+                                <span class="item-title">Include Homebrew Rules</span>
+                                <span class="item-desc">Show/hide most common homebrew rules.</span>
+                            </label>
                             <div class="item-toggle"><label class="switch">
                                     <input type="checkbox" id="homebrew-switch">
-                                    <span class="slider round"></span>
+                                    <span class="slider"></span>
                                 </label></div>
                         </div>
-                        <a href="https://github.com/mfriik/DnD-Quick-Ref-Experimental/issues" target="_blank" rel="noopener noreferrer" class="item itemsize settings-item" title="Leave Feedback" id="feedback-link-item">
-                            <div class="item-text-container text">
+                        <a href="https://github.com/mfriik/DnD-Quick-Ref-Experimental/issues" target="_blank" rel="noopener noreferrer" class="item settings-item" title="Leave Feedback" id="feedback-link-item">
+                            <div class="item-text-container">
                                 <div class="item-title">Something not working?</div>
                                 <div class="item-desc">Leave me your feedback. Found an issue or have a suggestion? Let me know! <span class="sr-only">(opens in a new tab)</span></div>
                             </div>
                             <span class="settings-link-icon" aria-hidden="true"></span>
                         </a>
-                        <a href="https://dnd.misiek.win/" target="_blank" rel="noopener noreferrer" class="item itemsize settings-item" title="Visit Main D&D Site" id="dnd-main-site-link-item">
-                            <div class="item-text-container text">
+                        <a href="https://dnd.misiek.win/" target="_blank" rel="noopener noreferrer" class="item settings-item" title="Visit Main D&D Site" id="dnd-main-site-link-item">
+                            <div class="item-text-container">
                                 <div class="item-title">Open Main D&D Site</div>
                                 <div class="item-desc">Return to the regular D&D quick reference site without experimental features. <span class="sr-only">(opens in a new tab)</span></div>
                             </div>
