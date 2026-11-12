@@ -3,11 +3,11 @@ const ruleFiles = [
     'data_movement', 'data_action', 'data_bonusaction',
     'data_reaction', 'data_condition', 'data_environment'
 ];
+const rulesetPrefix = localStorage.getItem('rules2024') === 'true' ? '2024_' : '';
 const dataReady = Promise.all(ruleFiles.map(function(base) {
     return new Promise(function(resolve, reject) {
         const script = document.createElement('script');
-        const prefix = localStorage.getItem('rules2024') === 'true' ? '2024_' : '';
-        script.src = 'js/' + prefix + base + '.js';
+        script.src = 'js/' + rulesetPrefix + base + '.js';
         script.onload = resolve;
         script.onerror = function() {
             reject(new Error('Could not load ' + script.src));
@@ -76,7 +76,6 @@ function setExpanded(button, content, expanded, animate = false) {
         button.focus();
     }
     button.setAttribute('aria-expanded', String(expanded));
-    content.classList.toggle('collapsed', !expanded);
     content.inert = !expanded;
     const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
     if (!animate || reducedMotion.matches) {
@@ -116,9 +115,9 @@ function setExpanded(button, content, expanded, animate = false) {
     reducedMotion.addEventListener('change', motionChanged);
 }
 
-function add_quickref_item(parent, data, type) {
+function add_quickref_item(parent, data) {
     const item = document.createElement('div');
-    item.className = 'item itemsize';
+    item.className = 'item';
     const ruleType = data.optional || 'Standard rule';
     const extraRule = ruleType === 'Optional Official rule' || ruleType === 'Homebrew rule';
     item.dataset.ruleType = ruleType;
@@ -143,12 +142,12 @@ function add_quickref_item(parent, data, type) {
     button.setAttribute('aria-controls', contentId);
 
     const icon = document.createElement('span');
-    icon.className = 'item-icon iconsize icon-' + (data.icon || 'perspective-dice-six-faces-one');
+    icon.className = 'item-icon';
     const iconUrl = new URL('img/' + encodeURIComponent(data.icon || 'perspective-dice-six-faces-one') + '.png', document.baseURI);
     icon.style.setProperty('--icon-image', 'url("' + iconUrl.href + '")');
     icon.setAttribute('aria-hidden', 'true');
     const text = document.createElement('span');
-    text.className = 'item-text-container text';
+    text.className = 'item-text-container';
     const title = document.createElement('span');
     title.className = 'item-title';
     title.textContent = data.title || '[no title]';
@@ -175,20 +174,11 @@ function add_quickref_item(parent, data, type) {
     button.append(icon, text, chevron);
     heading.appendChild(button);
 
-    const bulletsHTML = (data.bullets || []).map(function(bullet) {
-        if (typeof bullet === 'object' && bullet.collapsible) {
-            return '<div class="item-collapsible-container">' +
-                '<div class="item-collapsible-title">' + bullet.title + '</div>' +
-                '<div class="item-collapsible-content">' +
-                bullet.content.map(p => '<p>' + p + '</p>').join('') +
-                '</div></div>';
-        }
-        return '<p>' + bullet + '</p>';
-    }).join('\n<hr>\n');
+    const bulletsHTML = (data.bullets || []).map(bullet => '<p>' + bullet + '</p>').join('\n<hr>\n');
 
     const content = document.createElement('div');
     content.id = contentId;
-    content.className = 'item-content collapsed';
+    content.className = 'item-content';
     content.hidden = true;
     content.innerHTML = '<p class="item-description">' + (data.description || data.subtitle || '') +
         '</p><div class="item-bullets">' + bulletsHTML +
@@ -208,22 +198,22 @@ function add_quickref_item(parent, data, type) {
     parent.appendChild(item);
 }
 
-function fill_section(data, parentname, type) {
+function fill_section(data, parentname) {
     const parent = document.getElementById(parentname);
     parent.classList.add('items-grid-container');
-    data.forEach(item => add_quickref_item(parent, item, type));
+    data.forEach(item => add_quickref_item(parent, item));
 }
 
 function init() {
-    fill_section(data_movement, 'basic-movement', 'Move');
-    fill_section(data_action, 'basic-actions', 'Action');
-    fill_section(data_bonusaction, 'basic-bonus-actions', 'Bonus action');
-    fill_section(data_reaction, 'basic-reactions', 'Reaction');
-    fill_section(data_condition, 'basic-conditions', 'Condition');
-    fill_section(data_environment_obscurance, 'environment-obscurance', 'Environment');
-    fill_section(data_environment_light, 'environment-light', 'Environment');
-    fill_section(data_environment_vision, 'environment-vision', 'Environment');
-    fill_section(data_environment_cover, 'environment-cover', 'Environment');
+    fill_section(data_movement, 'basic-movement');
+    fill_section(data_action, 'basic-actions');
+    fill_section(data_bonusaction, 'basic-bonus-actions');
+    fill_section(data_reaction, 'basic-reactions');
+    fill_section(data_condition, 'basic-conditions');
+    fill_section(data_environment_obscurance, 'environment-obscurance');
+    fill_section(data_environment_light, 'environment-light');
+    fill_section(data_environment_vision, 'environment-vision');
+    fill_section(data_environment_cover, 'environment-cover');
     handleRulesToggle();
     finishRulesetTransition(false);
 }
@@ -249,26 +239,24 @@ function initCollapsibleSections() {
         const title = section.querySelector('.section-title');
         const text = title.querySelector('.section-title-text');
         const name = text.firstChild.textContent.trim();
-        if (section.id !== 'section-settings') {
-            const link = navigation.querySelector('a[href="#' + section.id + '"]') || document.createElement('a');
-            link.href = '#' + section.id;
-            const label = section.id === 'section-environment' ? 'Environmental effects'
-                : section.id === 'section-condition' ? 'Conditions' : name;
-            link.setAttribute('aria-label', label);
-            link.title = label;
-            const iconName = sectionIcons[section.id];
-            if (iconName) {
-                const icon = document.createElement('span');
-                icon.className = 'menu-icon';
-                icon.setAttribute('aria-hidden', 'true');
-                const iconUrl = new URL('img/' + iconName + '.png', document.baseURI);
-                icon.style.setProperty('--icon-image', 'url("' + iconUrl.href + '")');
-                link.replaceChildren(icon);
-            } else {
-                link.textContent = name;
-            }
-            navigation.insertBefore(link, document.getElementById('back-to-top'));
+        const link = navigation.querySelector('a[href="#' + section.id + '"]') || document.createElement('a');
+        link.href = '#' + section.id;
+        const label = section.id === 'section-environment' ? 'Environmental effects'
+            : section.id === 'section-condition' ? 'Conditions' : name;
+        link.setAttribute('aria-label', label);
+        link.title = label;
+        const iconName = sectionIcons[section.id];
+        if (iconName) {
+            const icon = document.createElement('span');
+            icon.className = 'menu-icon';
+            icon.setAttribute('aria-hidden', 'true');
+            const iconUrl = new URL('img/' + iconName + '.png', document.baseURI);
+            icon.style.setProperty('--icon-image', 'url("' + iconUrl.href + '")');
+            link.replaceChildren(icon);
+        } else {
+            link.textContent = name;
         }
+        navigation.insertBefore(link, document.getElementById('back-to-top'));
         const content = section.querySelector('.section-content');
         content.id = section.id + '-content';
         const heading = document.createElement('h2');
@@ -283,9 +271,8 @@ function initCollapsibleSections() {
         chevron.setAttribute('aria-hidden', 'true');
         toggle.append(chevron, document.createTextNode(name));
         heading.appendChild(toggle);
-        const collapseAll = title.querySelector('.collapse-all-btn:not(#app-version-display)');
+        const collapseAll = title.querySelector('.collapse-all-btn');
         const limit = title.querySelector('.float-right');
-        const version = title.querySelector('#app-version-display');
         title.replaceChildren(heading);
         if (limit) {
             limit.className = 'section-limit';
@@ -307,13 +294,6 @@ function initCollapsibleSections() {
                 });
                 updateCollapseAllButtonState(section);
             });
-        }
-        if (version) {
-            const badge = document.createElement('span');
-            badge.id = 'app-version-display';
-            badge.className = 'app-version';
-            badge.textContent = 'v' + window.dndQuickRefAppVersion;
-            title.appendChild(badge);
         }
         setExpanded(toggle, content, localStorage.getItem(section.id + '-collapsed') !== 'true');
         toggle.addEventListener('click', function() {
@@ -424,24 +404,7 @@ function initSettings() {
         ['homebrew', 'homebrew-toggle-item', 'homebrew-switch']
     ];
     controls.forEach(function([key, labelId, inputId]) {
-        const oldLabel = document.getElementById(labelId);
-        const label = document.createElement('label');
-        label.id = labelId;
-        label.className = oldLabel.className;
-        label.htmlFor = inputId;
-        while (oldLabel.firstChild) {
-            const oldText = oldLabel.firstChild;
-            if (oldText.nodeType === Node.ELEMENT_NODE) {
-                const span = document.createElement('span');
-                span.className = oldText.className;
-                span.textContent = oldText.textContent;
-                label.appendChild(span);
-                oldText.remove();
-            } else {
-                label.appendChild(oldText);
-            }
-        }
-        oldLabel.replaceWith(label);
+        const label = document.getElementById(labelId);
         const input = document.getElementById(inputId);
         const title = label.querySelector('.item-title');
         const description = label.querySelector('.item-desc');

@@ -151,9 +151,9 @@ records the experimental site's custom domain.
 | [js/quickref.js](./js/quickref.js) | Loads the chosen edition, renders cards and handles interaction and preferences |
 | [js/](./js/) | Rule datasets: `data_*.js` for 2014 and `2024_data_*.js` for 2024 |
 | [css/quickref.css](./css/quickref.css) | Active layout, themes, responsive and print styles |
-| [css/icons.css](./css/icons.css) | Icon background definitions |
-| [img/](./img/) | Rule pictograms |
+| [img/](./img/) | Rule pictograms and the full icon library for future entries |
 | [favicon.ico](./favicon.ico) | Site icon |
+| [tests/quickref.test.cjs](./tests/quickref.test.cjs) | Dependency-free checks for datasets, script syntax and asset references |
 
 The page loads one set of rule files for the selected edition and turns their
 entries into cards. Both editions share the same renderer and interface.
@@ -169,20 +169,23 @@ The files are maintained JavaScript data, not an in-page rule editor.
 Follow the existing entry structure:
 
 - `title` and `subtitle` provide the card's heading and summary.
-- `description` and `bullets` provide the expanded explanation.
+- `description` and `bullets` provide the expanded explanation; `bullets` is an
+  array of HTML strings.
 - Write `title`, `subtitle` and `description` in Title Case, preserving acronyms
   such as HP and D20. Detailed `bullets` keep normal sentence capitalization.
 - `reference` identifies the rule source.
 - `icon` names a PNG in [img/](./img/), without its extension.
-- `optional` classifies the entry as `Standard rule`, `Optional rule` or
+- `optional` classifies the entry as `Standard rule`, `Optional Official rule` or
   `Homebrew rule`, which determines whether the Settings filters hide it.
 
 Detailed content supports HTML, so use trusted content and preserve the existing
 formatting conventions. Changes to one edition do not automatically update the
 other; check both when a correction applies to both rulesets.
 
-For interface changes, edit the stylesheets linked above. The similarly named
-stylesheets at the repository root are not loaded by the current page.
+For interface changes, edit [css/quickref.css](./css/quickref.css). Icons use
+CSS masks with image paths taken directly from each entry's `icon` value;
+no separate icon-class stylesheet is needed. The full image library is kept
+so new entries can use additional icons.
 
 ## Contributing
 
@@ -193,7 +196,15 @@ problems, include your browser, steps to reproduce and a screenshot if useful.
 Pull requests should be focused and explain the intended behavior. Run the site
 locally and check the affected ruleset, both themes and a narrow screen.
 For interaction changes, also check keyboard use and the relevant saved settings.
-There is currently no automated test suite or build command.
+With Node.js 18 or later installed, run the dependency-free automated checks:
+
+```powershell
+node --test
+```
+
+These check both editions' dataset formats and icons, JavaScript syntax and
+local asset references. They do not replace the browser interaction checks above.
+There is no build step.
 
 ## Credits and license
 
