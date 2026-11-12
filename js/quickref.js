@@ -56,6 +56,29 @@ function finishRulesetTransition(error) {
 }
 
 const expansionAnimations = new WeakMap();
+let scrollAnchorSuspensions = 0;
+
+// Browser scroll anchoring can pick an element below the card and shift the page up as it grows.
+function suspendScrollAnchoring() {
+    if (scrollAnchorSuspensions++ === 0) document.documentElement.style.overflowAnchor = 'none';
+    let released = false;
+    return function() {
+        if (released) return;
+        released = true;
+        requestAnimationFrame(function() {
+            if (--scrollAnchorSuspensions === 0) document.documentElement.style.removeProperty('overflow-anchor');
+        });
+    };
+}
+
+function revealCoveredHeader(button) {
+    if (button.getBoundingClientRect().top < document.querySelector('.top-menu').getBoundingClientRect().bottom) {
+        button.scrollIntoView({
+            block: 'start',
+            behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'instant' : 'smooth'
+        });
+    }
+}
 
 function setExpanded(button, content, expanded, animate = false) {
     const height = content.hidden ? 0 : content.getBoundingClientRect().height;
@@ -78,8 +101,14 @@ function setExpanded(button, content, expanded, animate = false) {
     button.setAttribute('aria-expanded', String(expanded));
     content.inert = !expanded;
     const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
-    if (!animate || reducedMotion.matches) {
+    if (!animate) {
         content.hidden = !expanded;
+        return;
+    }
+    const releaseScrollAnchoring = suspendScrollAnchoring();
+    if (reducedMotion.matches) {
+        content.hidden = !expanded;
+        releaseScrollAnchoring();
         return;
     }
     content.hidden = false;
@@ -104,6 +133,7 @@ function setExpanded(button, content, expanded, animate = false) {
         expansionAnimations.delete(content);
         reducedMotion.removeEventListener('change', motionChanged);
         animation.cancel();
+        releaseScrollAnchoring();
     }
     function motionChanged(event) {
         if (event.matches) animation.finish();
@@ -111,6 +141,7 @@ function setExpanded(button, content, expanded, animate = false) {
     animation.onfinish = finish;
     animation.oncancel = function() {
         reducedMotion.removeEventListener('change', motionChanged);
+        releaseScrollAnchoring();
     };
     reducedMotion.addEventListener('change', motionChanged);
 }
@@ -256,6 +287,7 @@ function add_quickref_item(parent, data) {
 
     button.addEventListener('click', function() {
         setExpanded(button, content, button.getAttribute('aria-expanded') !== 'true', true);
+        revealCoveredHeader(button);
         updateCollapseAllButtonState(item.closest('.section-container'));
     });
     item.append(heading, content);
@@ -364,6 +396,7 @@ function initCollapsibleSections() {
         toggle.addEventListener('click', function() {
             const expanded = toggle.getAttribute('aria-expanded') !== 'true';
             setExpanded(toggle, content, expanded, true);
+            revealCoveredHeader(toggle);
             if (!searchTerms.length && !helpPreview) {
                 localStorage.setItem(section.id + '-collapsed', String(!expanded));
             }
