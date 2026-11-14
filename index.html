@@ -5,7 +5,7 @@
     <meta charset="utf-8" />
     <meta name=viewport content="width=device-width, initial-scale=1">
     <meta name="darkreader-lock">
-    <title>D&D 5e quick reference</title>
+    <title>D&D 5e quick reference </title>
     <style>
         .rules-loading .section-container,
         .rules-loading .category-nav > a { visibility: hidden; }
@@ -21,14 +21,28 @@
     <link href='https://fonts.googleapis.com/css?family=Lora:700' rel='stylesheet' type='text/css'>
     <!-- Javascript -->
     <script>
-        // Force a hard refresh if the cached version of the app is outdated.
+        // Show the saved layout and force a hard refresh if the cached version of the app is outdated.
         // This logic is inlined in the HTML to ensure it runs even if the main JS file is cached.
         (function() {
             // Increment this version number when you deploy breaking changes or significant updates.
-            const CURRENT_APP_VERSION = '3.0.0';
+            // Keep it in sync with classic/index.html.
+            const CURRENT_APP_VERSION = '3.1.0';
             window.dndQuickRefAppVersion = CURRENT_APP_VERSION; // Expose version for other scripts
             const VERSION_KEY = 'appVersion';
             const storedVersion = localStorage.getItem(VERSION_KEY);
+
+            // The classic and new layouts are separate pages; this one is the new layout.
+            let layout = localStorage.getItem('pageLayout');
+            if (layout !== 'classic' && layout !== 'modern') {
+                // Visitors returning from the 2.x site keep the classic look they already know.
+                layout = storedVersion && parseInt(storedVersion, 10) < 3 ? 'classic' : 'modern';
+                localStorage.setItem('pageLayout', layout);
+            }
+            if (layout !== 'modern') {
+                document.documentElement.style.visibility = 'hidden';
+                location.replace('classic/' + location.search + location.hash);
+                return;
+            }
 
             if (storedVersion !== CURRENT_APP_VERSION) {
                 localStorage.setItem(VERSION_KEY, CURRENT_APP_VERSION);
@@ -51,7 +65,7 @@
             <div class="brand-mark" aria-hidden="true"><img src="favicon.ico" alt="" width="40" height="40"></div>
             <div class="site-heading">
                 <p class="eyebrow">Your adventuring companion</p>
-                <h1 id="page-title" tabindex="-1">D&D <span>Quick Reference</span></h1>
+                <h1 id="page-title" tabindex="-1">D&D <span>Quick Reference</span> <span class="header-version" id="header-version"></span></h1>
             </div>
         </header>
         <div class="top-menu">
@@ -277,17 +291,27 @@
                                     <span class="slider"></span>
                                 </label></div>
                         </div>
-                        <a href="https://github.com/mfriik/DnD-Quick-Ref-Experimental/issues" target="_blank" rel="noopener noreferrer" class="item settings-item" title="Leave Feedback" id="feedback-link-item">
+                        <div class="item settings-item" title="Use Classic Layout">
+                            <label class="item-text-container" id="classic-layout-toggle-item" for="classic-layout-switch">
+                                <span class="item-title">Classic Layout</span>
+                                <span class="item-desc">Switch to the original look of this page. The page reloads.</span>
+                            </label>
+                            <div class="item-toggle"><label class="switch">
+                                    <input type="checkbox" id="classic-layout-switch">
+                                    <span class="slider"></span>
+                                </label></div>
+                        </div>
+                        <a href="https://github.com/mfriik/dnd5e-quickref/issues" data-site-href="issues" target="_blank" rel="noopener noreferrer" class="item settings-item" title="Leave Feedback" id="feedback-link-item">
                             <div class="item-text-container">
                                 <div class="item-title">Something not working?</div>
                                 <div class="item-desc">Leave me your feedback. Found an issue or have a suggestion? Let me know! <span class="sr-only">(opens in a new tab)</span></div>
                             </div>
                             <span class="settings-link-icon" aria-hidden="true"></span>
                         </a>
-                        <a href="https://dnd.misiek.win/" target="_blank" rel="noopener noreferrer" class="item settings-item" title="Visit Main D&D Site" id="dnd-main-site-link-item">
+                        <a href="./" data-site-href="site" target="_blank" rel="noopener noreferrer" class="item settings-item" title="Open Site Address" id="site-link-item">
                             <div class="item-text-container">
-                                <div class="item-title">Open Main D&D Site</div>
-                                <div class="item-desc">Return to the regular D&D quick reference site without experimental features. <span class="sr-only">(opens in a new tab)</span></div>
+                                <div class="item-title">Open <span data-site-text="name">D&D Quick Reference</span></div>
+                                <div class="item-desc">Bookmark or share the address: <span data-site-text="domain">this site</span> <span class="sr-only">(opens in a new tab)</span></div>
                             </div>
                             <span class="settings-link-icon" aria-hidden="true"></span>
                         </a>
@@ -297,7 +321,7 @@
         </main>
         <footer class="site-footer">
             <span>Made for the moments between dice rolls.</span>
-            <a href="https://github.com/mfriik/DnD-Quick-Ref-Experimental" target="_blank" rel="noopener noreferrer">View on GitHub <span class="sr-only">(opens in a new tab)</span><span aria-hidden="true">&#8599;</span></a>
+            <a href="https://github.com/mfriik/dnd5e-quickref" data-site-href="repository" target="_blank" rel="noopener noreferrer">View on GitHub <span class="sr-only">(opens in a new tab)</span><span aria-hidden="true">&#8599;</span></a>
         </footer>
     </div>
     <dialog id="help-dialog" class="help-dialog" aria-labelledby="help-heading" aria-describedby="help-intro">
@@ -322,6 +346,8 @@
         <p>This website saves your preferences in your browser.<br>Hosting or third-party services may use cookies.</p>
         <button type="button" id="accept-cookies">Accept</button>
     </div>
+    <!-- Deployment links resolved from the site's CNAME domain -->
+    <script src="js/site.js"></script>
     <!-- Main quickref JavaScript logic: handles dynamic content, toggles, and filtering -->
     <script type="text/javascript" src="js/quickref.js" charset="utf-8" onerror="document.documentElement.classList.remove('rules-loading'); console.error('Quick reference application could not be loaded.');"></script>
 

@@ -6,6 +6,8 @@ const vm = require('node:vm');
 
 const root = path.resolve(__dirname, '..');
 const html = fs.readFileSync(path.join(root, 'index.html'), 'utf8');
+const classicHtml = fs.readFileSync(path.join(root, 'classic', 'index.html'), 'utf8');
+const pages = [[html, root], [classicHtml, path.join(root, 'classic')]];
 const categories = ['movement', 'action', 'bonusaction', 'reaction', 'condition', 'environment'];
 const datasets = [
     'movement', 'action', 'bonusaction', 'reaction', 'condition',
@@ -43,31 +45,150 @@ for (const [edition, prefix] of [['2014', ''], ['2024', '2024_']]) {
 }
 
 test('all application scripts and inline scripts have valid syntax', () => {
-    for (const name of fs.readdirSync(path.join(root, 'js')).filter(name => name.endsWith('.js'))) {
-        const filename = path.join(root, 'js', name);
-        new vm.Script(fs.readFileSync(filename, 'utf8'), {filename});
+    for (const directory of [path.join(root, 'js'), path.join(root, 'classic', 'js')]) {
+        for (const name of fs.readdirSync(directory).filter(name => name.endsWith('.js'))) {
+            const filename = path.join(directory, name);
+            new vm.Script(fs.readFileSync(filename, 'utf8'), {filename});
+        }
     }
-    for (const match of html.matchAll(/<script\b[^>]*>([\s\S]*?)<\/script>/g)) {
-        new vm.Script(match[1], {filename: 'index.html inline script'});
+    for (const [page, directory] of pages) {
+        for (const match of page.matchAll(/<script\b[^>]*>([\s\S]*?)<\/script>/g)) {
+            new vm.Script(match[1], {filename: path.join(directory, 'index.html') + ' inline script'});
+        }
     }
 });
 
-test('the page and its linked stylesheets reference existing local assets', () => {
-    const stylesheets = [];
-    for (const match of html.matchAll(/\b(?:src|href)="([^"]+)"/g)) {
-        const reference = match[1];
-        if (/^(?:[a-z]+:|#|\/\/)/i.test(reference)) continue;
-        const filename = path.resolve(root, reference);
-        assert.ok(fs.existsSync(filename), 'Missing page asset: ' + reference);
-        if (filename.endsWith('.css')) stylesheets.push(filename);
-    }
-    assert.ok(stylesheets.length > 0);
-    for (const filename of stylesheets) {
-        const css = fs.readFileSync(filename, 'utf8');
-        for (const match of css.matchAll(/url\(['"]?([^'")]+)['"]?\)/g)) {
-            assert.ok(fs.existsSync(path.resolve(path.dirname(filename), match[1])),
-                'Missing stylesheet asset: ' + match[1]);
+test('both pages and their linked stylesheets reference existing local assets', () => {
+    for (const [page, directory] of pages) {
+        const stylesheets = [];
+        for (const match of page.matchAll(/\s(?:src|href)="([^"]+)"/g)) {
+            const reference = match[1];
+            if (/^(?:[a-z]+:|#|\/\/)/i.test(reference)) continue;
+            const filename = path.resolve(directory, reference);
+            assert.ok(fs.existsSync(filename), 'Missing page asset: ' + reference);
+            if (filename.endsWith('.css')) stylesheets.push(filename);
         }
+        assert.ok(stylesheets.length > 0);
+        for (const filename of stylesheets) {
+            const css = fs.readFileSync(filename, 'utf8');
+            for (const match of css.matchAll(/url\(['"]?([^'")]+)['"]?\)/g)) {
+                assert.ok(fs.existsSync(path.resolve(path.dirname(filename), match[1])),
+                    'Missing stylesheet asset: ' + match[1]);
+            }
+        }
+    }
+});
+
+function runHeadScript(page, stored) {
+    const script = Array.from(page.matchAll(/<script>([\s\S]*?)<\/script>/g), match => match[1])
+        .find(source => source.includes('CURRENT_APP_VERSION'));
+    const storage = new Map(Object.entries(stored));
+    const result = {replacedWith: null, reloaded: false};
+    const context = vm.createContext({
+        localStorage: {
+            getItem: key => storage.has(key) ? storage.get(key) : null,
+            setItem: (key, value) => storage.set(key, String(value)),
+            removeItem: key => storage.delete(key)
+        },
+        location: {
+            search: '?q=1',
+            hash: '#section-action',
+            replace: url => { result.replacedWith = url; },
+            reload: () => { result.reloaded = true; }
+        },
+        document: {documentElement: {style: {}, classList: {add() {}, toggle() {}}}},
+        window: {matchMedia: () => ({matches: false})}
+    });
+    vm.runInContext(script, context);
+    return {...result, storage: Object.fromEntries(storage), version: context.window.dndQuickRefAppVersion};
+}
+
+test('both layouts use the same app version', () => {
+    const modern = runHeadScript(html, {pageLayout: 'modern'});
+    const classic = runHeadScript(classicHtml, {pageLayout: 'classic'});
+    assert.match(modern.version, /^3\.\d+\.\d+$/);
+    assert.equal(classic.version, modern.version);
+    assert.match(html, /<h1\b[^>]*>[\s\S]*?<span class="header-version" id="header-version"><\/span>/);
+    assert.match(fs.readFileSync(path.join(root, 'js', 'quickref.js'), 'utf8'),
+        /getElementById\('header-version'\)\.textContent = 'v' \+ window\.dndQuickRefAppVersion/);
+});
+
+test('new visitors get the new layout and 2.x visitors keep the classic layout', () => {
+    const newVisitor = runHeadScript(html, {});
+    assert.equal(newVisitor.replacedWith, null);
+    assert.equal(newVisitor.storage.pageLayout, 'modern');
+    assert.equal(newVisitor.storage.appVersion, newVisitor.version);
+
+    const returning = runHeadScript(html, {appVersion: '2.1.7'});
+    assert.equal(returning.replacedWith, 'classic/?q=1#section-action');
+    assert.equal(returning.storage.pageLayout, 'classic');
+    // The classic page performs the version update after the redirect.
+    assert.equal(returning.storage.appVersion, '2.1.7');
+    assert.equal(returning.reloaded, false);
+
+    const classic = runHeadScript(classicHtml, returning.storage);
+    assert.equal(classic.replacedWith, null);
+    assert.equal(classic.storage.appVersion, classic.version);
+    assert.equal(classic.reloaded, true);
+
+    assert.equal(runHeadScript(html, {appVersion: '3.0.0'}).storage.pageLayout, 'modern');
+});
+
+test('each page sends a saved choice of the other layout to that page with the same address', () => {
+    assert.equal(runHeadScript(html, {pageLayout: 'classic'}).replacedWith, 'classic/?q=1#section-action');
+    assert.equal(runHeadScript(classicHtml, {pageLayout: 'modern'}).replacedWith, '../?q=1#section-action');
+    assert.equal(runHeadScript(html, {pageLayout: 'modern', appVersion: '2.1.7'}).replacedWith, null);
+    assert.equal(runHeadScript(classicHtml, {pageLayout: 'classic'}).replacedWith, null);
+});
+
+async function runSiteScript(hostname, scriptOrigin) {
+    const elements = ['site', 'repository', 'issues'].map(key => ({dataset: {siteHref: key}, href: ''}))
+        .concat(['name', 'domain'].map(key => ({dataset: {siteText: key}, textContent: ''})));
+    const requests = [];
+    const context = vm.createContext({
+        URL,
+        location: {hostname},
+        document: {
+            currentScript: {src: scriptOrigin + '/js/site.js'},
+            readyState: 'complete',
+            querySelectorAll: selector => elements.filter(element =>
+                selector === '[data-site-href]' ? element.dataset.siteHref : element.dataset.siteText)
+        },
+        fetch: async url => {
+            requests.push(String(url));
+            const text = fs.readFileSync(path.join(root, 'CNAME'), 'utf8');
+            return {ok: true, text: async () => text};
+        },
+        window: {}
+    });
+    vm.runInContext(fs.readFileSync(path.join(root, 'js', 'site.js'), 'utf8'), context);
+    const site = await context.window.dndQuickRefSite;
+    await new Promise(resolve => setImmediate(resolve));
+    return {site, requests, elements};
+}
+
+test('away from its domain the site reads CNAME and links to that deployment', async () => {
+    const cname = fs.readFileSync(path.join(root, 'CNAME'), 'utf8').trim();
+    const {site, requests, elements} = await runSiteScript('127.0.0.1', 'http://127.0.0.1:8765/preview');
+    assert.deepEqual(requests, ['http://127.0.0.1:8765/preview/CNAME']);
+    assert.equal(site.domain, cname);
+    assert.equal(site.site, 'https://' + cname + '/');
+    assert.notEqual(site.name, 'D&D Quick Reference', 'CNAME domain is missing from js/site.js');
+    assert.equal(site.issues, site.repository + '/issues');
+    assert.deepEqual(elements.map(element => element.href || element.textContent),
+        [site.site, site.repository, site.issues, site.name, cname]);
+});
+
+test('on a deployment domain the site links to that deployment without reading CNAME', async () => {
+    const {site, requests} = await runSiteScript('dndtest.misiek.win', 'https://dndtest.misiek.win');
+    assert.deepEqual(requests, []);
+    assert.equal(site.site, 'https://dndtest.misiek.win/');
+    assert.equal(site.repository, 'https://github.com/mfriik/DnD-Quick-Ref-Experimental');
+});
+
+test('pages and layout scripts leave deployment domains to js/site.js', () => {
+    for (const file of ['index.html', 'js/quickref.js', 'classic/index.html', 'classic/js/quickref.js']) {
+        assert.doesNotMatch(fs.readFileSync(path.join(root, file), 'utf8'), /misiek\.win/i, file);
     }
 });
 

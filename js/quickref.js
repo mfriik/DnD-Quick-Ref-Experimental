@@ -502,6 +502,7 @@ function initSettings() {
     window.addEventListener('scroll', updateSettingsSpace, {passive: true});
     new ResizeObserver(updateSettingsSpace).observe(dropdown.closest('.top-menu'));
     document.getElementById('app-version-display').textContent = 'v' + window.dndQuickRefAppVersion;
+    document.getElementById('header-version').textContent = 'v' + window.dndQuickRefAppVersion;
     function closeSettings(restoreFocus) {
         panel.hidden = true;
         trigger.setAttribute('aria-expanded', 'false');
@@ -529,7 +530,8 @@ function initSettings() {
     });
     const controls = [
         ['optional', 'optional-toggle-item', 'optional-switch'],
-        ['homebrew', 'homebrew-toggle-item', 'homebrew-switch']
+        ['homebrew', 'homebrew-toggle-item', 'homebrew-switch'],
+        [null, 'classic-layout-toggle-item', 'classic-layout-switch']
     ];
     controls.forEach(function([key, labelId, inputId]) {
         const label = document.getElementById(labelId);
@@ -540,12 +542,14 @@ function initSettings() {
         description.id = inputId + '-description';
         input.setAttribute('aria-labelledby', title.id);
         input.setAttribute('aria-describedby', description.id);
+        if (!key) return;
         input.checked = localStorage.getItem(key) === 'true';
         input.addEventListener('change', function() {
             localStorage.setItem(key, String(input.checked));
             handleRulesToggle();
         });
     });
+    initLayoutSwitch();
     const savedTheme = localStorage.getItem('darkmode');
     applyTheme(savedTheme === null ? systemTheme.matches : savedTheme === 'true');
     document.getElementById('theme-trigger').addEventListener('click', function() {
@@ -574,6 +578,27 @@ function initSettings() {
         sessionStorage.setItem(rulesetTransitionKey, String(next2024));
         setTimeout(function() {
             location.reload();
+        }, window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 0 : 200);
+    });
+}
+
+// The classic layout is a separate page in classic/; switching saves the choice and loads that page.
+function initLayoutSwitch() {
+    const input = document.getElementById('classic-layout-switch');
+    input.checked = false;
+    input.addEventListener('change', function() {
+        if (!input.checked) return;
+        input.disabled = true;
+        localStorage.setItem('pageLayout', 'classic');
+        rulesetStatus.textContent = 'Switching to the classic layout...';
+        rulesetStatus.hidden = false;
+        const main = document.getElementById('main-content');
+        main.setAttribute('aria-busy', 'true');
+        main.inert = true;
+        document.body.classList.remove('ruleset-arriving');
+        document.body.classList.add('ruleset-leaving');
+        setTimeout(function() {
+            location.replace('classic/' + location.search + location.hash);
         }, window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 0 : 200);
     });
 }
@@ -917,7 +942,8 @@ function initHelp() {
             details: [
                 ['Gear button', 'Next to the sun/moon button in the top menu, it opens the Settings panel.'],
                 ['Optional / homebrew switches', 'Inside that panel, each switch controls and saves visibility for its extra rules.'],
-                ['Feedback / main-site links', 'At the bottom of the panel, each link opens in a new tab.']
+                ['Classic layout switch', 'Below them, it switches to the original look of this page and saves the choice. The page reloads.'],
+                ['Feedback / site links', 'At the bottom of the panel, each link opens in a new tab.']
             ]
         },
         {

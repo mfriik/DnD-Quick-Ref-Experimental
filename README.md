@@ -1,4 +1,4 @@
-# D&D Quick Reference - Experimental
+# D&D Quick Reference
 
 > **💡 Important:**
 >
@@ -17,13 +17,14 @@ A browser-based Dungeons & Dragons 5e reference for players and Dungeon Masters.
 Look up common actions, movement, conditions and environmental rules during play,
 with separate **2014** and **2024** rulesets.
 
-This repository is the experimental version of the reference: a place to try
-interface changes and features before they may reach the regular site. It is
-a quick reminder of the rules, not a replacement for the rulebooks.
+The site offers two looks built on the same rule data: the new layout and the
+classic layout of the 2.x site. It is a quick reminder of the rules, not a
+replacement for the rulebooks.
 
-- **[Open the experimental site](https://dndtest.misiek.win/)**
-- [Open the regular site](https://dnd.misiek.win/) - Different Repo, oldschool version
-- [Source repository](https://github.com/mfriik/DnD-Quick-Ref-Experimental)
+- **[Open the site](https://dnd.misiek.win/)**
+- [Test deployment](https://dndtest.misiek.win/) - previews changes before they reach the main site
+- [Source repository](https://github.com/mfriik/dnd5e-quickref)
+- [Test repository](https://github.com/mfriik/DnD-Quick-Ref-Experimental)
 
 ## What it covers
 
@@ -41,6 +42,16 @@ short summaries, expanded explanations and source references.
 
 ## Using the reference
 
+- **Choose a layout.** In the new layout, turn on **Classic layout** in the
+  Settings menu. In the classic layout, turn off **Classic Layout** in the
+  Settings section. The page reloads in the chosen look and keeps the current
+  section address. The choice is remembered. Visitors returning from the 2.x
+  site start in the classic layout; new visitors start in the new layout.
+  The classic layout lives at `classic/`, but both addresses follow the saved
+  choice, so a shared link opens in each reader's preferred look.
+  The descriptions below cover the new layout. The classic layout has no search,
+  help guide or theme button; it marks optional rules with `*` and homebrew
+  rules with `**` after the title.
 - **Search rules.** The search box in the sticky menu filters the current edition
   as you type. It searches titles, subtitles, descriptions and bullet details
   as readable text, ignoring letter case. Every word must occur somewhere in a
@@ -69,8 +80,8 @@ short summaries, expanded explanations and source references.
 - **Switch the theme.** Use the sun/moon button beside the edition selector.
   On your first visit, the appearance follows your system theme.
   Colors transition smoothly without hiding text; reduced-motion preferences
-  make theme changes immediate. The site opts out of automatic color changes by
-  Dark Reader so its own theme is not transformed a second time. This cannot
+  make theme changes immediate. Both layouts opt out of automatic color changes
+  by Dark Reader so their own themes are not transformed a second time. This cannot
   prevent other extensions or browser settings from forcing a dark theme.
 - **Include extra rules.** Settings provides separate switches for optional
   official rules and homebrew rules, both hidden by default. A tiny gold star
@@ -88,7 +99,8 @@ short summaries, expanded explanations and source references.
   include Switch Mastery, Duck and Cover, and Dazed.
   Cards show standard rules first, then optional rules, then homebrew.
   Shove Aside and Exhaustion (2024) stay beside their standard counterparts.
-- **Give feedback or return to the regular site.** Both links are in Settings.
+- **Give feedback or open the site address.** Both links are in Settings. They
+  point to the issue tracker and address of the deployment you are using.
 - **Get interface help.** The question-mark button after Settings opens a
   read-only guide over a dimmed page. Descriptions appear beside visible controls
   on larger screens, without a side list. Rounded gold arrows connect each
@@ -124,14 +136,15 @@ Hovering over a rule card shows its description in a native browser tooltip.
 
 ### Saved preferences
 
-The site remembers your edition, theme choice, optional/homebrew filters,
-collapsed sections and dismissed notices in your browser's local storage.
+The site remembers your layout, edition, theme choice, optional/homebrew
+filters, collapsed sections and dismissed notices in your browser's local
+storage. Both layouts share these preferences.
 Individual cards start closed after a reload.
 On a first visit, the site follows your system theme until you choose one; that
 choice is remembered on later visits.
 
-Preferences are specific to the browser and site address: the experimental site,
-regular site and local preview do not share them. No account is required.
+Preferences are specific to the browser and site address: the main site, test
+deployment and local preview do not share them. No account is required.
 The cookie notice can be dismissed with **Accept**. To show it again locally,
 run `localStorage.removeItem('cookiesAccepted'); location.reload();` in your
 browser's developer console on the local preview. Other preferences are preserved.
@@ -151,25 +164,42 @@ python -m http.server 8765 --bind 127.0.0.1
 
 Open [http://127.0.0.1:8765/](http://127.0.0.1:8765/). Refresh after editing files;
 if older assets persist, use `Ctrl + Shift + R`.
+The local preview opens the layout saved in your browser; use the Settings
+switch to change it.
 
 The page loads fonts from Google Fonts, with fallback fonts available.
-The same static files can be served by a static hosting provider; [CNAME](./CNAME)
-records the experimental site's custom domain.
+
+## Deployment and site address
+
+The site is published by GitHub Pages directly from the repository files.
+[CNAME](./CNAME) holds the custom domain of the repository's deployment. Adjust this if you want to use a different domain.
+
+To use another domain, change CNAME and add the domain to `sites` in
+[js/site.js](./js/site.js). The pages contain no deployment domains of their own.
+
+Both layouts set the version in their inline head script
+(`CURRENT_APP_VERSION`). Keep the two values equal; a changed version makes
+returning browsers reload the page without cached files.
 
 ## Repository and customization
 
 | Location | Purpose |
 | --- | --- |
-| [index.html](./index.html) | Page structure, section containers, menu and Settings |
-| [js/quickref.js](./js/quickref.js) | Loads the chosen edition, renders cards and handles interaction and preferences |
-| [js/](./js/) | Rule datasets: `data_*.js` for 2014 and `2024_data_*.js` for 2024 |
-| [css/quickref.css](./css/quickref.css) | Active layout, themes, responsive and print styles |
+| [index.html](./index.html) | New layout: page structure, section containers, menu and Settings |
+| [js/quickref.js](./js/quickref.js) | New layout: loads the chosen edition, renders cards and handles interaction and preferences |
+| [css/quickref.css](./css/quickref.css) | New layout: themes, responsive and print styles |
+| [classic/](./classic/) | Classic layout: its own [index.html](./classic/index.html), [quickref.js](./classic/js/quickref.js) and [quickref.css](./classic/css/quickref.css) |
+| [js/](./js/) | Rule datasets shared by both layouts: `data_*.js` for 2014 and `2024_data_*.js` for 2024 |
+| [js/site.js](./js/site.js) | Shared deployment links resolved from the site domain |
+| [CNAME](./CNAME) | Custom domain of the GitHub Pages deployment |
 | [img/](./img/) | Rule pictograms and the full icon library for future entries |
 | [favicon.ico](./favicon.ico) | Site icon |
-| [tests/quickref.test.cjs](./tests/quickref.test.cjs) | Dependency-free checks for datasets, script syntax and asset references |
+| [tests/quickref.test.cjs](./tests/quickref.test.cjs) | Dependency-free checks for datasets, script syntax, asset references, layout switching and site links |
 
-The page loads one set of rule files for the selected edition and turns their
-entries into cards. Both editions share the same renderer and interface.
+Each layout loads one set of rule files for the selected edition and turns
+their entries into cards. Both editions share the same renderer and interface
+within a layout. The layouts have separate styles and scripts; only the rule
+data, images and [js/site.js](./js/site.js) are shared.
 Environmental data is grouped into obscurance, lighting, vision and cover.
 
 ### Editing rules
@@ -189,25 +219,28 @@ Follow the existing entry structure:
 - `reference` identifies the rule source.
 - `icon` names a PNG in [img/](./img/), without its extension.
 - `optional` classifies the entry as `Standard rule`, `Optional Official rule` or
-  `Homebrew rule`, which determines whether the Settings filters hide it.
+  `Homebrew rule`, which determines whether the Settings filters hide it and
+  which marker each layout shows.
 
 Detailed content supports HTML, so use trusted content and preserve the existing
 formatting conventions. Changes to one edition do not automatically update the
 other; check both when a correction applies to both rulesets.
 
-For interface changes, edit [css/quickref.css](./css/quickref.css). Icons use
-CSS masks with image paths taken directly from each entry's `icon` value;
-no separate icon-class stylesheet is needed. The full image library is kept
-so new entries can use additional icons.
+For interface changes, edit [css/quickref.css](./css/quickref.css) for the new
+layout or [classic/css/quickref.css](./classic/css/quickref.css) for the classic
+layout. Both take image paths directly from each entry's `icon` value: the new
+layout as CSS masks, the classic layout as background images. No separate
+icon-class stylesheet is needed. The full image library is kept so new entries
+can use additional icons.
 
 ## Contributing
 
-[Report a problem or suggest an improvement](https://github.com/mfriik/DnD-Quick-Ref-Experimental/issues).
+[Report a problem or suggest an improvement](https://github.com/mfriik/dnd5e-quickref/issues).
 For a rule correction, include the edition and source reference. For interface
 problems, include your browser, steps to reproduce and a screenshot if useful.
 
 Pull requests should be focused and explain the intended behavior. Run the site
-locally and check the affected ruleset, both themes and a narrow screen.
+locally and check the affected ruleset and layout, both themes and a narrow screen.
 For interaction changes, also check keyboard use and the relevant saved settings.
 With Node.js 18 or later installed, run the dependency-free automated checks:
 
@@ -215,8 +248,9 @@ With Node.js 18 or later installed, run the dependency-free automated checks:
 node --test
 ```
 
-These check both editions' dataset formats and icons, JavaScript syntax, local
-asset references and search-word matching. They do not replace the browser
+These check both editions' dataset formats and icons, JavaScript syntax and
+local asset references in both layouts, search-word matching, layout selection
+and the site address taken from CNAME. They do not replace the browser
 interaction checks above.
 There is no build step.
 
@@ -226,6 +260,6 @@ There is no build step.
 - [nico-713/dnd5e-quickref-2024](https://github.com/nico-713/dnd5e-quickref-2024) - source for the 2024 rules adaptation.
 - [natsumeaoii/dnd5e-quickref](https://github.com/natsumeaoii/dnd5e-quickref) - inspiration for features and design.
 - [game-icons.net](https://game-icons.net/) - rule icons.
-- [Iconduck dragon icon](https://iconduck.com/icons/21871/dragon) - favicon.
+- [Iconduck dragon icon](https://www.magnific.com/icon/dragon_7641529#fromView=search&page=2&position=0&uuid=10a4567f-e3c9-4e35-9b65-c98ee5dc56ab) - favicon.
 
 The repository includes an [MIT license](./LICENSE).
