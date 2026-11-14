@@ -108,7 +108,7 @@ test('both layouts use the same app version', () => {
     const classic = runHeadScript(classicHtml, {pageLayout: 'classic'});
     assert.match(modern.version, /^3\.\d+\.\d+$/);
     assert.equal(classic.version, modern.version);
-    assert.match(html, /<h1\b[^>]*>[\s\S]*?<span class="header-version" id="header-version"><\/span>/);
+    assert.match(html, /<p class="eyebrow">[^<]*<span class="header-version" id="header-version"><\/span><\/p>/);
     assert.match(fs.readFileSync(path.join(root, 'js', 'quickref.js'), 'utf8'),
         /getElementById\('header-version'\)\.textContent = 'v' \+ window\.dndQuickRefAppVersion/);
 });
