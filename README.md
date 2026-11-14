@@ -80,8 +80,8 @@ short summaries, expanded explanations and source references.
 - **Switch the theme.** Use the sun/moon button beside the edition selector.
   On your first visit, the appearance follows your system theme.
   Colors transition smoothly without hiding text; reduced-motion preferences
-  make theme changes immediate. The site opts out of automatic color changes by
-  Dark Reader so its own theme is not transformed a second time. This cannot
+  make theme changes immediate. Both layouts opt out of automatic color changes
+  by Dark Reader so their own themes are not transformed a second time. This cannot
   prevent other extensions or browser settings from forcing a dark theme.
 - **Include extra rules.** Settings provides separate switches for optional
   official rules and homebrew rules, both hidden by default. A tiny gold star
