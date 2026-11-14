@@ -471,7 +471,7 @@ label.item-text-container { cursor: pointer; }
     mask: var(--icon-image) center / contain no-repeat;
 }
 #feedback-link-item .settings-link-icon { --icon-image: url('../img/conversation.png'); }
-#dnd-main-site-link-item .settings-link-icon { --icon-image: url('../img/castle.png'); }
+#site-link-item .settings-link-icon { --icon-image: url('../img/castle.png'); }
 .switch { position: relative; display: inline-flex; align-items: center; width: 48px; height: 44px; }
 .switch input { position: absolute; inset: 0; width: 100%; height: 100%; margin: 0; opacity: 0; cursor: pointer; z-index: 1; }
 .slider { width: 48px; height: 28px; border: 1px solid var(--control-line); border-radius: 20px; background: var(--surface-muted); }
