@@ -172,20 +172,7 @@ The page loads fonts from Google Fonts, with fallback fonts available.
 ## Deployment and site address
 
 The site is published by GitHub Pages directly from the repository files.
-[CNAME](./CNAME) holds the custom domain of the repository's deployment:
-`dnd.misiek.win` for the main site and `dndtest.misiek.win` for the test
-repository. Keep each repository's own CNAME when merging between them,
-because two GitHub Pages sites cannot use the same domain.
-
-GitHub Pages uses CNAME to configure the domain but does not publish the file,
-so [js/site.js](./js/site.js) takes the domain from the browser address.
-On other hosts, such as the local preview, it reads CNAME instead. The domain
-selects the site name and repository used by the Settings links and the footer:
-
-| Domain | Site link | Repository |
-| --- | --- | --- |
-| `dnd.misiek.win` | Main D&D Site | [mfriik/dnd5e-quickref](https://github.com/mfriik/dnd5e-quickref) |
-| `dndtest.misiek.win` | D&D Test Site | [mfriik/DnD-Quick-Ref-Experimental](https://github.com/mfriik/DnD-Quick-Ref-Experimental) |
+[CNAME](./CNAME) holds the custom domain of the repository's deployment. Adjust this if you want to use a different domain.
 
 To use another domain, change CNAME and add the domain to `sites` in
 [js/site.js](./js/site.js). The pages contain no deployment domains of their own.
@@ -273,6 +260,6 @@ There is no build step.
 - [nico-713/dnd5e-quickref-2024](https://github.com/nico-713/dnd5e-quickref-2024) - source for the 2024 rules adaptation.
 - [natsumeaoii/dnd5e-quickref](https://github.com/natsumeaoii/dnd5e-quickref) - inspiration for features and design.
 - [game-icons.net](https://game-icons.net/) - rule icons.
-- [Iconduck dragon icon](https://iconduck.com/icons/21871/dragon) - favicon.
+- [Iconduck dragon icon](https://www.magnific.com/icon/dragon_7641529#fromView=search&page=2&position=0&uuid=10a4567f-e3c9-4e35-9b65-c98ee5dc56ab) - favicon.
 
 The repository includes an [MIT license](./LICENSE).
