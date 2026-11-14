@@ -108,6 +108,9 @@ test('both layouts use the same app version', () => {
     const classic = runHeadScript(classicHtml, {pageLayout: 'classic'});
     assert.match(modern.version, /^3\.\d+\.\d+$/);
     assert.equal(classic.version, modern.version);
+    assert.match(html, /<h1\b[^>]*>[\s\S]*?<span class="header-version" id="header-version"><\/span>/);
+    assert.match(fs.readFileSync(path.join(root, 'js', 'quickref.js'), 'utf8'),
+        /getElementById\('header-version'\)\.textContent = 'v' \+ window\.dndQuickRefAppVersion/);
 });
 
 test('new visitors get the new layout and 2.x visitors keep the classic layout', () => {

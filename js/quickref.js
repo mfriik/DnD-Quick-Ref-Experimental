@@ -502,6 +502,7 @@ function initSettings() {
     window.addEventListener('scroll', updateSettingsSpace, {passive: true});
     new ResizeObserver(updateSettingsSpace).observe(dropdown.closest('.top-menu'));
     document.getElementById('app-version-display').textContent = 'v' + window.dndQuickRefAppVersion;
+    document.getElementById('header-version').textContent = 'v' + window.dndQuickRefAppVersion;
     function closeSettings(restoreFocus) {
         panel.hidden = true;
         trigger.setAttribute('aria-expanded', 'false');
